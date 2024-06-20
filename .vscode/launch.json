@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Qt Application with lldb",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "visualizerFile": "${command:qt-official.natvis}",
+            "showDisplayString": true,
+            "linux": {
+                "MIMode": "lldb",
+                "miDebuggerPath": "/usr/bin/lldb"
+            },
+            "osx": {
+                "MIMode": "lldb"
+            },
+            "windows": {
+                "environment": [
+                    {
+                        "name": "PATH",
+                        "value": "${env:PATH};${command:qt-official.kitDirectory}${/}bin"
+                    }
+                ],
+                "MIMode": "lldb"
+            }
+        }
+
+    ]
+}

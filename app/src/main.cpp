@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <Windows.h>
+
+
+#ifdef _WIN32
+    #include <Windows.h>
+#endif
 
 int main(int argc, char *argv[])
 {
