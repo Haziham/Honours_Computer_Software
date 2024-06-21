@@ -4,12 +4,9 @@
 
 
 class Joint {
-    public:
-
+public:
     void test_class();
 
-    uint16_t voltage;
-    uint16_t current;
-
-    
+    JointSettings_t jointSettings;
+    StatusA_t statusA;
 };
