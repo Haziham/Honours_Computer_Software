@@ -1,7 +1,7 @@
-#include "rc_car.h"
+#include "joint.h"
 
 
-void RC_Car::test_class()
+void Joint::test_class()
 {
     qDebug() << "Hello from RC_Car class!";
 }

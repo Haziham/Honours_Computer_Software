@@ -1,6 +1,5 @@
 add_library(devices
-    src/rc_car.cpp
-    src/rc_car.h
+    src/joint.cpp
 )
 
 target_link_libraries(devices PRIVATE Qt6::Core)

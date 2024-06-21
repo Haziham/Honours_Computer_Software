@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "Troglobot"
+    ],
+    "files.associations": {
+        "*.s": "mips",
+        "*.asm": "riscv",
+        "freckleprotocol.h": "c"
+    }
+}

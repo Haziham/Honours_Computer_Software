@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "libusb.h"
-#include "rc_car.h"
+// #include "rc_car.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -12,8 +12,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
 
-    RC_Car car;
-    car.test_class();
+    // RC_Car car;
+    // car.test_class();
 
     
 }

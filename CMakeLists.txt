@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Dragon VERSION 1.0.0 LANGUAGES CXX)
+project(Dragon VERSION 1.0.0 LANGUAGES C CXX)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -27,6 +27,9 @@ FetchContent_Populate(libusb)
 
 add_subdirectory(app)
 add_subdirectory(libusb)
-target_link_libraries(Dragon PRIVATE usb-1.0)
 add_subdirectory(devices)
-target_link_libraries(Dragon PRIVATE devices)
+add_subdirectory(hlib/freckle)
+
+target_link_libraries(devices PRIVATE freckle)
+target_link_libraries(Dragon PRIVATE usb-1.0 devices freckle)
+
