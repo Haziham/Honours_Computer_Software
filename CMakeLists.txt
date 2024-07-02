@@ -29,7 +29,8 @@ add_subdirectory(app)
 add_subdirectory(libusb)
 add_subdirectory(devices)
 add_subdirectory(hlib/freckle)
+add_subdirectory(hlib/usb2can)
 
 target_link_libraries(devices PRIVATE freckle)
-target_link_libraries(Dragon PRIVATE usb-1.0 devices freckle)
+target_link_libraries(Dragon PRIVATE usb-1.0 devices freckle usb2can)
 

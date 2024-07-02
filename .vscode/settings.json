@@ -5,6 +5,8 @@
     "files.associations": {
         "*.s": "mips",
         "*.asm": "riscv",
-        "freckleprotocol.h": "c"
+        "freckleprotocol.h": "c",
+        "qserialport": "cpp",
+        "qmainwindow": "cpp"
     }
 }

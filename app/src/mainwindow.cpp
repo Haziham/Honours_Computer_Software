@@ -11,9 +11,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
 
+
+
     // RC_Car car;
     // car.test_class();
-
     
 }
 
@@ -25,7 +26,31 @@ MainWindow::~MainWindow()
 
 void MainWindow::displayConnectedDevices()
 {
+
     qDebug() << "Displaying connected devices...";
+    // QString port_name;
+    // int result = usb2can.find_port_name(port_name);
+    // if (result == EXIT_FAILURE)
+    // {
+    //     qDebug() << "USB2CAN device not found!";
+    //     return;
+    // }
+    // else if (result == EXIT_SUCCESS)
+    // {
+    //     qDebug() << "USB2CAN device found!";
+    //     qDebug() << "Port name: " << port_name;
+    // }
+
+    int result = usb2can.open_port();
+    if (result == EXIT_FAILURE)
+    {
+        qDebug() << "Error opening port!";
+        return;
+    }
+
+
+    return;
+
     libusb_device **devices;
     libusb_context *context = NULL;
 

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "joint.h"
+#include "usb2can.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ public:
     ~MainWindow();
 
     QList<Joint> joints;
+    USB2CAN usb2can;
 
 
 private slots:
