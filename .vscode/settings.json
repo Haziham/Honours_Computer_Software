@@ -7,6 +7,8 @@
         "*.asm": "riscv",
         "freckleprotocol.h": "c",
         "qserialport": "cpp",
-        "qmainwindow": "cpp"
+        "qmainwindow": "cpp",
+        "canqueue.h": "c",
+        "cstdlib": "cpp"
     }
 }

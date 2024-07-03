@@ -2,6 +2,7 @@ qt_add_executable(Dragon
     src/mainwindow.ui
     src/mainwindow.cpp
     src/main.cpp
+    # src/CircularQueue.cpp
 )
 
 target_link_libraries(Dragon PRIVATE Qt6::Widgets)
