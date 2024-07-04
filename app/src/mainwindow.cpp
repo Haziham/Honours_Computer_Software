@@ -12,7 +12,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
 
-
+    int result = usb2can.open_port();
+    if (result == EXIT_FAILURE)
+    {
+        qDebug() << "Error opening port!";
+        return;
+    }
+    usb2can.moveToThread(serialThread);
+    connect(serialThread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
+    serialThread->start();
 
     // RC_Car car;
     // car.test_class();
@@ -42,12 +50,6 @@ void MainWindow::displayConnectedDevices()
     //     qDebug() << "Port name: " << port_name;
     // }
 
-    int result = usb2can.open_port();
-    if (result == EXIT_FAILURE)
-    {
-        qDebug() << "Error opening port!";
-        return;
-    }
     // int numberOfBytes = usb2can.bytesAvailable();
     // while (numberOfBytes < 20)
     // {
@@ -64,12 +66,11 @@ void MainWindow::displayConnectedDevices()
     //     QThread::msleep(1000);
     // }
 
-    QThread *thread = new QThread();
-    usb2can.moveToThread(thread);
-    connect(thread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
-    thread->start();
     
+    while(true)
+    {
 
+    }
     return;
 
     libusb_device **devices;

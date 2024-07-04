@@ -19,6 +19,7 @@ public:
 
     QList<Joint> joints;
     USB2CAN usb2can;
+    QThread *serialThread = new QThread();
 
 
 private slots:
