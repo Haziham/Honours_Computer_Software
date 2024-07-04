@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "libusb.h"
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -47,7 +48,27 @@ void MainWindow::displayConnectedDevices()
         qDebug() << "Error opening port!";
         return;
     }
+    // int numberOfBytes = usb2can.bytesAvailable();
+    // while (numberOfBytes < 20)
+    // {
+    //     qDebug() << "Number of bytes: " << numberOfBytes;
+    //     // outptu serial port settings
+    //     qDebug() << "Baud rate: " << usb2can.baudRate();
+    //     qDebug() << "Data bits: " << usb2can.dataBits();
+    //     qDebug() << "Parity: " << usb2can.parity();
+    //     qDebug() << "Stop bits: " << usb2can.stopBits();
+    //     qDebug() << "Flow control: " << usb2can.flowControl();
+    //     qDebug() << "Data terminal ready: " << usb2can.isDataTerminalReady();
+    //     qDebug() << "Port name" << usb2can.portName();
+    //     numberOfBytes = usb2can.bytesAvailable();
+    //     QThread::msleep(1000);
+    // }
 
+    QThread *thread = new QThread();
+    usb2can.moveToThread(thread);
+    connect(thread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
+    thread->start();
+    
 
     return;
 

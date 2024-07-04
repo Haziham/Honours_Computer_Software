@@ -9,6 +9,9 @@
         "qserialport": "cpp",
         "qmainwindow": "cpp",
         "canqueue.h": "c",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "circularqueue.h": "c",
+        "cstring": "c",
+        "variant": "c"
     }
 }
