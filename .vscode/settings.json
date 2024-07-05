@@ -12,6 +12,8 @@
         "cstdlib": "cpp",
         "circularqueue.h": "c",
         "cstring": "c",
-        "variant": "c"
+        "variant": "c",
+        "qthread": "cpp",
+        "qmutex": "cpp"
     }
 }

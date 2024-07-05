@@ -2,12 +2,12 @@
 #include "./ui_mainwindow.h"
 #include "libusb.h"
 #include <QThread>
+#include "canQueue.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     qDebug() << "Hello World!";
-    qDebug() << "Testo";
 
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
@@ -19,8 +19,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         return;
     }
     usb2can.moveToThread(serialThread);
-    connect(serialThread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
+    // connect(serialThread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
     serialThread->start();
+
+    CAN_Message_t message;
+    while(true)
+    {
+        while(usb2can.get_CAN_message(&message) == EXIT_SUCCESS)
+        {
+            CAN_print_message(&message);
+        }
+    }
 
     // RC_Car car;
     // car.test_class();
