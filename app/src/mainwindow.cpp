@@ -23,11 +23,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     serialThread->start();
 
     CAN_Message_t message;
+    QElapsedTimer timer;
+    timer.start();
     while(true)
     {
         while(usb2can.get_CAN_message(&message) == EXIT_SUCCESS)
         {
             CAN_print_message(&message);
+        }
+
+        if (timer.hasExpired(1000))
+        {
+            message.id = 3;
+            message.len = 8;
+            for (int i = 0; i < message.len; i++)
+            {
+                message.data[i] = i;
+            }
+            usb2can.send_CAN_message(&message);
+            timer.restart();
         }
     }
 
