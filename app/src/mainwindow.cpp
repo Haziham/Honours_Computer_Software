@@ -3,6 +3,7 @@
 #include "libusb.h"
 #include <QThread>
 #include "canQueue.h"
+#include "freckle_protocol.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -24,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     CAN_Message_t message;
     QElapsedTimer timer;
+    uint16_t counter = 0;
+    JointCommand_t jointCommand;
+    jointCommand.mode = CMD_PWM;
+
+
     timer.start();
     while(true)
     {
@@ -32,14 +38,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             CAN_print_message(&message);
         }
 
-        if (timer.hasExpired(1000))
+        if (timer.hasExpired(10))
         {
-            message.id = 3;
-            message.len = 8;
-            for (int i = 0; i < message.len; i++)
-            {
-                message.data[i] = i;
-            }
+            counter+=1;
+            jointCommand.mode = counter;
+
+            encodeJointCommandPacketStructure(&message, &jointCommand);
+
             usb2can.send_CAN_message(&message);
             timer.restart();
         }
