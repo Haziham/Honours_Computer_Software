@@ -1,3 +1,4 @@
+#include "jointcontrolwidget.h"
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTimer>
@@ -6,6 +7,8 @@
 #ifdef _WIN32
     #include <Windows.h>
 #endif
+
+
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +23,8 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     MainWindow w;
-    // w.show();
+    w.show();
+    JointControlWidget jointControlWidget;
+    jointControlWidget.show();
     return a.exec();
 }

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
+#include "jointcontrolwidget.h"
 #include "libusb.h"
 #include <QThread>
 #include "canQueue.h"
@@ -13,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
 
+
     int result = usb2can.open_port();
     if (result == EXIT_FAILURE)
     {
@@ -23,32 +25,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // connect(serialThread, &QThread::started, &usb2can, &USB2CAN::send_and_receive);
     serialThread->start();
 
-    CAN_Message_t message;
-    QElapsedTimer timer;
-    uint16_t counter = 0;
-    JointCommand_t jointCommand;
-    jointCommand.mode = CMD_PWM;
+    // CAN_Message_t message;
+    // QElapsedTimer timer;
+    // uint16_t counter = 0;
+    // JointCommand_t jointCommand;
+    // jointCommand.mode = CMD_PWM;
 
 
-    timer.start();
-    while(true)
-    {
-        while(usb2can.get_CAN_message(&message) == EXIT_SUCCESS)
-        {
-            CAN_print_message(&message);
-        }
+    // timer.start();
+    // while(true)
+    // {
+    //     while(usb2can.get_CAN_message(&message) == EXIT_SUCCESS)
+    //     {
+    //         CAN_print_message(&message);
+    //     }
 
-        if (timer.hasExpired(10))
-        {
-            counter+=1;
-            jointCommand.mode = counter;
+    //     if (timer.hasExpired(10))
+    //     {
+    //         counter+=1;
+    //         jointCommand.mode = counter;
 
-            encodeJointCommandPacketStructure(&message, &jointCommand);
+    //         encodeJointCommandPacketStructure(&message, &jointCommand);
 
-            usb2can.send_CAN_message(&message);
-            timer.restart();
-        }
-    }
+    //         usb2can.send_CAN_message(&message);
+    //         timer.restart();
+    //     }
+    // }
 
     // RC_Car car;
     // car.test_class();
