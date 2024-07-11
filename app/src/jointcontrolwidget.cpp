@@ -19,6 +19,8 @@ JointControlWidget::JointControlWidget(QWidget *parent)
     }
 
     ui->commandModeSelector->setCurrentIndex(0);
+    ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
+    ui->errorIcon->setEnabled(true);
     
 }
 

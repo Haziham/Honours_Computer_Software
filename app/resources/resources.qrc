@@ -1,0 +1,12 @@
+<RCC>
+  <qresource>
+    <file>icons/circle-check.svg</file>
+    <file>icons/current-location-off.svg</file>
+    <file>icons/current-location.svg</file>
+    <file>icons/direction-arrows.svg</file>
+    <file>icons/exclamation-circle.svg</file>
+    <file>icons/rotate-clockwise.svg</file>
+    <file>icons/rotate.svg</file>
+    <file>icons/run.svg</file>
+  </qresource>
+</RCC>

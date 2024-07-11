@@ -23,10 +23,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_standard_project_setup()
 
 
-FetchContent_Populate(libusb)
+# FetchContent_Populate(libusb)
 
 add_subdirectory(app)
-add_subdirectory(libusb)
+# add_subdirectory(libusb)
 add_subdirectory(devices)
 add_subdirectory(hlib/freckle)
 add_subdirectory(hlib/usb2can)
@@ -34,5 +34,7 @@ add_subdirectory(hlib/canQueue)
 
 target_link_libraries(usb2can PRIVATE canQueue)
 target_link_libraries(devices PRIVATE freckle)
-target_link_libraries(Dragon PRIVATE usb-1.0 devices freckle usb2can canQueue)
+target_link_libraries(Dragon PRIVATE devices freckle usb2can canQueue)
+
+# qt_add_resources(Dragon resources/resources.qrc)
 
