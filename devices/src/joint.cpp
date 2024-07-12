@@ -1,5 +1,6 @@
 #include "joint.h"
 
+Joint joint;
 
 void Joint::test_class()
 {

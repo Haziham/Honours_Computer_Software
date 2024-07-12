@@ -18,8 +18,10 @@ public:
 private:
     Ui::JointControlWidget *ui;
 
+
 private slots:
     void send_joint_command(int value);
+    void refresh_widget();
 };
 
 #endif // JOINTCONTROLWIDGET_H

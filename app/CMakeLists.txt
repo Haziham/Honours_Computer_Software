@@ -6,6 +6,7 @@ qt_add_executable(Dragon
     src/main.cpp
     src/jointcontrolwidget.h
     src/jointcontrolwidget.cpp 
+    src/can.cpp
     forms/jointcontrolwidget.ui
     resources/resources.qrc
 )

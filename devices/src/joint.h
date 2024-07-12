@@ -9,4 +9,9 @@ public:
 
     JointSettings_t jointSettings;
     StatusA_t statusA;
+    StatusB_t statusB;
+    TelemetrySettings_t telemetrySettings;
 };
+
+
+extern Joint joint;

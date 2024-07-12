@@ -4,7 +4,8 @@
 
 #include <QMainWindow>
 #include "joint.h"
-#include "usb2can.hpp"
+// #include "usb2can.hpp"
+#include "can.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

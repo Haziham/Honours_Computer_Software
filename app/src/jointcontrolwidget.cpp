@@ -4,6 +4,8 @@
 #include "FreckleProtocol.h"
 #include "canQueue.h"
 #include "usb2can.hpp"
+#include <QTimer>
+#include "joint.h"
 
 JointControlWidget::JointControlWidget(QWidget *parent)
     : QWidget(parent)
@@ -21,12 +23,28 @@ JointControlWidget::JointControlWidget(QWidget *parent)
     ui->commandModeSelector->setCurrentIndex(0);
     ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
     ui->errorIcon->setEnabled(true);
-    
+
+    // set up timer to refresh widet 5hz
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &JointControlWidget::refresh_widget);
+    timer->start(200);
 }
 
 JointControlWidget::~JointControlWidget()
 {
     delete ui;
+}
+
+void JointControlWidget::refresh_widget()
+{
+    qDebug() << "Refreshing widget";    
+    // print tghe 3 values
+    qDebug() << "Voltage: " << joint.statusB.voltage;
+    qDebug() << "Current: " << joint.statusB.current;
+    qDebug() << "External ADC: " << joint.statusB.externalADC;
+    ui->voltageDisplay->display(joint.statusB.voltage);
+    ui->currentDisplay->display(joint.statusB.current);
+    ui->externalADCDisplay->display(joint.statusB.externalADC);
 }
 
 uint32_t map_value(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max) {
@@ -64,5 +82,4 @@ void JointControlWidget::send_joint_command(int value)
     CAN_Message_t message;
     encodeJointCommandPacketStructure(&message, &jointCommand);
     usb2can.send_CAN_message(&message);
-
 }
