@@ -27,14 +27,14 @@ qt_standard_project_setup()
 
 add_subdirectory(app)
 # add_subdirectory(libusb)
-add_subdirectory(devices)
+# add_subdirectory(devices)
 add_subdirectory(hlib/freckle)
 add_subdirectory(hlib/usb2can)
 add_subdirectory(hlib/canQueue)
 
 target_link_libraries(usb2can PRIVATE canQueue)
-target_link_libraries(devices PRIVATE freckle)
-target_link_libraries(Dragon PRIVATE devices freckle usb2can canQueue)
+# target_link_libraries(devices PRIVATE freckle)
+target_link_libraries(Dragon PRIVATE freckle usb2can canQueue)
 
 # qt_add_resources(Dragon resources/resources.qrc)
 

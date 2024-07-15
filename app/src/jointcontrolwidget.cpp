@@ -1,11 +1,10 @@
 #include "jointcontrolwidget.h"
 #include "ui_jointcontrolwidget.h"
 #include "freckle_protocol.h"
-#include "FreckleProtocol.h"
+#include "FreckleProtocol.h" 
 #include "canQueue.h"
-#include "usb2can.hpp"
+#include "can.hpp"
 #include <QTimer>
-#include "joint.h"
 
 JointControlWidget::JointControlWidget(QWidget *parent)
     : QWidget(parent)
@@ -13,7 +12,10 @@ JointControlWidget::JointControlWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->commandValueSlider, &QScrollBar::valueChanged, this, &JointControlWidget::send_joint_command);
+    connect(ui->commandValueSlider, &QScrollBar::valueChanged, &joint, &Joint::send_command);
+    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, &joint, &Joint::set_mode);
+    connect(ui->enableCheckbox, &QCheckBox::stateChanged, &joint, &Joint::set_enabled);
+
 
     for (int i = 0; i < CMD_END_ENUM; i++)
     {
@@ -37,49 +39,17 @@ JointControlWidget::~JointControlWidget()
 
 void JointControlWidget::refresh_widget()
 {
-    qDebug() << "Refreshing widget";    
-    // print tghe 3 values
-    qDebug() << "Voltage: " << joint.statusB.voltage;
-    qDebug() << "Current: " << joint.statusB.current;
-    qDebug() << "External ADC: " << joint.statusB.externalADC;
     ui->voltageDisplay->display(joint.statusB.voltage);
     ui->currentDisplay->display(joint.statusB.current);
     ui->externalADCDisplay->display(joint.statusB.externalADC);
+
+
+    ui->enableIcon->setEnabled(joint.statusA.enabled);
+    ui->errorIcon->setEnabled(joint.statusA.error);
+    ui->movingIcon->setEnabled(joint.statusA.moving);
+    ui->calibratedIcon->setEnabled(joint.statusA.calibrated);
+    ui->calibratingIcon->setEnabled(joint.statusA.calibrating);
+    ui->directionIcon->setEnabled(joint.statusA.moving);
+    ui->directionIcon->setPixmap(joint.statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
 }
 
-uint32_t map_value(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max) {
-    return out_min +  (out_max - out_min) * ((double) (x - in_min) / (in_max - in_min));
-}
-
-void JointControlWidget::send_joint_command(int value)
-{
-    JointCommand_t jointCommand;
-    jointCommand.mode = ui->commandModeSelector->currentIndex();
-    jointCommand.value = value;
-
-    switch (jointCommand.mode)
-    {
-    case CMD_PWM:
-        jointCommand.value = map_value(abs(value), 0, 100, 0, 65535);
-        qDebug() << value;
-        if (value < 0)
-        {
-            jointCommand.direction = DIR_BACKWARD;
-        } else {
-            jointCommand.direction = DIR_FORWARD;
-        }
-        break;
-    case CMD_POSITION:
-        // jointCommand.value = map(jointCommand.value, -50, 50, -1000, 1000);
-        break;
-    case CMD_VELOCITY:
-        // jointCommand.value = map(jointCommand.value, -50, 50, -1000, 1000);
-        break;
-    default:
-        jointCommand.value = 0;
-    }
-
-    CAN_Message_t message;
-    encodeJointCommandPacketStructure(&message, &jointCommand);
-    usb2can.send_CAN_message(&message);
-}

@@ -2,6 +2,7 @@
 #define JOINTCONTROLWIDGET_H
 
 #include <QWidget>
+#include "joint.h"
 
 namespace Ui {
 class JointControlWidget;
@@ -17,11 +18,13 @@ public:
 
 private:
     Ui::JointControlWidget *ui;
-
-
+    // Joint testJoint;
 private slots:
-    void send_joint_command(int value);
     void refresh_widget();
+
+
+
+
 };
 
 #endif // JOINTCONTROLWIDGET_H
