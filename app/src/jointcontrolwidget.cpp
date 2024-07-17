@@ -15,6 +15,8 @@ JointControlWidget::JointControlWidget(QWidget *parent)
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, &joint, &Joint::send_command);
     connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, &joint, &Joint::set_mode);
     connect(ui->enableCheckbox, &QCheckBox::stateChanged, &joint, &Joint::set_enabled);
+    connect(ui->enableButton, &QPushButton::clicked, &joint, &Joint::enable);
+    connect(ui->disableButton, &QPushButton::clicked, &joint, &Joint::disable);
 
 
     for (int i = 0; i < CMD_END_ENUM; i++)
