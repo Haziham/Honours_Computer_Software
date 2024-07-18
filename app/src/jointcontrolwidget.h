@@ -22,7 +22,7 @@ private:
 private slots:
     void refresh_widget();
 
-
+    void tempDisplay(int value);
 
 
 };

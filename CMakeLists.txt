@@ -22,10 +22,10 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.5.3/mingw_64/lib/cmake")
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_standard_project_setup()
 
+add_subdirectory(app)
 
 # FetchContent_Populate(libusb)
 
-add_subdirectory(app)
 # add_subdirectory(libusb)
 # add_subdirectory(devices)
 add_subdirectory(hlib/freckle)

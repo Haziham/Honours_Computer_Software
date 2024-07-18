@@ -1,12 +1,13 @@
+
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/forms)
 
 qt_add_executable(Dragon
     forms/mainwindow.ui
+    forms/jointcontrolwidget.ui
     src/mainwindow.cpp
     src/main.cpp
     src/jointcontrolwidget.cpp 
     src/can.cpp
-    forms/jointcontrolwidget.ui
     resources/resources.qrc
     devices/joint.cpp
 )

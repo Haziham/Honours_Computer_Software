@@ -6,10 +6,12 @@ Can can;
 
 void Can::decode_CAN_frame(CAN_Message_t *message)
 {
-    if (decodeStatusAPacketStructure(message, &joint.statusA) |
-        decodeStatusBPacketStructure(message, &joint.statusB) |
-        decodeJointSettingsPacketStructure(message, &joint.jointSettings) |
-        decodeTelemetrySettingsPacketStructure(message, &joint.telemetrySettings))
+    if (decodeStatusAPacketStructure(message, &joint.settings.statusA) |
+        decodeStatusBPacketStructure(message, &joint.settings.statusB) |
+        decodeStatusCPacketStructure(message, &joint.settings.statusC) |
+        decodeJointSettingsPacketStructure(message, &joint.settings.joint) |
+        decodeTelemetrySettingsPacketStructure(message, &joint.settings.telemetry) |
+        decodeCommandSettingsPacketStructure(message, &joint.settings.command))
     {
         // qDebug() << "Decoded packet!";
     }

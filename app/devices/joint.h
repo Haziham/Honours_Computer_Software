@@ -14,10 +14,15 @@ class Joint : public QObject
 public:
     void test_class();
 
-    JointSettings_t jointSettings;
-    StatusA_t statusA;
-    StatusB_t statusB;
-    TelemetrySettings_t telemetrySettings;
+    struct {
+        JointSettings_t joint;
+        StatusA_t statusA;
+        StatusB_t statusB;
+        StatusC_t statusC;
+        TelemetrySettings_t telemetry;
+        CommandSettings_t command;
+    } settings;
+    
 
 public slots:
     void set_enabled(bool enabled);
