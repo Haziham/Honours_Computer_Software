@@ -55,3 +55,21 @@ void Joint::send_command(int value)
     encodeJointCommandPacketStructure(&message, &command);
     can.send_CAN_message(&message);
 }
+
+void Joint::send_jointSettings(JointSettings_t settings)
+{
+    encodeJointSettingsPacketStructure(&canMessage, &settings);
+    can.send_and_request_CAN_message(&canMessage);
+}
+
+void Joint::send_telemetrySettings(TelemetrySettings_t settings)
+{
+    encodeTelemetrySettingsPacketStructure(&canMessage, &settings);
+    can.send_and_request_CAN_message(&canMessage);
+}
+
+void Joint::send_commandSettings(CommandSettings_t settings)
+{
+    encodeCommandSettingsPacketStructure(&canMessage, &settings);
+    can.send_and_request_CAN_message(&canMessage);
+}

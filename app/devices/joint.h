@@ -31,6 +31,12 @@ public slots:
     void enable() { set_enabled(ENABLE); }
     void disable() { set_enabled(DISABLE); }
 
+    void send_jointSettings(JointSettings_t settings);
+    void send_telemetrySettings(TelemetrySettings_t settings);
+    void send_commandSettings(CommandSettings_t settings);
+    
+
+
 private:
     CAN_Message_t canMessage;
 };

@@ -14,11 +14,19 @@ JointControlWidget::JointControlWidget(QWidget *parent)
 
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, &joint, &Joint::send_command);
     connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, &joint, &Joint::set_mode);
-    connect(ui->enableCheckbox, &QCheckBox::stateChanged, &joint, &Joint::set_enabled);
     connect(ui->enableButton, &QPushButton::clicked, &joint, &Joint::enable);
     connect(ui->disableButton, &QPushButton::clicked, &joint, &Joint::disable);
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, this, &JointControlWidget::tempDisplay);
 
+
+    connect(ui->jointTypeInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->legNumberInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->gearRatioInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->minAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->maxAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->nodeIdInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->telemetryPeriodInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendTelemetrySettings);
+    connect(ui->commandModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &JointControlWidget::sendCommandSettings);
 
     for (int i = 0; i < CMD_END_ENUM; i++)
     {
@@ -65,6 +73,35 @@ void JointControlWidget::tempDisplay(int value)
 
 }
 
+void JointControlWidget::sendJointSettings()
+{
+    JointSettings_t jointSettings;
+    jointSettings.jointType = ui->jointTypeInput->value();
+    jointSettings.legNumber = ui->legNumberInput->value();
+    jointSettings.gearRatio = ui->gearRatioInput->value();
+    jointSettings.minAngle = ui->minAngleInput->value();
+    jointSettings.maxAngle = ui->maxAngleInput->value();
+    jointSettings.nodeId = ui->nodeIdInput->value();
+
+    joint.send_jointSettings(jointSettings);
+}
+
+void JointControlWidget::sendTelemetrySettings()
+{
+    TelemetrySettings_t telemetrySettings;
+    telemetrySettings.transmitPeriod = ui->telemetryPeriodInput->value();
+
+    joint.send_telemetrySettings(telemetrySettings);
+}
+
+void JointControlWidget::sendCommandSettings()
+{
+    CommandSettings_t commandSettings;
+    commandSettings.mode = ui->commandModeSelector->currentIndex();
+
+    joint.send_commandSettings(commandSettings);
+}
+
 void JointControlWidget::refresh_widget()
 {
     ui->voltageDisplay->display(joint.settings.statusB.voltage);
@@ -85,5 +122,15 @@ void JointControlWidget::refresh_widget()
     ui->directionIcon->setEnabled(joint.settings.statusA.moving);
     ui->directionIcon->setPixmap(joint.settings.statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
 
+
+    ui->commandModeSelector->setCurrentIndex(joint.settings.command.mode);
+
+    ui->jointTypeInput->setValue(joint.settings.joint.jointType);
+    ui->legNumberInput->setValue(joint.settings.joint.legNumber);
+    ui->gearRatioInput->setValue(joint.settings.joint.gearRatio);
+    ui->minAngleInput->setValue(joint.settings.joint.minAngle);
+    ui->maxAngleInput->setValue(joint.settings.joint.maxAngle);
+    ui->nodeIdInput->setValue(joint.settings.joint.nodeId);
+    ui->telemetryPeriodInput->setValue(joint.settings.telemetry.transmitPeriod);
 }
 

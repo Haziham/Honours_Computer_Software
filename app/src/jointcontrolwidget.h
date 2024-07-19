@@ -23,6 +23,9 @@ private slots:
     void refresh_widget();
 
     void tempDisplay(int value);
+    void sendJointSettings();
+    void sendTelemetrySettings();
+    void sendCommandSettings();
 
 
 };
