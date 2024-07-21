@@ -9,15 +9,20 @@ qt_add_executable(Dragon
     src/jointcontrolwidget.cpp 
     src/can.cpp
     resources/resources.qrc
-    devices/joint.cpp
+    devices/joint.cpp 
+    widgets/qspinboxtimed.cpp
 )
 
+set_target_properties(Dragon PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY_RELEASE ~/bin/ 
+)
 
 target_link_libraries(Dragon PRIVATE Qt6::Widgets)
 
 target_include_directories(Dragon PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/devices
+    ${CMAKE_CURRENT_SOURCE_DIR}/widgets
 )
 
 set_target_properties(Dragon PROPERTIES

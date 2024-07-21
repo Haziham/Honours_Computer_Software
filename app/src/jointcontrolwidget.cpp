@@ -125,12 +125,12 @@ void JointControlWidget::refresh_widget()
 
     ui->commandModeSelector->setCurrentIndex(joint.settings.command.mode);
 
-    ui->jointTypeInput->setValue(joint.settings.joint.jointType);
-    ui->legNumberInput->setValue(joint.settings.joint.legNumber);
-    ui->gearRatioInput->setValue(joint.settings.joint.gearRatio);
-    ui->minAngleInput->setValue(joint.settings.joint.minAngle);
-    ui->maxAngleInput->setValue(joint.settings.joint.maxAngle);
-    ui->nodeIdInput->setValue(joint.settings.joint.nodeId);
-    ui->telemetryPeriodInput->setValue(joint.settings.telemetry.transmitPeriod);
+    ui->jointTypeInput->updateSpinBox(joint.settings.joint.jointType);
+    ui->legNumberInput->updateSpinBox(joint.settings.joint.legNumber);
+    ui->gearRatioInput->updateSpinBox(joint.settings.joint.gearRatio);
+    ui->minAngleInput->updateSpinBox(joint.settings.joint.minAngle);
+    ui->maxAngleInput->updateSpinBox(joint.settings.joint.maxAngle);
+    ui->nodeIdInput->updateSpinBox(joint.settings.joint.nodeId);
+    ui->telemetryPeriodInput->updateSpinBox(joint.settings.telemetry.transmitPeriod);
 }
 

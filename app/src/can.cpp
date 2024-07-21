@@ -17,6 +17,8 @@ void Can::decode_CAN_frame(CAN_Message_t *message)
     }
     else {
         qDebug() << "Unknown packet type!";
+        // print packet id in hex
+        qDebug() << "ID: " <<  QString::number(getFrecklePacketID(message), 16);
     }
 
 }

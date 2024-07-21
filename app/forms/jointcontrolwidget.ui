@@ -250,14 +250,14 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
          <item row="1" column="1">
-          <widget class="QSpinBox" name="gearRatioInput">
+          <widget class="QSpinBoxTimed" name="gearRatioInput">
            <property name="maximum">
             <number>10000</number>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QSpinBox" name="legNumberInput">
+          <widget class="QSpinBoxTimed" name="legNumberInput">
            <property name="maximum">
             <number>10000</number>
            </property>
@@ -278,14 +278,14 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QSpinBox" name="jointTypeInput">
+          <widget class="QSpinBoxTimed" name="jointTypeInput">
            <property name="maximum">
             <number>10000</number>
            </property>
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QSpinBox" name="nodeIdInput"/>
+          <widget class="QSpinBoxTimed" name="nodeIdInput"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_9">
@@ -309,7 +309,7 @@
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="QSpinBox" name="maxAngleInput"/>
+          <widget class="QSpinBoxTimed" name="maxAngleInput"/>
          </item>
          <item row="8" column="0">
           <widget class="QLabel" name="label_11">
@@ -319,7 +319,7 @@
           </widget>
          </item>
          <item row="8" column="1">
-          <widget class="QSpinBox" name="minAngleInput">
+          <widget class="QSpinBoxTimed" name="minAngleInput">
            <property name="maximum">
             <number>10000</number>
            </property>
@@ -354,7 +354,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QSpinBox" name="telemetryPeriodInput">
+          <widget class="QSpinBoxTimed" name="telemetryPeriodInput">
            <property name="maximum">
             <number>10000</number>
            </property>
@@ -368,6 +368,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QSpinBoxTimed</class>
+   <extends>QSpinBox</extends>
+   <header>qspinboxtimed.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>
