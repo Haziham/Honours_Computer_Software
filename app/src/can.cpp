@@ -1,36 +1,47 @@
 #include "can.hpp"
 
+FreckleCAN g_can;
 
-Can can;
 
-
-void Can::decode_CAN_frame(CAN_Message_t *message)
+void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 {
-    if (decodeStatusAPacketStructure(message, &joint.settings.statusA) |
-        decodeStatusBPacketStructure(message, &joint.settings.statusB) |
-        decodeStatusCPacketStructure(message, &joint.settings.statusC) |
-        decodeJointSettingsPacketStructure(message, &joint.settings.joint) |
-        decodeTelemetrySettingsPacketStructure(message, &joint.settings.telemetry) |
-        decodeCommandSettingsPacketStructure(message, &joint.settings.command))
+    uint8_t nodeID;
+    Joint joint;
+
+    decode_nodeID(message, &nodeID);
+
+    if (get_jointFromList(g_joints, &joint, nodeID))
     {
-        // qDebug() << "Decoded packet!";
+        qDebug() << "Found joint!";
+        if (decodeStatusAPacketStructure(message, &joint.settings.statusA) |
+            decodeStatusBPacketStructure(message, &joint.settings.statusB) |
+            decodeStatusCPacketStructure(message, &joint.settings.statusC) |
+            decodeJointSettingsPacketStructure(message, &joint.settings.joint) |
+            decodeTelemetrySettingsPacketStructure(message, &joint.settings.telemetry) |
+            decodeCommandSettingsPacketStructure(message, &joint.settings.command))
+        {
+            // qDebug() << "Decoded packet!";
+        }
+        else {
+            qDebug() << "Unknown packet type!";
+            qDebug() << "ID: " <<  QString::number(getFrecklePacketID(message), 16);
+        }
     }
     else {
-        qDebug() << "Unknown packet type!";
-        // print packet id in hex
-        qDebug() << "ID: " <<  QString::number(getFrecklePacketID(message), 16);
+        qDebug() << "Joint not found!";
+
+        // Make new joint
+        Joint* newJoint = new Joint(nodeID);
+        add_jointToList(g_joints, newJoint); 
     }
-
 }
 
-void Can::send_and_request_CAN_message(CAN_Message_t *message)
+
+
+// Extracts and removes the node ID from the CAN message ID
+void FreckleCAN::decode_nodeID(CAN_Message_t *message, uint8_t *nodeID)
 {
-    send_CAN_message(message);
-    request_CAN_message(message);
+    *nodeID = (message->id & 0x001F);
+    message->id = message->id >> 5;
 }
 
-void Can::request_CAN_message(CAN_Message_t *message)
-{
-    message->len = 0; // Signals a request
-    send_CAN_message(message);
-}

@@ -15,13 +15,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
 
 
-    int result = can.open_port();
+    int result = g_can.open_port();
     if (result == EXIT_FAILURE)
     {
         qDebug() << "Error opening port!";
         return;
     }
-    can.moveToThread(serialThread);
+    g_can.moveToThread(serialThread);
     serialThread->start();
 
     // // CAN_Message_t message;

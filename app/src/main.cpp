@@ -24,7 +24,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     // w.show();
-    JointControlWidget jointControlWidget;
-    jointControlWidget.show();
+    // JointControlWidget jointControlWidget;
+    // jointControlWidget.show();
+
+    Joint joint = Joint(1);
+    joint.display.show();
     return a.exec();
 }

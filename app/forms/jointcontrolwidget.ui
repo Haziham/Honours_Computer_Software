@@ -234,6 +234,16 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="2">
+       <widget class="QSpinBox" name="commandValueInput">
+        <property name="minimum">
+         <number>-100000</number>
+        </property>
+        <property name="maximum">
+         <number>100000</number>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

@@ -1,7 +1,12 @@
 #include "joint.h"
 #include "canQueue.h"
 
-Joint joint;
+list<Joint*> g_joints;
+
+Joint::Joint(uint8_t nodeId)
+{
+    settings.joint.nodeId = nodeId;
+}  
 
 void Joint::test_class()
 {
@@ -11,9 +16,9 @@ void Joint::test_class()
 void Joint::set_enabled(bool enabled)
 {
     encodeEnablePacket(&canMessage, enabled);
-    can.send_CAN_message(&canMessage);
+    send_CANMessage(&canMessage);
     encodeStatusAPacketStructure(&canMessage, &settings.statusA);
-    can.request_CAN_message(&canMessage);
+    request_CANMessage(&canMessage);
 }
 
 // Use commandModes enum from freckle_protocol.h
@@ -22,7 +27,7 @@ void Joint::set_mode(int mode)
     CommandSettings_t commandSettings;
     commandSettings.mode = mode;
     encodeCommandSettingsPacketStructure(&canMessage, &commandSettings);
-    can.send_and_request_CAN_message(&canMessage);
+    send_and_request_CANMessage(&canMessage);
 }
 
 int map_value(int x, int in_min, int in_max, int out_min, int out_max) {
@@ -53,23 +58,61 @@ void Joint::send_command(int value)
     // commandSettings.value = map_value(abs(value), 0, 100, 0, 65535);
 
     encodeJointCommandPacketStructure(&message, &command);
-    can.send_CAN_message(&message);
+    send_CANMessage(&message);
 }
 
 void Joint::send_jointSettings(JointSettings_t settings)
 {
     encodeJointSettingsPacketStructure(&canMessage, &settings);
-    can.send_and_request_CAN_message(&canMessage);
+    send_and_request_CANMessage(&canMessage);
 }
 
 void Joint::send_telemetrySettings(TelemetrySettings_t settings)
 {
     encodeTelemetrySettingsPacketStructure(&canMessage, &settings);
-    can.send_and_request_CAN_message(&canMessage);
+    send_and_request_CANMessage(&canMessage);
 }
 
 void Joint::send_commandSettings(CommandSettings_t settings)
 {
     encodeCommandSettingsPacketStructure(&canMessage, &settings);
-    can.send_and_request_CAN_message(&canMessage);
+    send_and_request_CANMessage(&canMessage);
+}
+
+void Joint::send_CANMessage(CAN_Message_t *message)
+{
+    message->id <<= 5;
+    message->id |= settings.joint.nodeId;
+    g_can.send_CAN_message(message);
+}
+
+void Joint::request_CANMessage(CAN_Message_t *message)
+{
+    message->len = 0; // Signals a request
+    send_CANMessage(message);
+}
+
+void Joint::send_and_request_CANMessage(CAN_Message_t *message)
+{
+    send_CANMessage(message);
+    request_CANMessage(message);
+}
+
+bool get_jointFromList(list<Joint*> jointList, Joint* joint, uint8_t nodeId)
+{
+    for (auto it = jointList.begin(); it != jointList.end(); ++it)
+    {
+        if ((*it)->get_nodeId() == nodeId)
+        {
+            joint = *it;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void add_jointToList(list<Joint *> jointList, Joint *joint)
+{
+    jointList.push_back(joint);
 }

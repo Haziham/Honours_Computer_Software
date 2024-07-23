@@ -6,16 +6,16 @@
 #include "can.hpp"
 #include <QTimer>
 
-JointControlWidget::JointControlWidget(QWidget *parent)
+JointControlWidget::JointControlWidget(Joint* temp, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::JointControlWidget)
+    , joint(temp)
 {
     ui->setupUi(this);
-
-    connect(ui->commandValueSlider, &QScrollBar::valueChanged, &joint, &Joint::send_command);
-    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, &joint, &Joint::set_mode);
-    connect(ui->enableButton, &QPushButton::clicked, &joint, &Joint::enable);
-    connect(ui->disableButton, &QPushButton::clicked, &joint, &Joint::disable);
+    connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &Joint::send_command);
+    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &Joint::set_mode);
+    connect(ui->enableButton, &QPushButton::clicked, joint, &Joint::enable);
+    connect(ui->disableButton, &QPushButton::clicked, joint, &Joint::disable);
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, this, &JointControlWidget::tempDisplay);
 
 
@@ -27,6 +27,9 @@ JointControlWidget::JointControlWidget(QWidget *parent)
     connect(ui->nodeIdInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->telemetryPeriodInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendTelemetrySettings);
     connect(ui->commandModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &JointControlWidget::sendCommandSettings);
+
+    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), joint, &Joint::send_command);
+    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::tempDisplay);
 
     for (int i = 0; i < CMD_END_ENUM; i++)
     {
@@ -52,10 +55,15 @@ int map_value2(int x, int in_min, int in_max, int out_min, int out_max) {
     return out_min +  (out_max - out_min) * ((double) (x - in_min) / (in_max - in_min));
 }
 
+void JointControlWidget::tempFunctio(Joint *tempParam)
+{
+
+}
+
 void JointControlWidget::tempDisplay(int value)
 {
     int commandValue;
-    switch (joint.settings.command.mode)
+    switch (joint->settings.command.mode)
     {
     case CMD_PWM:
         commandValue = map_value2(value, -100, 100, -65535, 65535);
@@ -83,7 +91,7 @@ void JointControlWidget::sendJointSettings()
     jointSettings.maxAngle = ui->maxAngleInput->value();
     jointSettings.nodeId = ui->nodeIdInput->value();
 
-    joint.send_jointSettings(jointSettings);
+    joint->send_jointSettings(jointSettings);
 }
 
 void JointControlWidget::sendTelemetrySettings()
@@ -91,7 +99,7 @@ void JointControlWidget::sendTelemetrySettings()
     TelemetrySettings_t telemetrySettings;
     telemetrySettings.transmitPeriod = ui->telemetryPeriodInput->value();
 
-    joint.send_telemetrySettings(telemetrySettings);
+    joint->send_telemetrySettings(telemetrySettings);
 }
 
 void JointControlWidget::sendCommandSettings()
@@ -99,38 +107,38 @@ void JointControlWidget::sendCommandSettings()
     CommandSettings_t commandSettings;
     commandSettings.mode = ui->commandModeSelector->currentIndex();
 
-    joint.send_commandSettings(commandSettings);
+    joint->send_commandSettings(commandSettings);
 }
 
 void JointControlWidget::refresh_widget()
 {
-    ui->voltageDisplay->display(joint.settings.statusB.voltage);
-    ui->currentDisplay->display(joint.settings.statusB.current);
-    ui->externalADCDisplay->display(joint.settings.statusB.externalADC);
-    ui->debugDisplay->display(static_cast<int>(joint.settings.statusC.debugValue));
-    ui->angularPositionDisplay->display(static_cast<int>(joint.settings.statusA.position));
-    ui->angularVelocityDisplay->display(static_cast<int>(joint.settings.statusA.velocity));
+    ui->voltageDisplay->display(joint->settings.statusB.voltage);
+    ui->currentDisplay->display(joint->settings.statusB.current);
+    ui->externalADCDisplay->display(joint->settings.statusB.externalADC);
+    ui->debugDisplay->display(static_cast<int>(joint->settings.statusC.debugValue));
+    ui->angularPositionDisplay->display(static_cast<int>(joint->settings.statusA.position));
+    ui->angularVelocityDisplay->display(static_cast<int>(joint->settings.statusA.velocity));
 
 
 
 
-    ui->enableIcon->setEnabled(joint.settings.statusA.enabled);
-    ui->errorIcon->setEnabled(joint.settings.statusA.error);
-    ui->movingIcon->setEnabled(joint.settings.statusA.moving);
-    ui->calibratedIcon->setEnabled(joint.settings.statusA.calibrated);
-    ui->calibratingIcon->setEnabled(joint.settings.statusA.calibrating);
-    ui->directionIcon->setEnabled(joint.settings.statusA.moving);
-    ui->directionIcon->setPixmap(joint.settings.statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
+    ui->enableIcon->setEnabled(joint->settings.statusA.enabled);
+    ui->errorIcon->setEnabled(joint->settings.statusA.error);
+    ui->movingIcon->setEnabled(joint->settings.statusA.moving);
+    ui->calibratedIcon->setEnabled(joint->settings.statusA.calibrated);
+    ui->calibratingIcon->setEnabled(joint->settings.statusA.calibrating);
+    ui->directionIcon->setEnabled(joint->settings.statusA.moving);
+    ui->directionIcon->setPixmap(joint->settings.statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
 
 
-    ui->commandModeSelector->setCurrentIndex(joint.settings.command.mode);
+    ui->commandModeSelector->setCurrentIndex(joint->settings.command.mode);
 
-    ui->jointTypeInput->updateSpinBox(joint.settings.joint.jointType);
-    ui->legNumberInput->updateSpinBox(joint.settings.joint.legNumber);
-    ui->gearRatioInput->updateSpinBox(joint.settings.joint.gearRatio);
-    ui->minAngleInput->updateSpinBox(joint.settings.joint.minAngle);
-    ui->maxAngleInput->updateSpinBox(joint.settings.joint.maxAngle);
-    ui->nodeIdInput->updateSpinBox(joint.settings.joint.nodeId);
-    ui->telemetryPeriodInput->updateSpinBox(joint.settings.telemetry.transmitPeriod);
+    ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
+    ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);
+    ui->gearRatioInput->updateSpinBox(joint->settings.joint.gearRatio);
+    ui->minAngleInput->updateSpinBox(joint->settings.joint.minAngle);
+    ui->maxAngleInput->updateSpinBox(joint->settings.joint.maxAngle);
+    ui->nodeIdInput->updateSpinBox(joint->settings.joint.nodeId);
+    ui->telemetryPeriodInput->updateSpinBox(joint->settings.telemetry.transmitPeriod);
 }
 
