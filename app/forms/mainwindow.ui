@@ -15,15 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QPushButton" name="devicesButton">
-      <property name="text">
-       <string>Display Connect Devices</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
-     <widget class="QListWidget" name="jointsList"/>
+     <widget class="JointListWidget" name="jointsList"/>
     </item>
     <item row="0" column="3">
      <widget class="QLabel" name="label">
@@ -31,6 +24,16 @@
        <string/>
       </property>
      </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="devicesButton">
+      <property name="text">
+       <string>Display Connect Devices</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QListWidget" name="listWidget"/>
     </item>
    </layout>
   </widget>
@@ -40,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>1084</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -52,6 +55,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>JointListWidget</class>
+   <extends>QListWidget</extends>
+   <header>jointlistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

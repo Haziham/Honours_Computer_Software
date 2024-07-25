@@ -5,6 +5,7 @@
 #include <QThread>
 #include "canQueue.h"
 #include "freckle_protocol.h"
+#include "jointlistitem.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -13,6 +14,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Connect the button to the function
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
+    ui->jointsList->assign_joints(&g_joints);
+
+    // Joint* newJoint = new Joint(5);
+    // g_joints.add_joint(newJoint);
+    // Joint* newJoint2 = new Joint(6);
+    // g_joints.add_joint(newJoint2);
+
+    // g_joints.remove_joint(5);
+
 
 
     int result = g_can.open_port();
@@ -23,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     g_can.moveToThread(serialThread);
     serialThread->start();
+
+
 
     // // CAN_Message_t message;
     // // QElapsedTimer timer;

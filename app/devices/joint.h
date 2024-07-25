@@ -2,10 +2,8 @@
 #include <QDebug>
 #include "freckle_protocol.h"
 #include "can.hpp"
-#include <list>
 #include "jointcontrolwidget.h"
 
-using namespace std;
 
 #define ENABLE 1
 #define DISABLE 0
@@ -15,6 +13,8 @@ using namespace std;
 
 class Joint : public QObject
 {
+    Q_OBJECT
+
 public:
 
     Joint(uint8_t nodeId = 0);
@@ -35,7 +35,9 @@ public:
 
     void test_class();
     uint8_t get_nodeId() { return settings.joint.nodeId; }
-    
+
+signals:
+    void settings_changed();    
 
 public slots:
     void set_enabled(bool enabled);
@@ -58,7 +60,7 @@ private:
     CAN_Message_t canMessage;
 };
 
-bool get_jointFromList(list<Joint*> jointList, Joint* joint, uint8_t nodeId);
-void add_jointToList(list<Joint*> jointList, Joint* joint);
+// bool get_jointFromList(QList<Joint*> jointList, Joint* joint, uint8_t nodeId);
+// void add_jointToList(QList<Joint*> jointList, Joint* joint);
 
-extern list<Joint*> g_joints;
+// extern QList<Joint*> g_joints;

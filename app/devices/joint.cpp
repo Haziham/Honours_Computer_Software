@@ -1,7 +1,7 @@
 #include "joint.h"
 #include "canQueue.h"
 
-list<Joint*> g_joints;
+// list<Joint*> g_joints;
 
 Joint::Joint(uint8_t nodeId)
 {
@@ -98,21 +98,21 @@ void Joint::send_and_request_CANMessage(CAN_Message_t *message)
     request_CANMessage(message);
 }
 
-bool get_jointFromList(list<Joint*> jointList, Joint* joint, uint8_t nodeId)
-{
-    for (auto it = jointList.begin(); it != jointList.end(); ++it)
-    {
-        if ((*it)->get_nodeId() == nodeId)
-        {
-            joint = *it;
-            return true;
-        }
-    }
+// bool get_jointFromList(QList<Joint*> jointList, Joint* joint, uint8_t nodeId)
+// {
+//     for (Joint* j : jointList)
+//     {
+//         if (j->get_nodeId() == nodeId)
+//         {
+//             joint = j;
+//             return true;
+//         }
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
-void add_jointToList(list<Joint *> jointList, Joint *joint)
-{
-    jointList.push_back(joint);
-}
+// void add_jointToList(QList<Joint *> jointList, Joint *joint)
+// {
+//     jointList.push_back(joint);
+// }
