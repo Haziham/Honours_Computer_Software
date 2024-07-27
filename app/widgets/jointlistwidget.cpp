@@ -29,15 +29,16 @@ void JointListWidget::remove_jointFromWidget(int nodeId)
 void JointListWidget::add_jointToWidget(Joint *joint)
 {
     QListWidgetItem *newItem = new QListWidgetItem();
-    JointListItem *jointListItem = new JointListItem(&joint);
+    JointListItem *jointListItem = new JointListItem(joint);
     newItem->setSizeHint(jointListItem->sizeHint());
     addItem(newItem);
     setItemWidget(newItem, jointListItem);  
-    qDebug() << "Adding joint to widget";
 }
 
 void JointListWidget::display_jointListItem(QListWidgetItem* listWidgetItem)
 {
     JointListItem *jointListItem = (JointListItem*)itemWidget(listWidgetItem);
+    JointControlWidget *jointControlWidget = new JointControlWidget(jointListItem->get_joint());
+    jointControlWidget->show();
     jointListItem->display_jointControlWidget();
 }

@@ -13,11 +13,11 @@ void JointsList::add_joint(Joint *joint)
 }
 
 
-bool JointsList::get_joint(Joint *joint, uint8_t nodeId)
+bool JointsList::get_joint(Joint **joint, uint8_t nodeId)
 {
     if (m_joints.contains(nodeId))
     {
-        joint = m_joints.value(nodeId);
+        *joint = m_joints.value(nodeId);
         return true;
     }
     return false;

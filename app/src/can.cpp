@@ -7,13 +7,13 @@ FreckleCAN g_can;
 void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 {
     uint8_t nodeID;
-    Joint joint;
+    Joint* joint;
 
     decode_nodeID(message, &nodeID);
 
     if (g_joints.get_joint(&joint, nodeID))
     {
-        decode_packet(message, &joint);
+        decode_packet(message, joint);
     }
     else {
         qDebug() << "Joint not found!";
@@ -37,7 +37,7 @@ void FreckleCAN::decode_packet(CAN_Message_t *message, Joint* joint)
             decodeCommandSettingsPacketStructure(message, &joint->settings.command))
         {
             // qDebug() << "Decoded packet!";
-            emit joint->settings_changed();
+            joint->settings_changed();
         }
         else {
             qDebug() << "Unknown packet type!";

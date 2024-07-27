@@ -13,11 +13,14 @@ class JointListItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit JointListItem(Joint** joint, QWidget *parent = nullptr);
+    explicit JointListItem(Joint* joint, QWidget *parent = nullptr);
     ~JointListItem();
-    void update();
     int get_nodeId() { return m_joint->get_nodeId(); }
+    Joint* get_joint() { return m_joint; }
     void display_jointControlWidget();
+
+public slots:
+    void update();
 
 private:
     Ui::JointListItem *ui;

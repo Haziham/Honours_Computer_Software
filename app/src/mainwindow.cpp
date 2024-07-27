@@ -16,8 +16,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
     ui->jointsList->assign_joints(&g_joints);
 
-    // Joint* newJoint = new Joint(5);
+    // Joint* newJoint = new Joint(7);
     // g_joints.add_joint(newJoint);
+    // newJoint->settings_changed(); 
+    // newJoint->settings_changed(); 
+    // newJoint->settings_changed(); 
+    // newJoint->settings_changed(); 
+    // newJoint->settings_changed(); 
     // Joint* newJoint2 = new Joint(6);
     // g_joints.add_joint(newJoint2);
 

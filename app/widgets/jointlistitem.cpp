@@ -1,14 +1,22 @@
 #include "jointlistitem.h"
 #include "ui_jointlistitem.h"
 
-JointListItem::JointListItem(Joint** joint, QWidget *parent)
+JointListItem::JointListItem(Joint* joint, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::JointListItem)
 {
     ui->setupUi(this);
-    m_joint = *joint;
+    m_joint = joint;
 
-    connect(m_joint, &Joint::settings_changed, this, &JointListItem::update);
+
+    // if (m_joint) {
+    //     connect(m_joint, &Joint::settings_changed, this, &JointListItem::update);
+    //     update();
+    // } else {
+    //     // Handle the error: joint is null
+    //     qWarning() << "Joint pointer is null!";
+    // }
+    connect(m_joint, &Joint::settings_changed, this, &JointListItem::update, Qt::QueuedConnection);
     update();
 }
 
@@ -26,5 +34,5 @@ void JointListItem::update()
 
 void JointListItem::display_jointControlWidget()
 {
-    m_joint->display.show();
+    // m_joint->display.show();
 }

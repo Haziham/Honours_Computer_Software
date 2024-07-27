@@ -9,7 +9,7 @@ class JointsList : public QObject
 
 public:
     JointsList();
-    bool get_joint(Joint* joint, uint8_t nodeId);
+    bool get_joint(Joint** joint, uint8_t nodeId);
 
     void add_joint(Joint* joint);
     void remove_joint(int nodeId);

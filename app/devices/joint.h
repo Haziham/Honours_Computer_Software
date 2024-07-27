@@ -20,7 +20,7 @@ public:
     Joint(uint8_t nodeId = 0);
     // ~Joint();
     
-    JointControlWidget display = JointControlWidget(this); 
+    // JointControlWidget display = JointControlWidget(this); 
 
 
     struct {
@@ -50,9 +50,11 @@ public slots:
     void send_telemetrySettings(TelemetrySettings_t settings);
     void send_commandSettings(CommandSettings_t settings);
     
-    void send_CANMessage(CAN_Message_t *message);
-    void request_CANMessage(CAN_Message_t *message);
-    void send_and_request_CANMessage(CAN_Message_t *message);
+    void send_CANMessage(CAN_Message_t message);
+    void request_CANMessage(CAN_Message_t message);
+    void send_and_request_CANMessage(CAN_Message_t message);
+
+
 
 
 

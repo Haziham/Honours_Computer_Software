@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    Joint * tempJoint = new Joint(1);
+    // Joint * tempJoint = new Joint(1);
     // JointControlWidget jointControlWidget(tempJoint);
     // jointControlWidget.show();
 
