@@ -41,4 +41,5 @@ void JointListWidget::display_jointListItem(QListWidgetItem* listWidgetItem)
     JointControlWidget *jointControlWidget = new JointControlWidget(jointListItem->get_joint());
     jointControlWidget->show();
     jointListItem->display_jointControlWidget();
+    jointListItem->get_joint()->request_settings();
 }

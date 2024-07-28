@@ -54,7 +54,7 @@ public slots:
     void request_CANMessage(CAN_Message_t message);
     void send_and_request_CANMessage(CAN_Message_t message);
 
-
+    void request_settings();
 
 
 

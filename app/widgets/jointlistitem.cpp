@@ -30,6 +30,7 @@ void JointListItem::update()
     ui->jointTypeLabel->setText(QString::number(m_joint->settings.joint.jointType));
     ui->nodeidLabel->setText(QString::number(m_joint->settings.joint.nodeId));
     ui->legNumberLabel->setText(QString::number(m_joint->settings.joint.legNumber));
+    ui->enableIcon->setEnabled(m_joint->settings.statusA.enabled);
 }
 
 void JointListItem::display_jointControlWidget()

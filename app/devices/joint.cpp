@@ -98,6 +98,15 @@ void Joint::send_and_request_CANMessage(CAN_Message_t message)
     request_CANMessage(message);
 }
 
+void Joint::request_settings()
+{
+    canMessage.id = PKT_JOINT_SETTINGS;
+    request_CANMessage(canMessage);
+    canMessage.id = PKT_COMMAND_SETTINGS;
+    request_CANMessage(canMessage);
+    canMessage.id = PKT_TELEMETRY_SETTINGS;
+    request_CANMessage(canMessage);
+}
 
 // bool get_jointFromList(QList<Joint*> jointList, Joint* joint, uint8_t nodeId)
 // {

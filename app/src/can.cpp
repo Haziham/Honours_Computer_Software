@@ -13,6 +13,8 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
     if (g_joints.get_joint(&joint, nodeID))
     {
+        qDebug() << "Decoding ID: " <<  message->id <<  " packet to: " << nodeID;
+
         decode_packet(message, joint);
     }
     else {
@@ -20,6 +22,7 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
         // Make new joint
         Joint* newJoint = new Joint(nodeID);
+
         g_joints.add_joint(newJoint); 
         decode_packet(message, newJoint);
     }
