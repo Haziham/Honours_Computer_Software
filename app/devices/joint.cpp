@@ -5,7 +5,18 @@
 
 Joint::Joint(uint8_t nodeId)
 {
+
+    // Set all settings to 0
+
+    for (int i = 0; i < sizeof(settings); i++)
+    {
+        ((uint8_t*)&settings)[i] = 0;
+    }
+
+
     settings.joint.nodeId = nodeId;
+
+
 }  
 
 void Joint::test_class()

@@ -108,7 +108,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="calibratedIcon">
+         <widget class="QLabel" name="calibratingIcon">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -121,7 +121,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="calibratingIcon">
+         <widget class="QLabel" name="calibratedIcon">
           <property name="enabled">
            <bool>true</bool>
           </property>
