@@ -31,6 +31,8 @@ public:
         StatusC_t statusC;
         TelemetrySettings_t telemetry;
         CommandSettings_t command;
+        CalibrationSettings_t calibration;
+        ControlSettings_t control;
     } settings;
 
 
@@ -47,9 +49,12 @@ public slots:
     void enable() { set_enabled(ENABLE); }
     void disable() { set_enabled(DISABLE); }
 
+
     void send_jointSettings(JointSettings_t settings);
     void send_telemetrySettings(TelemetrySettings_t settings);
     void send_commandSettings(CommandSettings_t settings);
+    void send_controlSettings(ControlSettings_t settings);
+    void send_calibrationSettings(CalibrationSettings_t settings);
     
     void send_CANMessage(CAN_Message_t message);
     void request_CANMessage(CAN_Message_t message);

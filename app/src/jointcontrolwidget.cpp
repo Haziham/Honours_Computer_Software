@@ -12,24 +12,32 @@ JointControlWidget::JointControlWidget(Joint* temp, QWidget *parent)
     , joint(temp)
 {
     ui->setupUi(this);
-    connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &Joint::send_command);
     connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &Joint::set_mode);
     connect(ui->enableButton, &QPushButton::clicked, joint, &Joint::enable);
     connect(ui->disableButton, &QPushButton::clicked, joint, &Joint::disable);
-    connect(ui->commandValueSlider, &QScrollBar::valueChanged, this, &JointControlWidget::tempDisplay);
 
 
     connect(ui->jointTypeInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->legNumberInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->gearRatioInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
-    connect(ui->minAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
-    connect(ui->maxAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->nodeIdInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->telemetryPeriodInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendTelemetrySettings);
     connect(ui->commandModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &JointControlWidget::sendCommandSettings);
 
+    connect(ui->proportionalGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+    connect(ui->derivativeGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+    connect(ui->integralGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+
+    connect(ui->minAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
+    connect(ui->maxAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
+    connect(ui->angleOffsetInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
+
+    connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &Joint::send_command);
+    connect(ui->commandValueSlider, &QScrollBar::valueChanged, ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
     connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), joint, &Joint::send_command);
-    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::tempDisplay);
+    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
+
+
 
     for (int i = 0; i < CMD_END_ENUM; i++)
     {
@@ -87,8 +95,6 @@ void JointControlWidget::sendJointSettings()
     jointSettings.jointType = ui->jointTypeInput->value();
     jointSettings.legNumber = ui->legNumberInput->value();
     jointSettings.gearRatio = ui->gearRatioInput->value();
-    jointSettings.minAngle = ui->minAngleInput->value();
-    jointSettings.maxAngle = ui->maxAngleInput->value();
     jointSettings.nodeId = ui->nodeIdInput->value();
 
     joint->send_jointSettings(jointSettings);
@@ -108,6 +114,67 @@ void JointControlWidget::sendCommandSettings()
     commandSettings.mode = ui->commandModeSelector->currentIndex();
 
     joint->send_commandSettings(commandSettings);
+
+    switch (joint->settings.command.mode)
+    {
+    case CMD_PWM:
+        ui->commandValueInput->setMaximum(65535);
+        ui->commandValueInput->setMinimum(-65535);   
+        break;
+    case CMD_POSITION:
+        ui->commandValueInput->setMaximum(1800);
+        ui->commandValueInput->setMinimum(-1800);
+        break;
+    case CMD_VELOCITY:
+    case CMD_TORQUE:
+    default:
+        break;
+    }
+}
+
+void JointControlWidget::sendControlSettings()
+{
+    ControlSettings_t controlSettings;
+    controlSettings.pGain = ui->proportionalGainInput->value();
+    controlSettings.dGain = ui->derivativeGainInput->value();
+    controlSettings.iGain = ui->integralGainInput->value();
+
+    joint->send_controlSettings(controlSettings);
+}
+
+void JointControlWidget::sendCalibrationSettings()
+{
+    CalibrationSettings_t calibrationSettings;
+    calibrationSettings.minAngle = ui->minAngleInput->value();
+    calibrationSettings.maxAngle = ui->maxAngleInput->value();
+    calibrationSettings.angleOffset = ui->angleOffsetInput->value();
+
+    joint->send_calibrationSettings(calibrationSettings);
+}
+
+void JointControlWidget::updateInputExtremes()
+{
+    switch (joint->settings.command.mode)
+    {
+    case CMD_PWM:
+        ui->commandValueInput->setMaximum(65535);
+        ui->commandValueInput->setMinimum(-65535);
+        ui->commandValueSlider->setMaximum(65535);
+        ui->commandValueSlider->setMinimum(-65535);
+
+        break;
+    case CMD_POSITION:
+        ui->commandValueInput->setMaximum(1800);
+        ui->commandValueInput->setMinimum(-1800);
+        ui->commandValueSlider->setMaximum(1800);
+        ui->commandValueSlider->setMinimum(-1800);
+    
+        break;
+    case CMD_VELOCITY:
+    case CMD_TORQUE:
+    default:
+        break;
+    }
 }
 
 void JointControlWidget::refresh_widget()
@@ -132,13 +199,22 @@ void JointControlWidget::refresh_widget()
 
 
     ui->commandModeSelector->setCurrentIndex(joint->settings.command.mode);
+    ui->commandModeSelector->update();
 
     ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
     ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);
     ui->gearRatioInput->updateSpinBox(joint->settings.joint.gearRatio);
-    ui->minAngleInput->updateSpinBox(joint->settings.joint.minAngle);
-    ui->maxAngleInput->updateSpinBox(joint->settings.joint.maxAngle);
     ui->nodeIdInput->updateSpinBox(joint->settings.joint.nodeId);
     ui->telemetryPeriodInput->updateSpinBox(joint->settings.telemetry.transmitPeriod);
+
+    ui->minAngleInput->updateSpinBox(joint->settings.calibration.minAngle);
+    ui->maxAngleInput->updateSpinBox(joint->settings.calibration.maxAngle);
+    ui->angleOffsetInput->updateSpinBox(joint->settings.calibration.angleOffset);
+
+    ui->proportionalGainInput->updateSpinBox(joint->settings.control.pGain);
+    ui->derivativeGainInput->updateSpinBox(joint->settings.control.dGain);
+    ui->integralGainInput->updateSpinBox(joint->settings.control.iGain);
+
+    updateInputExtremes();
 }
 

@@ -32,6 +32,10 @@ private slots:
     void sendJointSettings();
     void sendTelemetrySettings();
     void sendCommandSettings();
+    void sendControlSettings();
+    void sendCalibrationSettings();
+
+    void updateInputExtremes();
 
 
 };

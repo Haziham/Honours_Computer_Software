@@ -15,6 +15,11 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
     {
         qDebug() << "Decoding ID: " <<  message->id <<  " packet to: " << nodeID;
 
+        if (message->id == 10)
+        {
+            qDebug() << "Breakpoint!";
+        }
+
         decode_packet(message, joint);
     }
     else {
@@ -37,7 +42,10 @@ void FreckleCAN::decode_packet(CAN_Message_t *message, Joint* joint)
             decodeStatusCPacketStructure(message, &joint->settings.statusC) |
             decodeJointSettingsPacketStructure(message, &joint->settings.joint) |
             decodeTelemetrySettingsPacketStructure(message, &joint->settings.telemetry) |
-            decodeCommandSettingsPacketStructure(message, &joint->settings.command))
+            decodeCommandSettingsPacketStructure(message, &joint->settings.command) |
+            decodeCalibrationSettingsPacketStructure(message, &joint->settings.calibration) |
+            decodeControlSettingsPacketStructure(message, &joint->settings.control))
+
         {
             // qDebug() << "Decoded packet!";
             joint->settings_changed();
@@ -45,6 +53,7 @@ void FreckleCAN::decode_packet(CAN_Message_t *message, Joint* joint)
         else {
             qDebug() << "Unknown packet type!";
             qDebug() << "ID: " <<  QString::number(getFrecklePacketID(message), 16);
+            qDebug() << "ID: " <<  QString::number(getFrecklePacketID(message));
         }
 }
 

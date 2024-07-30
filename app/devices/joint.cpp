@@ -47,28 +47,28 @@ int map_value(int x, int in_min, int in_max, int out_min, int out_max) {
 
 void Joint::send_command(int value)
 {
-    JointCommand_t command;
     CAN_Message_t message;
+    // JointCommand_t command;
 
-    switch (settings.command.mode)
-    {
-    case CMD_PWM:
-        command.value = map_value(value, -100, 100, -65535, 65535);
-        break;
-    case CMD_POSITION:
-        command.value = map_value(value, -100, 100, -1800, 1800);
-        break;
-    case CMD_VELOCITY:
-    case CMD_TORQUE:
-    default:
-        command.value = 0;
-        break;
-    }
+    // switch (settings.command.mode)
+    // {
+    // case CMD_PWM:
+    //     command.value = map_value(value, -100, 100, -65535, 65535);
+    //     break;
+    // case CMD_POSITION:
+    //     command.value = map_value(value, -100, 100, -1800, 1800);
+    //     break;
+    // case CMD_VELOCITY:
+    // case CMD_TORQUE:
+    // default:
+    //     command.value = 0;
+    //     break;
+    // }
 
 
     // commandSettings.value = map_value(abs(value), 0, 100, 0, 65535);
-
-    encodeJointCommandPacketStructure(&message, &command);
+    // encodeJointCommandPacketStructure(&message, &command);
+    encodeJointCommandPacket(&message, value);
     send_CANMessage(message);
 }
 
@@ -87,6 +87,18 @@ void Joint::send_telemetrySettings(TelemetrySettings_t settings)
 void Joint::send_commandSettings(CommandSettings_t settings)
 {
     encodeCommandSettingsPacketStructure(&canMessage, &settings);
+    send_and_request_CANMessage(canMessage);
+}
+
+void Joint::send_controlSettings(ControlSettings_t settings)
+{
+    encodeControlSettingsPacketStructure(&canMessage, &settings);
+    send_and_request_CANMessage(canMessage);
+}
+
+void Joint::send_calibrationSettings(CalibrationSettings_t settings)
+{
+    encodeCalibrationSettingsPacketStructure(&canMessage, &settings);
     send_and_request_CANMessage(canMessage);
 }
 
