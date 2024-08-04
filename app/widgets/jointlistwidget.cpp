@@ -2,7 +2,7 @@
 
 JointListWidget::JointListWidget(QWidget *parent) : QListWidget(parent)
 {
-    connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_jointListItem(QListWidgetItem*)));
+    // connect(this, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(display_jointListItem(QListWidgetItem*)));
 }
 
 void JointListWidget::assign_joints(JointsList *joints)
@@ -29,7 +29,7 @@ void JointListWidget::remove_jointFromWidget(int nodeId)
 void JointListWidget::add_jointToWidget(QJoint *joint)
 {
     QListWidgetItem *newItem = new QListWidgetItem();
-    JointListItem *jointListItem = new JointListItem(joint);
+    JointListItem *jointListItem = new JointListItem(nullptr, joint);
     newItem->setSizeHint(jointListItem->sizeHint());
     addItem(newItem);
     setItemWidget(newItem, jointListItem);  

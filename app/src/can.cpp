@@ -13,12 +13,8 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
     if (g_joints.get_joint(&joint, nodeID))
     {
-        qDebug() << "Decoding ID: " <<  message->id <<  " packet to: " << nodeID;
+        // qDebug() << "Decoding ID: " <<  message->id <<  " packet to: " << nodeID;
 
-        if (message->id == 10)
-        {
-            qDebug() << "Breakpoint!";
-        }
 
         decode_packet(message, joint);
     }

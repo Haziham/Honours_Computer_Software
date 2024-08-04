@@ -1,22 +1,20 @@
 #include "jointlistitem.h"
 #include "ui_jointlistitem.h"
 
-JointListItem::JointListItem(QJoint* joint, QWidget *parent)
+JointListItem::JointListItem(QWidget *parent, QJoint* joint)
     : QWidget(parent)
     , ui(new Ui::JointListItem)
 {
     ui->setupUi(this);
     m_joint = joint;
 
-
-    // if (m_joint) {
-    //     connect(m_joint, &Joint::settings_changed, this, &JointListItem::update);
-    //     update();
-    // } else {
-    //     // Handle the error: joint is null
-    //     qWarning() << "Joint pointer is null!";
-    // }
+    if (!m_joint) {
+        display_noJoint();
+        return;
+    }
     connect(m_joint, &QJoint::settings_changed, this, &JointListItem::update, Qt::QueuedConnection);
+    // on double click of widget, call display_jointControlWidget
+    connect(this, &JointListItem::doubleClicked, this, &JointListItem::display_jointControlWidget);
     update();
 }
 
@@ -27,6 +25,10 @@ JointListItem::~JointListItem()
 
 void JointListItem::update()
 {
+    if (!m_joint) {
+        display_noJoint();
+        return;
+    }
     ui->jointTypeLabel->setText(QString::number(m_joint->settings.joint.jointType));
     ui->nodeidLabel->setText(QString::number(m_joint->settings.joint.nodeId));
     ui->legNumberLabel->setText(QString::number(m_joint->settings.joint.legNumber));
@@ -35,5 +37,15 @@ void JointListItem::update()
 
 void JointListItem::display_jointControlWidget()
 {
-    // m_joint->display.show();
+    JointControlWidget *jointControlWidget = new JointControlWidget(m_joint);
+    jointControlWidget->show();
+    m_joint->request_settings();
+}
+
+void JointListItem::display_noJoint()
+{
+    ui->nodeidLabel->setText("N/A");
+    ui->legNumberLabel->setText("N/A");
+    ui->jointTypeLabel->setText("N/A");
+    ui->enableIcon->setEnabled(false);
 }

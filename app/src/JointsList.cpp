@@ -23,6 +23,30 @@ bool JointsList::get_joint(QJoint **joint, uint8_t nodeId)
     return false;
 }
 
+bool JointsList::get_legJoints(QJoint** hipYawJoint, QJoint** hipPitchJoint, QJoint** kneePitchJoint, uint8_t legNumber)
+{
+    for (QJoint* joint : m_joints)
+    {
+        if (joint->get_legNumber() == legNumber)
+        {
+
+            switch (joint->get_jointType())
+            {
+                case JOINT_HIP_YAW:
+                    *hipYawJoint = joint;
+                    break;
+                case JOINT_HIP_PITCH:
+                    *hipPitchJoint = joint;
+                    break;
+                case JOINT_KNEE_PITCH:
+                    *kneePitchJoint = joint;
+                    break;
+            }
+        }
+    }
+    return true;
+}
+
 void JointsList::remove_joint(int nodeId)
 {
     m_joints.remove(nodeId);

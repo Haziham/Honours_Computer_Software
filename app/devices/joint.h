@@ -33,6 +33,8 @@ public:
 
 
     uint8_t get_nodeId() { return settings.joint.nodeId; }
+    uint8_t get_legNumber() { return settings.joint.legNumber; }
+    uint8_t get_jointType() { return settings.joint.jointType; }
 
 
     void set_enabled(bool enabled);

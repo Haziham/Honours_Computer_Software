@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTimer>
+#include "legcontrolwidget.h"
 
 
 #ifdef _WIN32
@@ -24,6 +25,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+
+    LegControlWidget legControlWidget;    
+    legControlWidget.show();
+
     // Joint * tempJoint = new Joint(1);
     // JointControlWidget jointControlWidget(tempJoint);
     // jointControlWidget.show();

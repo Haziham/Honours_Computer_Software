@@ -11,5 +11,8 @@ public:
     QLeg(uint8_t legNumber = 0);
     ~QLeg();
 
+    uint8_t get_legNumber() { return m_legNumber; }
+
 private:    
+    uint8_t m_legNumber;
 };

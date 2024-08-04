@@ -5,6 +5,8 @@ qt_add_executable(Dragon
     forms/mainwindow.ui
     forms/jointcontrolwidget.ui
     forms/jointlistitem.ui
+    forms/spinslider.ui
+    forms/legcontrolwidget.ui
     src/mainwindow.cpp
     src/main.cpp
     src/jointcontrolwidget.cpp 
@@ -18,6 +20,8 @@ qt_add_executable(Dragon
     devices/QLeg.cpp
     widgets/qspinboxtimed.cpp
     widgets/jointlistwidget.cpp
+    widgets/legcontrolwidget.cpp 
+    widgets/spinslider.cpp 
 )
 
 set_target_properties(Dragon PROPERTIES
