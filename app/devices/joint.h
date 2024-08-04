@@ -1,9 +1,6 @@
 #pragma once
-#include <QDebug>
 #include "freckle_protocol.h"
-#include "can.hpp"
-#include "jointcontrolwidget.h"
-
+#include "canQueue.h"
 
 #define ENABLE 1
 #define DISABLE 0
@@ -12,9 +9,8 @@
 #define DISABLED 0
 
 
-class Joint : public QObject
+class Joint 
 {
-    Q_OBJECT
 
 public:
 
@@ -24,11 +20,11 @@ public:
     // JointControlWidget display = JointControlWidget(this); 
 
 
+    StatusA_t statusA;
+    StatusB_t statusB;
+    StatusC_t statusC;
     struct {
         JointSettings_t joint;
-        StatusA_t statusA;
-        StatusB_t statusB;
-        StatusC_t statusC;
         TelemetrySettings_t telemetry;
         CommandSettings_t command;
         CalibrationSettings_t calibration;
@@ -36,13 +32,9 @@ public:
     } settings;
 
 
-    void test_class();
     uint8_t get_nodeId() { return settings.joint.nodeId; }
 
-signals:
-    void settings_changed();    
 
-public slots:
     void set_enabled(bool enabled);
     void set_mode(int mode); // Use commandModes enum from freckle_protocol.h
     void send_command(int value);
@@ -56,13 +48,11 @@ public slots:
     void send_controlSettings(ControlSettings_t settings);
     void send_calibrationSettings(CalibrationSettings_t settings);
     
-    void send_CANMessage(CAN_Message_t message);
+    virtual void send_CANMessage(CAN_Message_t message);
     void request_CANMessage(CAN_Message_t message);
     void send_and_request_CANMessage(CAN_Message_t message);
 
     void request_settings();
-
-
 
 private:
     CAN_Message_t canMessage;

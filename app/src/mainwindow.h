@@ -22,7 +22,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QList<Joint> joints;
+    QList<QJoint> joints;
     QThread *serialThread = new QThread();
 
 

@@ -26,7 +26,7 @@ void JointListWidget::remove_jointFromWidget(int nodeId)
     }
 }
 
-void JointListWidget::add_jointToWidget(Joint *joint)
+void JointListWidget::add_jointToWidget(QJoint *joint)
 {
     QListWidgetItem *newItem = new QListWidgetItem();
     JointListItem *jointListItem = new JointListItem(joint);

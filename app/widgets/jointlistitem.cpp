@@ -1,7 +1,7 @@
 #include "jointlistitem.h"
 #include "ui_jointlistitem.h"
 
-JointListItem::JointListItem(Joint* joint, QWidget *parent)
+JointListItem::JointListItem(QJoint* joint, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::JointListItem)
 {
@@ -16,7 +16,7 @@ JointListItem::JointListItem(Joint* joint, QWidget *parent)
     //     // Handle the error: joint is null
     //     qWarning() << "Joint pointer is null!";
     // }
-    connect(m_joint, &Joint::settings_changed, this, &JointListItem::update, Qt::QueuedConnection);
+    connect(m_joint, &QJoint::settings_changed, this, &JointListItem::update, Qt::QueuedConnection);
     update();
 }
 
@@ -30,7 +30,7 @@ void JointListItem::update()
     ui->jointTypeLabel->setText(QString::number(m_joint->settings.joint.jointType));
     ui->nodeidLabel->setText(QString::number(m_joint->settings.joint.nodeId));
     ui->legNumberLabel->setText(QString::number(m_joint->settings.joint.legNumber));
-    ui->enableIcon->setEnabled(m_joint->settings.statusA.enabled);
+    ui->enableIcon->setEnabled(m_joint->statusA.enabled);
 }
 
 void JointListItem::display_jointControlWidget()

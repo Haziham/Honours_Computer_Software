@@ -5,30 +5,21 @@
 
 Joint::Joint(uint8_t nodeId)
 {
-
     // Set all settings to 0
-
     for (int i = 0; i < sizeof(settings); i++)
     {
         ((uint8_t*)&settings)[i] = 0;
     }
 
-
     settings.joint.nodeId = nodeId;
-
-
 }  
 
-void Joint::test_class()
-{
-    qDebug() << "Hello from RC_Car class!";
-}
 
 void Joint::set_enabled(bool enabled)
 {
     encodeEnablePacket(&canMessage, enabled);
     send_CANMessage(canMessage);
-    encodeStatusAPacketStructure(&canMessage, &settings.statusA);
+    encodeStatusAPacketStructure(&canMessage, &statusA);
     request_CANMessage(canMessage);
 }
 
@@ -104,9 +95,9 @@ void Joint::send_calibrationSettings(CalibrationSettings_t settings)
 
 void Joint::send_CANMessage(CAN_Message_t message)
 {
-    message.id <<= 5;
-    message.id |= settings.joint.nodeId;
-    g_can.send_CAN_message(&message);
+    // message.id <<= 5;
+    // message.id |= settings.joint.nodeId;
+    // g_can.send_CAN_message(&message);
 }
 
 void Joint::request_CANMessage(CAN_Message_t message)

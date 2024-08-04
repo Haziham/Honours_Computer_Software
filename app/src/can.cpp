@@ -7,7 +7,7 @@ FreckleCAN g_can;
 void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 {
     uint8_t nodeID;
-    Joint* joint;
+    QJoint* joint;
 
     decode_nodeID(message, &nodeID);
 
@@ -26,7 +26,7 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
         qDebug() << "Joint not found!";
 
         // Make new joint
-        Joint* newJoint = new Joint(nodeID);
+        QJoint* newJoint = new QJoint(nodeID);
 
         g_joints.add_joint(newJoint); 
         decode_packet(message, newJoint);
@@ -34,12 +34,12 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 }
 
 
-void FreckleCAN::decode_packet(CAN_Message_t *message, Joint* joint)
+void FreckleCAN::decode_packet(CAN_Message_t *message, QJoint* joint)
 {
         // qDebug() << "Found joint!";
-        if (decodeStatusAPacketStructure(message, &joint->settings.statusA) |
-            decodeStatusBPacketStructure(message, &joint->settings.statusB) |
-            decodeStatusCPacketStructure(message, &joint->settings.statusC) |
+        if (decodeStatusAPacketStructure(message, &joint->statusA) |
+            decodeStatusBPacketStructure(message, &joint->statusB) |
+            decodeStatusCPacketStructure(message, &joint->statusC) |
             decodeJointSettingsPacketStructure(message, &joint->settings.joint) |
             decodeTelemetrySettingsPacketStructure(message, &joint->settings.telemetry) |
             decodeCommandSettingsPacketStructure(message, &joint->settings.command) |

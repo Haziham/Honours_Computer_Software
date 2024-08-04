@@ -2,9 +2,8 @@
 #define JOINTCONTROLWIDGET_H
 
 #include <QWidget>
-// #include "joint.h"
+#include "QJoint.h"
 
-class Joint;
 
 namespace Ui {
 class JointControlWidget;
@@ -15,14 +14,14 @@ class JointControlWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit JointControlWidget(Joint* temp, QWidget *parent = nullptr);
+    explicit JointControlWidget(QJoint* temp, QWidget *parent = nullptr);
     ~JointControlWidget();
 
 private:
     Ui::JointControlWidget *ui;
-    Joint* joint;
+    QJoint* joint;
 
-    void tempFunctio(Joint* tempParam);
+    void tempFunctio(QJoint* tempParam);
 
 
 private slots:

@@ -2,8 +2,9 @@
 
 #include "usb2can.hpp"
 #include "joint.h"
+#include <QDebug>
 
-class Joint; // Forward declaration
+class QJoint; // Forward declaration
 
 class FreckleCAN : public USB2CAN
 {
@@ -20,7 +21,7 @@ public slots:
 private:
     void decode_nodeID(CAN_Message_t *message, uint8_t *nodeID);
     void encode_nodeID(CAN_Message_t *message, uint8_t nodeID);
-    void decode_packet(CAN_Message_t *message, Joint *joint);
+    void decode_packet(CAN_Message_t *message, QJoint *joint);
 
 
 

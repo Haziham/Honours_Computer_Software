@@ -13,6 +13,9 @@ qt_add_executable(Dragon
     widgets/jointlistitem.cpp
     resources/resources.qrc
     devices/joint.cpp 
+    devices/leg.cpp
+    devices/QJoint.cpp
+    devices/QLeg.cpp
     widgets/qspinboxtimed.cpp
     widgets/jointlistwidget.cpp
 )

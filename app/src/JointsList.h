@@ -1,6 +1,6 @@
 #pragma once
 
-#include "joint.h"
+#include "QJoint.h"
 #include <QObject>
 
 class JointsList : public QObject
@@ -9,19 +9,19 @@ class JointsList : public QObject
 
 public:
     JointsList();
-    bool get_joint(Joint** joint, uint8_t nodeId);
+    bool get_joint(QJoint** joint, uint8_t nodeId);
 
-    void add_joint(Joint* joint);
+    void add_joint(QJoint* joint);
     void remove_joint(int nodeId);
 
 signals:
-    void joint_added(Joint* joint);
+    void joint_added(QJoint* joint);
     void joint_removed(int nodeId);
 
 
 
 private:
-    QMap<int, Joint*> m_joints;
+    QMap<int, QJoint*> m_joints;
 
 };
 

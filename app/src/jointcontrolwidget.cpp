@@ -6,15 +6,15 @@
 #include "can.hpp"
 #include <QTimer>
 
-JointControlWidget::JointControlWidget(Joint* temp, QWidget *parent)
+JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::JointControlWidget)
     , joint(temp)
 {
     ui->setupUi(this);
-    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &Joint::set_mode);
-    connect(ui->enableButton, &QPushButton::clicked, joint, &Joint::enable);
-    connect(ui->disableButton, &QPushButton::clicked, joint, &Joint::disable);
+    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
+    connect(ui->enableButton, &QPushButton::clicked, joint, &QJoint::enableSlot);
+    connect(ui->disableButton, &QPushButton::clicked, joint, &QJoint::disableSlot);
 
 
     connect(ui->jointTypeInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
@@ -32,9 +32,9 @@ JointControlWidget::JointControlWidget(Joint* temp, QWidget *parent)
     connect(ui->maxAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
     connect(ui->angleOffsetInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
 
-    connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &Joint::send_command);
+    connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &QJoint::send_commandSlot);
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
-    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), joint, &Joint::send_command);
+    connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), joint, &QJoint::send_commandSlot);
     connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
 
 
@@ -63,7 +63,7 @@ int map_value2(int x, int in_min, int in_max, int out_min, int out_max) {
     return out_min +  (out_max - out_min) * ((double) (x - in_min) / (in_max - in_min));
 }
 
-void JointControlWidget::tempFunctio(Joint *tempParam)
+void JointControlWidget::tempFunctio(QJoint *tempParam)
 {
 
 }
@@ -179,23 +179,23 @@ void JointControlWidget::updateInputExtremes()
 
 void JointControlWidget::refresh_widget()
 {
-    ui->voltageDisplay->display(joint->settings.statusB.voltage);
-    ui->currentDisplay->display(joint->settings.statusB.current);
-    ui->externalADCDisplay->display(joint->settings.statusB.externalADC);
-    ui->debugDisplay->display(static_cast<int>(joint->settings.statusC.debugValue));
-    ui->angularPositionDisplay->display(static_cast<int>(joint->settings.statusA.position));
-    ui->angularVelocityDisplay->display(static_cast<int>(joint->settings.statusA.velocity));
+    ui->voltageDisplay->display(joint->statusB.voltage);
+    ui->currentDisplay->display(joint->statusB.current);
+    ui->externalADCDisplay->display(joint->statusB.externalADC);
+    ui->debugDisplay->display(static_cast<int>(joint->statusC.debugValue));
+    ui->angularPositionDisplay->display(static_cast<int>(joint->statusA.position));
+    ui->angularVelocityDisplay->display(static_cast<int>(joint->statusA.velocity));
 
 
 
 
-    ui->enableIcon->setEnabled(joint->settings.statusA.enabled);
-    ui->errorIcon->setEnabled(joint->settings.statusA.error);
-    ui->movingIcon->setEnabled(joint->settings.statusA.moving);
-    ui->calibratedIcon->setEnabled(joint->settings.statusA.calibrated);
-    ui->calibratingIcon->setEnabled(joint->settings.statusA.calibrating);
-    ui->directionIcon->setEnabled(joint->settings.statusA.moving);
-    ui->directionIcon->setPixmap(joint->settings.statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
+    ui->enableIcon->setEnabled(joint->statusA.enabled);
+    ui->errorIcon->setEnabled(joint->statusA.error);
+    ui->movingIcon->setEnabled(joint->statusA.moving);
+    ui->calibratedIcon->setEnabled(joint->statusA.calibrated);
+    ui->calibratingIcon->setEnabled(joint->statusA.calibrating);
+    ui->directionIcon->setEnabled(joint->statusA.moving);
+    ui->directionIcon->setPixmap(joint->statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
 
 
     ui->commandModeSelector->setCurrentIndex(joint->settings.command.mode);

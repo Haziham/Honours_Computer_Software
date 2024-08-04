@@ -6,14 +6,14 @@ JointsList::JointsList()
 {
 }
 
-void JointsList::add_joint(Joint *joint)
+void JointsList::add_joint(QJoint *joint)
 {
     m_joints.insert(joint->get_nodeId(), joint);
     emit joint_added(joint);
 }
 
 
-bool JointsList::get_joint(Joint **joint, uint8_t nodeId)
+bool JointsList::get_joint(QJoint **joint, uint8_t nodeId)
 {
     if (m_joints.contains(nodeId))
     {
