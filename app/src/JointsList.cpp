@@ -29,7 +29,6 @@ bool JointsList::get_legJoints(QJoint** hipYawJoint, QJoint** hipPitchJoint, QJo
     {
         if (joint->get_legNumber() == legNumber)
         {
-
             switch (joint->get_jointType())
             {
                 case JOINT_HIP_YAW:

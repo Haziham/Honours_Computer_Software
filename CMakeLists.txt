@@ -31,10 +31,11 @@ add_subdirectory(app)
 add_subdirectory(hlib/freckle)
 add_subdirectory(hlib/usb2can)
 add_subdirectory(hlib/canQueue)
+add_subdirectory(hlib/inverseKinematics)
 
 target_link_libraries(usb2can PRIVATE canQueue)
 # target_link_libraries(devices PRIVATE freckle)
-target_link_libraries(Dragon PRIVATE freckle usb2can canQueue)
+target_link_libraries(Dragon PRIVATE freckle usb2can canQueue inverseKinematics)
 
 # qt_add_resources(Dragon resources/resources.qrc)
 

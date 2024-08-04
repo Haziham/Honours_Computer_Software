@@ -26,7 +26,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    LegControlWidget legControlWidget;    
+    QLeg leg = QLeg(1);
+    LegControlWidget legControlWidget(&leg);    
     legControlWidget.show();
 
     // Joint * tempJoint = new Joint(1);

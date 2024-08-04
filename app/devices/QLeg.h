@@ -13,6 +13,7 @@ public:
 
     uint8_t get_legNumber() { return m_legNumber; }
 
+
 private:    
     uint8_t m_legNumber;
 };

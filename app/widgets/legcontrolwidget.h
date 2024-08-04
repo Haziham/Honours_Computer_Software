@@ -14,18 +14,18 @@ class LegControlWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LegControlWidget(QWidget *parent = nullptr);
+    explicit LegControlWidget(QLeg* leg, QWidget *parent = nullptr);
     ~LegControlWidget();
 
     void allocate_joints();
 
 public slots:
+    void set_position();
 
 
 private:
     Ui::LegControlWidget *ui;
-    JointsList m_joints;
-    QLeg m_leg;
+    QLeg* m_leg;
 };
 
 #endif // LEGCONTROLWIDGET_H

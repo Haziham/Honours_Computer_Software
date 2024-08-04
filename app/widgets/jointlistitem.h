@@ -18,6 +18,7 @@ public:
     ~JointListItem();
     int get_nodeId() { return m_joint->get_nodeId(); }
     QJoint* get_joint() { return m_joint; }
+    void set_joint(QJoint* joint);
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override {

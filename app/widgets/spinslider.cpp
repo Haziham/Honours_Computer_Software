@@ -48,3 +48,8 @@ void SpinSlider::set_value(int value)
     ui->spinBox->setValue(value);
     ui->slider->setValue(value);
 }
+
+int SpinSlider::value()
+{
+    return ui->spinBox->value();
+}

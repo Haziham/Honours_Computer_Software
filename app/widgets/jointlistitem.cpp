@@ -23,6 +23,18 @@ JointListItem::~JointListItem()
     delete ui;
 }
 
+void JointListItem::set_joint(QJoint *joint)
+{
+    m_joint = joint;
+    if (!m_joint) {
+        display_noJoint();
+        return;
+    }
+    connect(m_joint, &QJoint::settings_changed, this, &JointListItem::update, Qt::QueuedConnection);
+    connect(this, &JointListItem::doubleClicked, this, &JointListItem::display_jointControlWidget);
+    update();
+}
+
 void JointListItem::update()
 {
     if (!m_joint) {
