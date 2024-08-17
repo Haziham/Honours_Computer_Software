@@ -20,7 +20,6 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->zPositionInput->set_value(80);
 
 
-
     connect(ui->allocateButton, &QPushButton::clicked, this, &LegControlWidget::allocate_joints);
     connect(ui->xPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
     connect(ui->yPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));

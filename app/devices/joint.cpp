@@ -27,7 +27,7 @@ void Joint::set_enabled(bool enabled)
 void Joint::set_mode(int mode)
 {
     CommandSettings_t commandSettings;
-    commandSettings.mode = mode;
+    // commandSettings.mode = mode;
     encodeCommandSettingsPacketStructure(&canMessage, &commandSettings);
     send_and_request_CANMessage(canMessage);
 }

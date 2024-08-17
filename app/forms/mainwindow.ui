@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1084</width>
-    <height>735</height>
+    <width>461</width>
+    <height>327</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,22 +18,12 @@
     <item row="0" column="0">
      <widget class="JointListWidget" name="jointsList"/>
     </item>
-    <item row="0" column="3">
+    <item row="0" column="2">
      <widget class="QLabel" name="label">
       <property name="text">
        <string/>
       </property>
      </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="devicesButton">
-      <property name="text">
-       <string>Display Connect Devices</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QListWidget" name="listWidget"/>
     </item>
    </layout>
   </widget>
@@ -42,7 +32,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1084</width>
+     <width>461</width>
      <height>20</height>
     </rect>
    </property>

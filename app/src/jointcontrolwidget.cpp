@@ -12,7 +12,7 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     , joint(temp)
 {
     ui->setupUi(this);
-    connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
+    // connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
     connect(ui->enableButton, &QPushButton::clicked, joint, &QJoint::enableSlot);
     connect(ui->disableButton, &QPushButton::clicked, joint, &QJoint::disableSlot);
 
@@ -52,6 +52,8 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &JointControlWidget::refresh_widget);
     timer->start(200);
+
+
 }
 
 JointControlWidget::~JointControlWidget()
@@ -112,7 +114,6 @@ void JointControlWidget::sendCommandSettings()
 {
     CommandSettings_t commandSettings;
     commandSettings.mode = ui->commandModeSelector->currentIndex();
-
     joint->send_commandSettings(commandSettings);
 
     switch (joint->settings.command.mode)
@@ -198,8 +199,7 @@ void JointControlWidget::refresh_widget()
     ui->directionIcon->setPixmap(joint->statusA.direction ? QPixmap(":/icons/rotate.svg") : QPixmap(":/icons/rotate-clockwise.svg"));
 
 
-    ui->commandModeSelector->setCurrentIndex(joint->settings.command.mode);
-    ui->commandModeSelector->update();
+    ui->commandModeSelector->updateComboBox(joint->settings.command.mode);
 
     ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
     ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);

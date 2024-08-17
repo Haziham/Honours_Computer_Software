@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     qDebug() << "Hello World!";
 
     // Connect the button to the function
-    connect(ui->devicesButton, &QPushButton::clicked, this, &MainWindow::displayConnectedDevices);
+    // connect(ui->devicesButton, &QPushButton::clicked, this, &Maiiiindow::displayConnectedDevices);
     ui->jointsList->assign_joints(&g_joints);
 
     // Joint* newJoint = new Joint(7);

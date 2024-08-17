@@ -19,6 +19,7 @@ qt_add_executable(Dragon
     devices/QJoint.cpp
     devices/QLeg.cpp
     widgets/qspinboxtimed.cpp
+    widgets/qcomboboxtimed.cpp
     widgets/jointlistwidget.cpp
     widgets/legcontrolwidget.cpp 
     widgets/spinslider.cpp 
