@@ -32,7 +32,7 @@ void Leg::set_position(int x, int y, int z)
 
     m_hipYaw->send_command((int)m_ikAngles.hipYaw);
     m_hipPitch->send_command((int)m_ikAngles.hipPitch);
-    m_kneePitch->send_command((int)m_ikAngles.kneePitch);
+    // m_kneePitch->send_command((int)m_ikAngles.kneePitch);
 }
 
 uint8_t Leg::add_joint(Joint *joint)

@@ -44,7 +44,7 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
         ui->commandModeSelector->addItem(commandModes_EnumLabel(i));
     }
 
-    ui->commandModeSelector->setCurrentIndex(0);
+    // ui->commandModeSelector->setCurrentIndex(0);
     ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
     ui->errorIcon->setEnabled(true);
 
@@ -200,6 +200,8 @@ void JointControlWidget::refresh_widget()
 
 
     ui->commandModeSelector->updateComboBox(joint->settings.command.mode);
+    // display mode
+    qDebug() << "Mode: " << joint->settings.command.mode;
 
     ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
     ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);

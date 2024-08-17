@@ -26,6 +26,7 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
         g_joints.add_joint(newJoint); 
         decode_packet(message, newJoint);
+        newJoint->request_settings();
     }
 }
 
