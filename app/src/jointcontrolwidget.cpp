@@ -12,6 +12,14 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     , joint(temp)
 {
     ui->setupUi(this);
+
+    for (int i = 0; i < CMD_END_ENUM; i++)
+    {
+        ui->commandModeSelector->addItem(commandModes_EnumLabel(i));
+    }
+    ui->commandModeSelector->enableSettable();
+
+
     // connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
     connect(ui->enableButton, &QPushButton::clicked, joint, &QJoint::enableSlot);
     connect(ui->disableButton, &QPushButton::clicked, joint, &QJoint::disableSlot);
@@ -39,10 +47,6 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
 
 
 
-    for (int i = 0; i < CMD_END_ENUM; i++)
-    {
-        ui->commandModeSelector->addItem(commandModes_EnumLabel(i));
-    }
 
     // ui->commandModeSelector->setCurrentIndex(0);
     ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
@@ -51,8 +55,12 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     // set up timer to refresh widet 5hz
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &JointControlWidget::refresh_widget);
-    timer->start(200);
 
+    //  If node id is 1F this is a broadcast node.
+    if (joint->get_nodeId() != 0x1F)
+    {
+        timer->start(200);
+    }
 
 }
 
@@ -201,7 +209,6 @@ void JointControlWidget::refresh_widget()
 
     ui->commandModeSelector->updateComboBox(joint->settings.command.mode);
     // display mode
-    qDebug() << "Mode: " << joint->settings.command.mode;
 
     ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
     ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);
