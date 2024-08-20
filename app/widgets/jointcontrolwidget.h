@@ -1,7 +1,7 @@
 #ifndef JOINTCONTROLWIDGET_H
 #define JOINTCONTROLWIDGET_H
 
-#include <QWidget>
+#include "controlwidget.h"
 #include "QJoint.h"
 
 
@@ -9,7 +9,7 @@ namespace Ui {
 class JointControlWidget;
 }
 
-class JointControlWidget : public QWidget
+class JointControlWidget : public ControlWidget
 {
     Q_OBJECT
 
@@ -25,7 +25,7 @@ private:
 
 
 private slots:
-    void refresh_widget();
+    void refresh_widget() override;
 
     void tempDisplay(int value);
     void sendJointSettings();

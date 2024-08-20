@@ -49,6 +49,11 @@ void SpinSlider::set_value(int value)
     ui->slider->setValue(value);
 }
 
+void SpinSlider::set_label(QString string)
+{
+    ui->label->setText(string);
+}
+
 int SpinSlider::value()
 {
     return ui->spinBox->value();

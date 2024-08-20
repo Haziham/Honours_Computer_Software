@@ -1,15 +1,15 @@
 #ifndef LEGCONTROLWIDGET_H
 #define LEGCONTROLWIDGET_H
 
-#include <QWidget>
 #include "JointsList.h"
 #include "QLeg.h"
+#include "controlwidget.h"
 
 namespace Ui {
 class LegControlWidget;
 }
 
-class LegControlWidget : public QWidget
+class LegControlWidget : public ControlWidget
 {
     Q_OBJECT
 
@@ -24,8 +24,13 @@ public slots:
 
 
 private:
+
+
     Ui::LegControlWidget *ui;
     QLeg* m_leg;
+
+
+    void refresh_widget() override;
 };
 
 #endif // LEGCONTROLWIDGET_H

@@ -2,7 +2,7 @@
 #include "ui_legcontrolwidget.h"
 
 LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
-    : QWidget(parent)
+    : ControlWidget(parent)
     , ui(new Ui::LegControlWidget)
 {
     ui->setupUi(this);
@@ -11,7 +11,7 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->yPositionInput->set_minimum(-160); 
     ui->zPositionInput->set_minimum(-160);
 
-    ui->xPositionInput->set_maximum(160);
+    ui->xPositionInput->set_maximum(320);
     ui->yPositionInput->set_maximum(160);
     ui->zPositionInput->set_maximum(160);
     
@@ -19,14 +19,18 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->yPositionInput->set_value(80);
     ui->zPositionInput->set_value(80);
 
+    ui->xPositionInput->set_label("X Position");
+    ui->yPositionInput->set_label("Y Position");
+    ui->zPositionInput->set_label("Z Position");
 
     connect(ui->allocateButton, &QPushButton::clicked, this, &LegControlWidget::allocate_joints);
     connect(ui->xPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
     connect(ui->yPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
     connect(ui->zPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
 
-
     m_leg = leg;
+
+    start_refresh_timer();
 }
 
 
@@ -48,6 +52,21 @@ void LegControlWidget::allocate_joints()
     ui->kneePitchJoint->set_joint(kneePitchJoint);
 
     m_leg->set_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
+}
+
+void LegControlWidget::refresh_widget()
+{
+    QJoint* forceRecordingJoint = ui->kneePitchJoint->get_joint();
+
+    if (forceRecordingJoint != nullptr)
+    {
+        ui->forceDisplay->setEnabled(true);
+        ui->forceDisplay->display(forceRecordingJoint->get_force());
+    }
+    else {
+        ui->forceDisplay->display(0);
+        ui->forceDisplay->setDisabled(true);
+    }
 }
 
 void LegControlWidget::set_position()

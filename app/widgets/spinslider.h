@@ -18,6 +18,7 @@ public:
     void set_minimum(int min);
     void set_maximum(int max);
     void set_value(int value);
+    void set_label(QString string);
     int value();
 
 signals:

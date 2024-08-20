@@ -7,7 +7,7 @@
 #include <QTimer>
 
 JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
-    : QWidget(parent)
+    : ControlWidget(parent)
     , ui(new Ui::JointControlWidget)
     , joint(temp)
 {
@@ -52,14 +52,10 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
     ui->errorIcon->setEnabled(true);
 
-    // set up timer to refresh widet 5hz
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &JointControlWidget::refresh_widget);
-
     //  If node id is 1F this is a broadcast node.
     if (joint->get_nodeId() != 0x1F)
     {
-        timer->start(200);
+        start_refresh_timer();
     }
 
 }

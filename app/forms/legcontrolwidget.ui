@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
+    <width>666</width>
     <height>517</height>
    </rect>
   </property>
@@ -14,78 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="1">
-    <widget class="SpinSlider" name="xPositionInput" native="true"/>
-   </item>
-   <item row="7" column="1">
-    <widget class="SpinSlider" name="yPositionInput" native="true"/>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Z Position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="calibrateButton">
-     <property name="text">
-      <string>Calibrate</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="SpinSlider" name="zPositionInput" native="true"/>
-   </item>
-   <item row="9" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="disableButton">
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Y Position</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
-    <widget class="QPushButton" name="enableButton">
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>X Position</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QPushButton" name="allocateButton">
-     <property name="text">
-      <string>Allocate</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" rowspan="4">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Joints</string>
@@ -99,6 +28,71 @@
       </item>
       <item>
        <widget class="JointListItem" name="kneePitchJoint" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Control</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0" colspan="4">
+       <widget class="SpinSlider" name="xPositionInput" native="true"/>
+      </item>
+      <item row="3" column="0" colspan="4">
+       <widget class="SpinSlider" name="zPositionInput" native="true"/>
+      </item>
+      <item row="2" column="0" colspan="4">
+       <widget class="SpinSlider" name="yPositionInput" native="true"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="allocateButton">
+        <property name="text">
+         <string>Allocate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="calibrateButton">
+        <property name="text">
+         <string>Calibrate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="disableButton">
+        <property name="text">
+         <string>Disable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="enableButton">
+        <property name="text">
+         <string>Enable</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Display</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Force</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLCDNumber" name="forceDisplay"/>
       </item>
      </layout>
     </widget>

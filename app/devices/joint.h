@@ -43,6 +43,7 @@ public:
     void enable() { set_enabled(ENABLE); }
     void disable() { set_enabled(DISABLE); }
 
+    float get_force() {return statusB.externalADC;};
 
     void send_jointSettings(JointSettings_t settings);
     void send_telemetrySettings(TelemetrySettings_t settings);
