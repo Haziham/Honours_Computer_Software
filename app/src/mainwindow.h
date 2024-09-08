@@ -22,8 +22,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QList<QJoint> joints;
-    QThread *serialThread = new QThread();
 
 
 private slots:

@@ -59,6 +59,8 @@ public:
 
 private:
     CAN_Message_t canMessage;
+
+    
 };
 
 // bool get_jointFromList(QList<Joint*> jointList, Joint* joint, uint8_t nodeId);

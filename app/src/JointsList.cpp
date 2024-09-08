@@ -8,23 +8,30 @@ JointsList::JointsList()
 
 void JointsList::add_joint(QJoint *joint)
 {
+    connect(joint, &QJoint::jointDestroyed, this, &JointsList::remove_joint);
+    jointListMutex.lock();
     m_joints.insert(joint->get_nodeId(), joint);
+    jointListMutex.unlock();
     emit joint_added(joint);
 }
 
 
 bool JointsList::get_joint(QJoint **joint, uint8_t nodeId)
 {
+    bool found = false;
+    jointListMutex.lock();
     if (m_joints.contains(nodeId))
     {
         *joint = m_joints.value(nodeId);
-        return true;
+        found = true;
     }
-    return false;
+    jointListMutex.unlock();
+    return found;
 }
 
 bool JointsList::get_legJoints(QJoint** hipYawJoint, QJoint** hipPitchJoint, QJoint** kneePitchJoint, uint8_t legNumber)
 {
+    jointListMutex.lock();
     for (QJoint* joint : m_joints)
     {
         if (joint->get_legNumber() == legNumber)
@@ -43,12 +50,15 @@ bool JointsList::get_legJoints(QJoint** hipYawJoint, QJoint** hipPitchJoint, QJo
             }
         }
     }
+    jointListMutex.unlock();
     return true;
 }
 
 void JointsList::remove_joint(int nodeId)
 {
+    jointListMutex.lock();
     m_joints.remove(nodeId);
+    jointListMutex.unlock();
     emit joint_removed(nodeId);
 }
 

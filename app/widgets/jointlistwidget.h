@@ -1,5 +1,5 @@
 #pragma once
-
+#include <algorithm>
 #include <QWidget>
 #include <QListWidget>
 #include "joint.h"
@@ -19,6 +19,7 @@ public:
 
     private:
         JointsList* m_joints;
+        QMutex m_mutex;
 
         void remove_jointFromWidget(int nodeId);
         void add_jointToWidget(QJoint* joint);

@@ -20,7 +20,7 @@ void JointListWidget::remove_jointFromWidget(int nodeId)
         JointListItem *jointListItem = (JointListItem*)itemWidget(item(i));
         if (jointListItem->get_nodeId() == nodeId)
         {
-            qDebug() << "Removing joint from widget";
+            qDebug() << "Removing joint from widget: " << nodeId;
             delete item(i);
         }
     }
@@ -31,7 +31,25 @@ void JointListWidget::add_jointToWidget(QJoint *joint)
     QListWidgetItem *newItem = new QListWidgetItem();
     JointListItem *jointListItem = new JointListItem(nullptr, joint);
     newItem->setSizeHint(jointListItem->sizeHint());
-    addItem(newItem);
+    newItem->setData(Qt::UserRole, joint->get_nodeId());
+    int currentNodeId = joint->get_nodeId();
+    bool inserted = false;
+
+    // Insert the new joint in the correct order
+    for (int i = 0; i < count(); i++) 
+    {
+        JointListItem *jointListItem = (JointListItem*)itemWidget(item(i));
+        if (jointListItem->get_nodeId() > currentNodeId)
+        {
+            insertItem(i, newItem);
+            inserted = true;
+        }
+    }
+
+    if (!inserted)
+    {
+        addItem(newItem);
+    }
     setItemWidget(newItem, jointListItem);  
 }
 

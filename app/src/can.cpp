@@ -17,6 +17,8 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
 
         decode_packet(message, joint);
+        joint->resetTimeout();
+
     }
     else {
         qDebug() << "Joint not found!";

@@ -14,14 +14,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Connect the button to the function
     // connect(ui->devicesButton, &QPushButton::clicked, this, &Maiiiindow::displayConnectedDevices);
-    ui->jointsList->assign_joints(&g_joints);
 
     // QJoint newJoint = QJoint(0x1F);
     // g_joints.add_joint(&newJoint);
 
 
-    QJoint* newJoint = new QJoint(0x1F);
-    g_joints.add_joint(newJoint); 
 
     // Joint* newJoint = new Joint(7);
     // g_joints.add_joint(newJoint);
@@ -35,16 +32,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // g_joints.remove_joint(5);
 
+    ui->jointsList->assign_joints(&g_joints);
+    QJoint* newJoint = new QJoint(0x1F);
+    g_joints.add_joint(newJoint); 
 
-
-    int result = g_can.open_port();
-    if (result == EXIT_FAILURE)
-    {
-        qDebug() << "Error opening port!";
-        return;
-    }
-    g_can.moveToThread(serialThread);
-    serialThread->start();
 
 
 

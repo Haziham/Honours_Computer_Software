@@ -19,6 +19,8 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     }
     ui->commandModeSelector->enableSettable();
 
+    // If joint is lost from list, delete this widget
+    connect(joint, &QJoint::destroyed, this, &JointControlWidget::deleteLater);
 
     // connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
     connect(ui->enableButton, &QPushButton::clicked, joint, &QJoint::enableSlot);

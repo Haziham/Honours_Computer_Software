@@ -30,6 +30,17 @@ int main(int argc, char *argv[])
     LegControlWidget legControlWidget(&leg);    
     legControlWidget.show();
 
+    QThread *serialThread = new QThread();
+
+    int result = g_can.open_port();
+    if (result == EXIT_FAILURE)
+    {
+        qDebug() << "Error opening port!";
+        return 1;
+    }
+    g_can.moveToThread(serialThread);
+    serialThread->start();
+
     // Joint * tempJoint = new Joint(1);
     // JointControlWidget jointControlWidget(tempJoint);
     // jointControlWidget.show();
