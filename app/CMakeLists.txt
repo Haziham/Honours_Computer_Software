@@ -13,10 +13,12 @@ qt_add_executable(Dragon
     src/JointsList.cpp
     widgets/jointlistitem.cpp
     resources/resources.qrc
-    devices/joint.cpp 
+    devices/joint.cpp   
     devices/leg.cpp
     devices/QJoint.cpp
     devices/QLeg.cpp
+    devices/hexapod.cpp
+    devices/QHexapod.cpp
     widgets/qspinboxtimed.cpp
     widgets/qcomboboxtimed.cpp
     widgets/jointlistwidget.cpp
@@ -24,6 +26,8 @@ qt_add_executable(Dragon
     widgets/spinslider.cpp 
     widgets/controlwidget.cpp
     widgets/jointcontrolwidget.cpp 
+    widgets/legpushbutton.cpp
+
 )
 
 set_target_properties(Dragon PROPERTIES

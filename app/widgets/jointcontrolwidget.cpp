@@ -15,19 +15,25 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
 
     for (int i = 0; i < CMD_END_ENUM; i++)
     {
-        ui->commandModeSelector->addItem(commandModes_EnumLabel(i));
+        ui->commandModeSelector->addItem(QString(commandModes_EnumLabel(i)).remove("CMD_"));
     }
     ui->commandModeSelector->enableSettable();
 
+    for (int i = 0; i < JOINT_END_ENUM; i++)
+    {
+        ui->jointTypeSelector->addItem(QString(jointTypes_EnumLabel(i)).remove("JOINT_"));
+    }
+    ui->jointTypeSelector->enableSettable();
+
     // If joint is lost from list, delete this widget
-    connect(joint, &QJoint::destroyed, this, &JointControlWidget::deleteLater);
+    connect(joint, &QJoint::jointDestroyed, this, &JointControlWidget::deleteLater);
 
     // connect(ui->commandModeSelector, &QComboBox::currentIndexChanged, joint, &QJoint::set_modeSlot);
     connect(ui->enableButton, &QPushButton::clicked, joint, &QJoint::enableSlot);
     connect(ui->disableButton, &QPushButton::clicked, joint, &QJoint::disableSlot);
 
 
-    connect(ui->jointTypeInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
+    connect(ui->jointTypeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->legNumberInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->gearRatioInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
     connect(ui->nodeIdInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendJointSettings);
@@ -100,7 +106,7 @@ void JointControlWidget::tempDisplay(int value)
 void JointControlWidget::sendJointSettings()
 {
     JointSettings_t jointSettings;
-    jointSettings.jointType = ui->jointTypeInput->value();
+    jointSettings.jointType = ui->jointTypeSelector->currentIndex();
     jointSettings.legNumber = ui->legNumberInput->value();
     jointSettings.gearRatio = ui->gearRatioInput->value();
     jointSettings.nodeId = ui->nodeIdInput->value();
@@ -208,7 +214,7 @@ void JointControlWidget::refresh_widget()
     ui->commandModeSelector->updateComboBox(joint->settings.command.mode);
     // display mode
 
-    ui->jointTypeInput->updateSpinBox(joint->settings.joint.jointType);
+    ui->jointTypeSelector->updateComboBox(joint->settings.joint.jointType);
     ui->legNumberInput->updateSpinBox(joint->settings.joint.legNumber);
     ui->gearRatioInput->updateSpinBox(joint->settings.joint.gearRatio);
     ui->nodeIdInput->updateSpinBox(joint->settings.joint.nodeId);

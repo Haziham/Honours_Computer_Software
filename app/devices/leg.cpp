@@ -1,5 +1,6 @@
 #include "leg.h"
 
+
 Leg::Leg(uint8_t legNumber)
 {
     m_legNumber = legNumber;
@@ -9,6 +10,7 @@ Leg::Leg(uint8_t legNumber)
     m_ikParams.joint2Length = 0.1;
     m_ikParams.joint3Length = 0.093; 
 }
+
 
 void Leg::set_position(int x, int y, int z)
 {
@@ -62,6 +64,56 @@ void Leg::set_joints(Joint *hipYaw, Joint *hipPitch, Joint *kneePitch)
     m_hipYaw = hipYaw;
     m_hipPitch = hipPitch;
     m_kneePitch = kneePitch;
+}
+
+void Leg::set_enabled(uint8_t enabled)
+{
+    if (m_hipYaw != NULL && m_hipPitch != NULL && m_kneePitch != NULL)
+    {
+        m_hipYaw->set_enabled(enabled);
+        m_hipPitch->set_enabled(enabled);
+        m_kneePitch->set_enabled(enabled);
+    }
+}
+
+void Leg::command_allJoints(int command)
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipYaw->send_command(command);
+    m_hipPitch->send_command(command);
+    m_kneePitch->send_command(command);
+}
+
+void Leg::set_mode(int mode)
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipYaw->set_mode(mode);
+    m_hipPitch->set_mode(mode);
+    m_kneePitch->set_mode(mode);
+}
+
+void Leg::goto_home()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    // set_mode(CMD_POSITION);
+
+    m_hipYaw->send_command(0);
+    m_hipPitch->send_command(-900);
+    m_kneePitch->goto_angleMax();
+}
+
+bool Leg::check_joints()
+{
+    return (m_hipYaw != NULL && m_hipPitch != NULL && m_kneePitch != NULL);
 }
 
 Leg::~Leg()

@@ -12,7 +12,7 @@ Joint::Joint(uint8_t nodeId)
     }
 
     settings.joint.nodeId = nodeId;
-}  
+}
 
 
 void Joint::set_enabled(bool enabled)
@@ -61,6 +61,17 @@ void Joint::send_command(int value)
     // encodeJointCommandPacketStructure(&message, &command);
     encodeJointCommandPacket(&message, value);
     send_CANMessage(message);
+}
+
+void Joint::calibrate()
+{
+    CommandSettings_t commandSettings;
+    commandSettings = settings.command;
+    commandSettings.mode = CMD_CALIBRATE;
+    encodeCommandSettingsPacketStructure(&canMessage, &commandSettings);
+    send_and_request_CANMessage(canMessage);
+    encodeEnablePacket(&canMessage, ENABLE);
+    send_CANMessage(canMessage);
 }
 
 void Joint::send_jointSettings(JointSettings_t settings)

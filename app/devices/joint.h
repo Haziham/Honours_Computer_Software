@@ -35,13 +35,24 @@ public:
     uint8_t get_nodeId() { return settings.joint.nodeId; }
     uint8_t get_legNumber() { return settings.joint.legNumber; }
     uint8_t get_jointType() { return settings.joint.jointType; }
+    uint16_t get_minAngle() { return settings.calibration.minAngle; }
+    uint16_t get_maxAngle() { return settings.calibration.maxAngle; }
 
+
+    void goto_angleMin() { send_command(settings.calibration.minAngle); }
+    void goto_angleMax() { send_command(settings.calibration.maxAngle); }
+    void goto_home();
 
     void set_enabled(bool enabled);
     void set_mode(int mode); // Use commandModes enum from freckle_protocol.h
     void send_command(int value);
     void enable() { set_enabled(ENABLE); }
     void disable() { set_enabled(DISABLE); }
+
+
+    void calibrate();
+    uint8_t is_calibrating() {return statusA.calibrating;};
+    uint8_t is_calibrated() {return statusA.calibrated;};
 
     float get_force() {return statusB.externalADC;};
 

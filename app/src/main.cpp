@@ -2,7 +2,6 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTimer>
-#include "legcontrolwidget.h"
 
 
 #ifdef _WIN32
@@ -26,9 +25,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    QLeg leg = QLeg(1);
-    LegControlWidget legControlWidget(&leg);    
-    legControlWidget.show();
+
+
+
 
     QThread *serialThread = new QThread();
 

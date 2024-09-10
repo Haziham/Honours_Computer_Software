@@ -24,9 +24,16 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->zPositionInput->set_label("Z Position");
 
     connect(ui->allocateButton, &QPushButton::clicked, this, &LegControlWidget::allocate_joints);
+    connect(ui->calibrateButton, &QPushButton::clicked, leg, &QLeg::start_calibration);
+
+
     connect(ui->xPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
     connect(ui->yPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
     connect(ui->zPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
+
+    connect(ui->enableButton, &QPushButton::clicked, this, &LegControlWidget::enable);
+    connect(ui->disableButton, &QPushButton::clicked, this, &LegControlWidget::disable);
+
 
     m_leg = leg;
 
@@ -45,13 +52,22 @@ void LegControlWidget::allocate_joints()
     QJoint* hipPitchJoint = nullptr;
     QJoint* kneePitchJoint = nullptr;
 
+
+qDebug() << "Allocating joints: " << QString::number(m_leg->get_legNumber());
     g_joints.get_legJoints(&hipYawJoint, &hipPitchJoint, &kneePitchJoint, m_leg->get_legNumber());
+
+    if (hipYawJoint != nullptr || hipPitchJoint != nullptr || kneePitchJoint != nullptr)
+    {
+        qDebug() << "No Joints Found";
+    }
 
     ui->hipYawJoint->set_joint(hipYawJoint);
     ui->hipPitchJoint->set_joint(hipPitchJoint);
     ui->kneePitchJoint->set_joint(kneePitchJoint);
 
+qDebug() << "Setting joints";
     m_leg->set_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
+qDebug() << "Joints set";
 }
 
 void LegControlWidget::refresh_widget()

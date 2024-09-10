@@ -28,6 +28,7 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "qwidget": "cpp",
-        "any": "cpp"
+        "any": "cpp",
+        "qobject": "cpp"
     }
 }

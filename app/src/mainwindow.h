@@ -6,6 +6,7 @@
 #include "joint.h"
 // #include "usb2can.hpp"
 #include "can.hpp"
+#include "legcontrolwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,6 +31,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    QLeg legs[6];
 
 
 };

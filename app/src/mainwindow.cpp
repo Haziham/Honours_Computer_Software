@@ -34,8 +34,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->jointsList->assign_joints(&g_joints);
     QJoint* newJoint = new QJoint(0x1F);
-    g_joints.add_joint(newJoint); 
+    // g_joints.add_joint(newJoint); 
 
+
+
+    for (int i = 0; i < 6; i++)
+    {
+        legs[i].set_legNumber(i);
+    }
+
+    ui->leg0Button->set_leg(&legs[0]);
+    ui->leg1Button->set_leg(&legs[1]);
+    ui->leg2Button->set_leg(&legs[2]);
+    ui->leg3Button->set_leg(&legs[3]);
+    ui->leg4Button->set_leg(&legs[4]);
+    ui->leg5Button->set_leg(&legs[5]);
 
 
 

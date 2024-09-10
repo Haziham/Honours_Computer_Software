@@ -7,7 +7,6 @@ QJoint::QJoint(uint8_t nodeId) : Joint(nodeId)
     connect(&timeoutTimer, &QTimer::timeout, this,  [this]() {
             qDebug() << "Joint " << settings.joint.nodeId << " timed out";
             emit jointDestroyed(settings.joint.nodeId);
-            delete this;
         });
 
 

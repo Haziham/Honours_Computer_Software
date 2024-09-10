@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "QJoint.h"
 #include "jointcontrolwidget.h"
+#include "FreckleProtocol.h"
 
 namespace Ui {
 class JointListItem;
@@ -23,7 +24,7 @@ public:
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override {
         Q_UNUSED(event);
-        emit doubleClicked();
+       emit doubleClicked();
     }
 
 signals: 
