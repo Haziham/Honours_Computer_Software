@@ -19,11 +19,12 @@ void QLeg::start_calibration()
         return;
     }
     calibrationStep = 0;
-    calibrationTimer.start(100);
+    calibrationTimer.start(1000);
 }
 
 void QLeg::calibrate()
 {
+    qDebug() << "Calibrating leg: " << m_legNumber;
     static bool calibrationCmdSent = false;
     Joint *joint = nullptr;
 

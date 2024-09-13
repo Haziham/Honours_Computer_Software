@@ -36,6 +36,7 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
 
 
     m_leg = leg;
+    allocate_joints();
 
     start_refresh_timer();
 }

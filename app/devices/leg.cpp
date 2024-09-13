@@ -9,6 +9,10 @@ Leg::Leg(uint8_t legNumber)
     m_ikParams.joint1Length = 0.017;
     m_ikParams.joint2Length = 0.1;
     m_ikParams.joint3Length = 0.093; 
+
+    m_kneePitch = NULL;
+    m_hipPitch = NULL;
+    m_hipYaw = NULL;
 }
 
 
@@ -114,6 +118,16 @@ void Leg::goto_home()
 bool Leg::check_joints()
 {
     return (m_hipYaw != NULL && m_hipPitch != NULL && m_kneePitch != NULL);
+}
+
+uint16_t Leg::get_force()
+{
+    if (!check_joints())
+    {
+        return 0;
+    }
+
+    return m_kneePitch->get_force();
 }
 
 Leg::~Leg()

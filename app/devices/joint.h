@@ -37,6 +37,8 @@ public:
     uint8_t get_jointType() { return settings.joint.jointType; }
     uint16_t get_minAngle() { return settings.calibration.minAngle; }
     uint16_t get_maxAngle() { return settings.calibration.maxAngle; }
+    
+    uint16_t get_externalADC() { return statusB.externalADC; }
 
 
     void goto_angleMin() { send_command(settings.calibration.minAngle); }

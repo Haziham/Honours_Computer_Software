@@ -62,4 +62,13 @@ void JointsList::remove_joint(int nodeId)
     emit joint_removed(nodeId);
 }
 
-
+void JointsList::request_allSettings()
+{
+    qDebug() << "Requesting all settings";
+    // jointListMutex.lock();
+    for (QJoint* joint : m_joints)
+    {
+        joint->request_settings();
+    }
+    // jointListMutex.unlock();
+}

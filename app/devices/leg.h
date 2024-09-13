@@ -28,6 +28,7 @@ public:
 
 
 
+    uint16_t get_force();
 
 
 protected:

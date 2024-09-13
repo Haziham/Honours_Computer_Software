@@ -17,12 +17,16 @@ public:
     void add_joint(QJoint* joint);
     void remove_joint(int nodeId);
 
+
     QMutex jointListMutex;
-    
+
+public slots:
+    void request_allSettings();    
 
 signals:
     void joint_added(QJoint* joint);
     void joint_removed(int nodeId);
+
 
 
 

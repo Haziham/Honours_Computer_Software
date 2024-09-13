@@ -4,6 +4,7 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/forms)
 qt_add_executable(Dragon
     forms/mainwindow.ui
     forms/jointcontrolwidget.ui
+    forms/hexapodcontrolwidget.ui
     forms/jointlistitem.ui
     forms/spinslider.ui
     forms/legcontrolwidget.ui
@@ -27,6 +28,8 @@ qt_add_executable(Dragon
     widgets/controlwidget.cpp
     widgets/jointcontrolwidget.cpp 
     widgets/legpushbutton.cpp
+    widgets/hexapodcontrolwidget.h 
+    widgets/hexapodcontrolwidget.cpp 
 
 )
 

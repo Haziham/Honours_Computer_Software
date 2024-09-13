@@ -2,6 +2,7 @@
 #include <QObject>
 #include <QTimer>
 #include "can.hpp"
+#include <unordered_set>
 
 class QJoint : public QObject, public Joint
 {
@@ -24,6 +25,8 @@ public slots:
     void disableSlot() { disable(); }
     void send_commandSlot(int command) { send_command(command); }
     void resetTimeout() { timeoutTimer.start(); }
+    // void update_settings();
+
 
 
 private:

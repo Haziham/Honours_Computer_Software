@@ -28,6 +28,7 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
         g_joints.add_joint(newJoint); 
         decode_packet(message, newJoint);
+        qDebug() << "Requesting settings for joint: " << joint->settings.joint.nodeId;
         newJoint->request_settings();
     }
 }

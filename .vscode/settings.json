@@ -29,6 +29,7 @@
         "utility": "cpp",
         "qwidget": "cpp",
         "any": "cpp",
-        "qobject": "cpp"
+        "qobject": "cpp",
+        "*.ipp": "cpp"
     }
 }

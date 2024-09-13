@@ -7,6 +7,7 @@
 // #include "usb2can.hpp"
 #include "can.hpp"
 #include "legcontrolwidget.h"
+#include "hexapodcontrolwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,9 +29,12 @@ public:
 private slots:
     void displayConnectedDevices();
 
+
 private:
     Ui::MainWindow *ui;
 
+    QHexapod hexapod;
+    HexapodControlWidget hexapodControlWidget = HexapodControlWidget(&hexapod);    
     QLeg legs[6];
 
 

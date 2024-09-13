@@ -12,12 +12,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     qDebug() << "Hello World!";
 
-    // Connect the button to the function
+    connect(ui->requestAllSettingButton, &QPushButton::clicked, &g_joints, &JointsList::request_allSettings);
+    connect(ui->hexapodButton, &QPushButton::clicked, &hexapodControlWidget, &HexapodControlWidget::show);
     // connect(ui->devicesButton, &QPushButton::clicked, this, &Maiiiindow::displayConnectedDevices);
 
     // QJoint newJoint = QJoint(0x1F);
     // g_joints.add_joint(&newJoint);
-
 
 
     // Joint* newJoint = new Joint(7);
@@ -34,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->jointsList->assign_joints(&g_joints);
     QJoint* newJoint = new QJoint(0x1F);
-    // g_joints.add_joint(newJoint); 
+    newJoint->settings.joint.legNumber = 8;
+    g_joints.add_joint(newJoint); 
 
 
 

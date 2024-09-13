@@ -9,10 +9,9 @@ public:
     Hexapod();
     ~Hexapod();
 
-    void calibrate();
 
+    Leg* get_leg(uint8_t legNumber);
 
 private:
-    Leg m_legs[6];
 
 };
