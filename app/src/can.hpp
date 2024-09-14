@@ -3,6 +3,7 @@
 #include "usb2can.hpp"
 #include "joint.h"
 #include <QDebug>
+#include "JointsList.h"
 
 class QJoint; // Forward declaration
 

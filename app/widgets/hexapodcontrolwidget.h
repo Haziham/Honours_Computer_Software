@@ -19,6 +19,12 @@ public:
 
     void refresh_widget() override;
 
+    void showEvent(QShowEvent *event) override;
+
+public slots:
+    void set_globalPosition();
+
+
 private:
     Ui::HexapodControlWidget *ui;
     QHexapod* m_hexapod;

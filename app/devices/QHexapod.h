@@ -23,12 +23,27 @@ public:
     QLeg leg5 = QLeg(5);
 
     QThread legThreads[6];
+    QThread jointsThread;
 
 
 
 public slots:
-    void calibrate();
+    void allocate_joints();
+    void set_enabled(uint8_t enabled) { Hexapod::set_enabled(enabled); }
+    void enable() { set_enabled(1); }
+    void disable() { set_enabled(0); }
+    void start_calibration();
+    void leg_calibrationComplete() { calibrationStep++; };
+    void set_allLegPositions(int x, int y, int z) {qDebug() << "Emiiting signal"; emit set_allLegPositionsSignal(x, y, z); }
+
+signals:
+    void calibration_complete();
+    void set_allLegPositionsSignal(int x, int y, int z);
 
 private: 
-    // QLeg* m_legs[6] = {&leg1, &leg2, &leg3, &leg4, &leg5, &leg6}; 
+    QLeg* m_legs[6]; 
+
+    QTimer calibrationTimer;
+    int calibrationStep;
+    void calibrate();
 };

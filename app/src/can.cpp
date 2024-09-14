@@ -1,5 +1,4 @@
 #include "can.hpp"
-#include "JointsList.h"
 
 FreckleCAN g_can;
 

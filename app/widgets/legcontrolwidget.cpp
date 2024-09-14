@@ -53,22 +53,11 @@ void LegControlWidget::allocate_joints()
     QJoint* hipPitchJoint = nullptr;
     QJoint* kneePitchJoint = nullptr;
 
-
-qDebug() << "Allocating joints: " << QString::number(m_leg->get_legNumber());
-    g_joints.get_legJoints(&hipYawJoint, &hipPitchJoint, &kneePitchJoint, m_leg->get_legNumber());
-
-    if (hipYawJoint != nullptr || hipPitchJoint != nullptr || kneePitchJoint != nullptr)
-    {
-        qDebug() << "No Joints Found";
-    }
+    m_leg->get_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
 
     ui->hipYawJoint->set_joint(hipYawJoint);
     ui->hipPitchJoint->set_joint(hipPitchJoint);
     ui->kneePitchJoint->set_joint(kneePitchJoint);
-
-qDebug() << "Setting joints";
-    m_leg->set_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
-qDebug() << "Joints set";
 }
 
 void LegControlWidget::refresh_widget()

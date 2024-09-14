@@ -63,7 +63,7 @@ uint8_t Leg::add_joint(Joint *joint)
 
 
 
-void Leg::set_joints(Joint *hipYaw, Joint *hipPitch, Joint *kneePitch)
+void Leg::allocate_joints(Joint *hipYaw, Joint *hipPitch, Joint *kneePitch)
 {
     m_hipYaw = hipYaw;
     m_hipPitch = hipPitch;

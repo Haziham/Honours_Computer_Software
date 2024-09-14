@@ -15,7 +15,7 @@ public:
     void set_position(int x, int y, int z);
     void calibrate();
     uint8_t add_joint(Joint* joint);
-    void set_joints(Joint* hipYaw, Joint* hipPitch, Joint* kneePitch);
+    void allocate_joints(Joint* hipYaw, Joint* hipPitch, Joint* kneePitch);
     void set_enabled(uint8_t enabled);
     void enable() { set_enabled(1); }
     void disable() { set_enabled(0); }
@@ -37,12 +37,12 @@ protected:
     Joint* m_hipPitch;
     Joint* m_kneePitch;
 
+
 private:
     IKParams_t m_ikParams;
     IKPoint_t m_ikPoint;
     IKAngles_t m_ikAngles;
     
-
 
 
 };

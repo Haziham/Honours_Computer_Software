@@ -30,6 +30,7 @@
         "qwidget": "cpp",
         "any": "cpp",
         "qobject": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "unordered_set": "cpp"
     }
 }

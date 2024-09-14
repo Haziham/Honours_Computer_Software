@@ -10,6 +10,37 @@ QLeg::~QLeg()
 {
 }
 
+void QLeg::allocate_jointsFromList(JointsList *jointsList)
+{
+    QJoint* hipYawJoint = nullptr;
+    QJoint* hipPitchJoint = nullptr;
+    QJoint* kneePitchJoint = nullptr;
+
+    qDebug() << "Allocating joints: " << QString::number(get_legNumber());
+    jointsList->get_legJoints(&hipYawJoint, &hipPitchJoint, &kneePitchJoint, get_legNumber());
+
+    if (hipYawJoint != nullptr || hipPitchJoint != nullptr || kneePitchJoint != nullptr)
+    {
+        qDebug() << "No Joints Found";
+    }
+
+    allocate_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
+}
+
+void QLeg::get_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch)
+{
+    hipYaw = m_hipYaw;
+    hipPitch = m_hipPitch;
+    kneePitch = m_kneePitch;
+}
+
+void QLeg::allocate_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch) 
+{
+    m_hipYaw = hipYaw;
+    m_hipPitch = hipPitch;
+    m_kneePitch = kneePitch;
+    Leg::allocate_joints(m_hipYaw, m_hipPitch, m_kneePitch);
+}
 
 void QLeg::start_calibration()
 {
@@ -19,13 +50,16 @@ void QLeg::start_calibration()
         return;
     }
     calibrationStep = 0;
-    calibrationTimer.start(1000);
+    calibrationCmdSent = false;
+    calibrationCount = 0;
+    calibrationTimer.start(100);
+
 }
 
 void QLeg::calibrate()
 {
-    qDebug() << "Calibrating leg: " << m_legNumber;
-    static bool calibrationCmdSent = false;
+    qDebug() << "Calibrating leg: " << m_legNumber << " Step: " << calibrationStep << " Thread: " << QThread::currentThreadId() 
+        << " CmdSent: " << calibrationCmdSent;
     Joint *joint = nullptr;
 
     switch (calibrationStep)
@@ -34,8 +68,15 @@ void QLeg::calibrate()
         joint = m_kneePitch;
         break;
     case 1:
-        m_kneePitch->send_command(0);
         joint = m_hipPitch;
+        calibrationCount++;
+        if (calibrationCount > 30)
+        {
+            m_kneePitch->goto_angleMin();
+        }
+        else {
+            m_kneePitch->goto_angleMax();
+        }
         break;
     case 2:
         m_kneePitch->send_command(-900);
@@ -53,9 +94,12 @@ void QLeg::calibrate()
     {
         if (!calibrationCmdSent)
         {
+            qDebug() << "Calibrating joint: " << joint->get_nodeId();
             joint->calibrate();
             calibrationCmdSent = true;
         }
+
+
     }
     else {
         calibrationCmdSent = false;
