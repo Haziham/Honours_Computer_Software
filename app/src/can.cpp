@@ -20,15 +20,15 @@ void FreckleCAN::decode_CAN_frame(CAN_Message_t *message)
 
     }
     else {
-        qDebug() << "Joint not found!";
+        qDebug() << "Joint not found! Thread: " << QThread::currentThread()->objectName();
 
         // Make new joint
         QJoint* newJoint = new QJoint(nodeID);
 
-        g_joints.add_joint(newJoint); 
         decode_packet(message, newJoint);
-        qDebug() << "Requesting settings for joint: " << joint->settings.joint.nodeId;
-        newJoint->request_settings();
+        g_joints.add_joint(newJoint); 
+        // qDebug() << "Requesting settings for joint: " << joint->settings.joint.nodeId;
+        // newJoint->request_settings();
     }
 }
 

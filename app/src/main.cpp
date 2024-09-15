@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QTimer>
 
-
 #ifdef _WIN32
     #include <Windows.h>
 #endif
@@ -30,6 +29,10 @@ int main(int argc, char *argv[])
 
 
     QThread *serialThread = new QThread();
+    serialThread->setObjectName("CAN");
+
+    QThread::currentThread()->setObjectName("Main");
+
 
     int result = g_can.open_port();
     if (result == EXIT_FAILURE)

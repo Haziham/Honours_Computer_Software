@@ -22,6 +22,7 @@ public:
 
 public slots:
     void request_allSettings();    
+    void request_settings(QJoint* joint); 
 
 signals:
     void joint_added(QJoint* joint);

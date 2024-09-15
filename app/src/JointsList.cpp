@@ -4,6 +4,7 @@ JointsList g_joints;
 
 JointsList::JointsList()
 {
+    connect(this, &JointsList::joint_added, this, &JointsList::request_settings);
 }
 
 void JointsList::add_joint(QJoint *joint)
@@ -60,6 +61,12 @@ void JointsList::remove_joint(int nodeId)
     m_joints.remove(nodeId);
     jointListMutex.unlock();
     emit joint_removed(nodeId);
+}
+
+void JointsList::request_settings(QJoint *joint)
+{
+    qDebug() << "Requesting settings: " << joint->get_nodeId() << " Thread id: " << QThread::currentThread()->objectName();
+    joint->request_settings();
 }
 
 void JointsList::request_allSettings()

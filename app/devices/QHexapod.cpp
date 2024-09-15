@@ -19,6 +19,7 @@ QHexapod::QHexapod()
 
     for (int i = 0; i < 6; i++)
     {
+        legThreads[i].setObjectName("Leg " + QString::number(i));
         legThreads[i].start();
     }
 
