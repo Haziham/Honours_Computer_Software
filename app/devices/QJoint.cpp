@@ -12,7 +12,7 @@ QJoint::QJoint(uint8_t nodeId) : Joint(nodeId)
 
     if (nodeId != 0x1F)
     {
-        timeoutTimer.start();
+        // timeoutTimer.start();
     }
 }
 

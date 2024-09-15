@@ -24,7 +24,7 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->zPositionInput->set_label("Z Position");
 
     connect(ui->allocateButton, &QPushButton::clicked, this, &LegControlWidget::allocate_joints);
-    connect(ui->calibrateButton, &QPushButton::clicked, leg, &QLeg::start_calibration);
+    connect(ui->calibrateButton, &QPushButton::clicked, this, &LegControlWidget::calibrate);
 
 
     connect(ui->xPositionInput, SIGNAL(valueChanged(int)), this, SLOT(set_position()));
@@ -58,6 +58,11 @@ void LegControlWidget::allocate_joints()
     ui->hipYawJoint->set_joint(hipYawJoint);
     ui->hipPitchJoint->set_joint(hipPitchJoint);
     ui->kneePitchJoint->set_joint(kneePitchJoint);
+}
+
+void LegControlWidget::calibrate()
+{
+    QMetaObject::invokeMethod(m_leg, "start_calibration", Qt::QueuedConnection);
 }
 
 void LegControlWidget::refresh_widget()

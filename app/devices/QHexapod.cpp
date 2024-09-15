@@ -32,6 +32,7 @@ QHexapod::QHexapod()
     m_legs[4] = &leg4;
     m_legs[5] = &leg5;
 
+
     for (int i = 0; i < 6; i++)
     {
         connect(m_legs[i], &QLeg::calibration_complete, this, &QHexapod::leg_calibrationComplete);
@@ -42,6 +43,7 @@ QHexapod::QHexapod()
 
     connect(&g_joints, &JointsList::joint_added, this, &QHexapod::allocate_joints);
     connect(&calibrationTimer, &QTimer::timeout, this, &QHexapod::calibrate);
+    connect(&refreshTimer, &QTimer::timeout, this, &QHexapod::update);
 
 
 
@@ -66,6 +68,11 @@ void QHexapod::allocate_joints()
     }
 }
 
+void QHexapod::set_legPosition(uint8_t legNumber, int x, int y, int z)
+{
+    // qDebug() << "x: " << x << " y: " << y << " z: " << z;
+    QMetaObject::invokeMethod(m_legs[legNumber], "set_position", Qt::QueuedConnection, Q_ARG(int, x), Q_ARG(int, y), Q_ARG(int, z));
+}
 
 void QHexapod::start_calibration()
 {
@@ -74,6 +81,21 @@ void QHexapod::start_calibration()
     calibrationTimer.start(100);
 }
 
+void QHexapod::start_stepping()
+{
+    time.restart();
+    refreshTimer.start(refreshRate);
+}
+
+void QHexapod::stop_stepping()
+{
+    refreshTimer.stop();
+}
+void QHexapod::update()
+{
+    long timeMs = time.elapsed();
+    step(timeMs);
+}
 
 void QHexapod::calibrate()
 {

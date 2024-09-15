@@ -23,6 +23,7 @@ public:
 
 public slots:
     void set_globalPosition();
+    void set_stepSettings();
 
 
 private:

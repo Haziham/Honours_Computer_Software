@@ -34,3 +34,39 @@ void Hexapod::set_allLegPositions(int x, int y, int z)
         m_legs[i]->set_position(x, y, z);
     }
 }
+
+void Hexapod::step(int timeMs)
+{
+    float x;
+    float y;
+    float z;
+    float frequency = 1/(settings.step.period/1000.0f);
+
+
+    float angleRads = settings.step.angle * 0.1f * M_PI / 180.0f;
+
+    float xs[6];
+    float ys[6];
+    float zs[6];
+
+    for (int i = 0; i < 6; i++)
+    {
+        angleRads = (settings.step.angle + (3600 - i * settings.physical.legAngularSeparation)) * 0.1f * M_PI / 180.0f;
+        directionalSemiCirclePath(settings.step.radius/1000.0f, frequency, timeMs/1000.0f,  angleRads, settings.step.xOffset/1000.0f,&xs[i], &ys[i], &zs[i]);
+        timeMs += settings.step.period/2;
+    } 
+
+    for (int i = 0; i < 6; i++)
+    {
+        set_legPosition(i, xs[i]*1000, ys[i]*1000, zs[i]*1000+settings.step.height);
+    }
+}
+
+
+void Hexapod::set_legPosition(uint8_t legNumber, int x, int y, int z)
+{
+    if (legNumber < 6)
+    {
+        m_legs[legNumber]->set_position(x, y, z);
+    }
+}

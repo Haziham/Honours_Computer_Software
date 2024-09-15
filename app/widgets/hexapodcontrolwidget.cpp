@@ -33,11 +33,43 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     ui->globalZInput->set_minimum(-160);
     ui->globalZInput->set_maximum(160);
 
+    ui->stepDirectionAngle->set_label("Direction Angle");
+    ui->stepDirectionAngle->set_maximum(3600);
+    ui->stepDirectionAngle->set_minimum(0);
+    ui->stepDirectionAngle->set_value(0);
+
+    ui->stepHeightOffset->set_label("Step Height Offset");
+    ui->stepHeightOffset->set_maximum(300);
+    ui->stepHeightOffset->set_minimum(-300);
+    ui->stepHeightOffset->set_value(0);
+
+    ui->stepFrequency->set_label("Step Frequency");
+    ui->stepFrequency->set_maximum(10000);
+    ui->stepFrequency->set_minimum(0);
+    ui->stepFrequency->set_value(2000);
+
+    ui->stepRadius->set_label("Step Radius");
+    ui->stepRadius->set_maximum(300);
+    ui->stepRadius->set_minimum(0);
+    ui->stepRadius->set_value(50);
+
+    ui->stepTime->set_label("Step Time");
+    ui->stepTime->set_maximum(20000);
+    ui->stepTime->set_minimum(0);
+
+    connect(ui->stepTime, &SpinSlider::valueChanged, m_hexapod, &QHexapod::step);
 
     connect(ui->globalXInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
     connect(ui->globalYInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
     connect(ui->globalZInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
 
+    connect(ui->stepDirectionAngle, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
+    connect(ui->stepHeightOffset, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
+    connect(ui->stepFrequency, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
+    connect(ui->stepRadius, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
+
+
+    connect(ui->stepButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_stepping);
 
 
     start_refresh_timer();
@@ -65,6 +97,14 @@ void HexapodControlWidget::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);  // Call base class implementation
     m_hexapod->allocate_joints();
+}
+
+void HexapodControlWidget::set_stepSettings()
+{
+    m_hexapod->settings.step.angle = ui->stepDirectionAngle->value();
+    m_hexapod->settings.step.height = ui->stepHeightOffset->value();
+    m_hexapod->settings.step.period = ui->stepFrequency->value();
+    m_hexapod->settings.step.radius = ui->stepRadius->value();
 }
 
 void HexapodControlWidget::set_globalPosition()

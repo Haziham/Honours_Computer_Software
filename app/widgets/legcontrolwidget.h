@@ -23,6 +23,7 @@ public slots:
     void set_position();
     void enable() { m_leg->enable(); }
     void disable() { m_leg->disable(); }
+    void calibrate();
 
 
 private:

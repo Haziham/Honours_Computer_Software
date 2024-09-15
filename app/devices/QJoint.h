@@ -24,7 +24,7 @@ public slots:
     void enableSlot() { enable(); }
     void disableSlot() { disable(); }
     void send_commandSlot(int command) { send_command(command); }
-    void resetTimeout() { timeoutTimer.start(); }
+    void resetTimeout() { /*timeoutTimer.start();*/ }
     // void update_settings();
 
 

@@ -2,7 +2,6 @@
 
 QLeg::QLeg(uint8_t legNumber) : Leg(legNumber)
 {
-    connect(&calibrationTimer, &QTimer::timeout, this, &QLeg::calibrate);
 
 }
 
@@ -44,6 +43,9 @@ void QLeg::allocate_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch)
 
 void QLeg::start_calibration()
 {
+    qDebug() << "Thread: " << QThread::currentThread()->objectName();
+    calibrationTimer = new QTimer();
+    connect(calibrationTimer, &QTimer::timeout, this, &QLeg::calibrate);
     if (!check_joints())
     {
         // Do no calibrate if joints are not connected
@@ -52,7 +54,7 @@ void QLeg::start_calibration()
     calibrationStep = 0;
     calibrationCmdSent = false;
     calibrationCount = 0;
-    calibrationTimer.start(100);
+    calibrationTimer->start(100);
 
 }
 
@@ -84,7 +86,7 @@ void QLeg::calibrate()
         joint = m_hipYaw;
         break;
     default:
-        calibrationTimer.stop();
+        calibrationTimer->stop();
         goto_home();
         emit calibration_complete();
         return;

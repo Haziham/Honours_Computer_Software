@@ -14,43 +14,6 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>Global Functions</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="3" column="0">
-       <widget class="QPushButton" name="disableButton">
-        <property name="text">
-         <string>Disable</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="calibrateButton">
-        <property name="text">
-         <string>Calibrate</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="enableButton">
-        <property name="text">
-         <string>Enable</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="allocateJointsButton">
-        <property name="text">
-         <string>Allocate Joints</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="1" rowspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
@@ -201,6 +164,43 @@
      </layout>
     </widget>
    </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Global Functions</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="3" column="0">
+       <widget class="QPushButton" name="disableButton">
+        <property name="text">
+         <string>Disable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="calibrateButton">
+        <property name="text">
+         <string>Calibrate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="enableButton">
+        <property name="text">
+         <string>Enable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="allocateJointsButton">
+        <property name="text">
+         <string>Allocate Joints</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
@@ -256,6 +256,30 @@
       </item>
       <item row="6" column="0">
        <widget class="SpinSlider" name="globalZInput" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Step Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="SpinSlider" name="stepFrequency" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepDirectionAngle" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepHeightOffset" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepRadius" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepTime" native="true"/>
       </item>
      </layout>
     </widget>

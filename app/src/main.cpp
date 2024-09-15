@@ -39,8 +39,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     g_can.moveToThread(serialThread);
-    // connect(&serialThread, &QThread::started, &g_can, &USB2CAN::write_data);
-    // serialThread->start();
+    serialThread->start();
 
 
     // Joint * tempJoint = new Joint(1);

@@ -35,7 +35,7 @@ signals:
 
 
 private:    
-    QTimer calibrationTimer;
+    QTimer* calibrationTimer;
     int calibrationStep;
     int calibrationCount;
     bool calibrationCmdSent = false;

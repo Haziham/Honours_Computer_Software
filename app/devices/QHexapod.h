@@ -25,6 +25,8 @@ public:
     QThread legThreads[6];
     QThread jointsThread;
 
+    void set_legPosition(uint8_t legNumber, int x, int y, int z) override;
+
 
 
 public slots:
@@ -34,11 +36,16 @@ public slots:
     void disable() { set_enabled(0); }
     void start_calibration();
     void leg_calibrationComplete() { calibrationStep++; };
-    void set_allLegPositions(int x, int y, int z) {qDebug() << "Emiiting signal"; emit set_allLegPositionsSignal(x, y, z); }
+    void set_allLegPositions(int x, int y, int z) {emit set_allLegPositionsSignal(x, y, z); }
+    void step(int timeMs) {Hexapod::step(timeMs);}
+    void start_stepping();
+    void stop_stepping();
+    void update();
 
 signals:
     void calibration_complete();
     void set_allLegPositionsSignal(int x, int y, int z);
+
 
 private: 
     QLeg* m_legs[6]; 
@@ -46,4 +53,9 @@ private:
     QTimer calibrationTimer;
     int calibrationStep;
     void calibrate();
+
+    QElapsedTimer time;
+    QTimer refreshTimer;
+
+    const int refreshRate = 20; // ms
 };
