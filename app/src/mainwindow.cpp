@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     // g_joints.add_joint(&newJoint);
 
 
+
     // Joint* newJoint = new Joint(7);
     // g_joints.add_joint(newJoint);
     // newJoint->settings_changed(); 

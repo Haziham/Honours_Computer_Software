@@ -23,7 +23,15 @@ void Leg::set_position(int x, int y, int z)
     m_ikPoint.y = y/1000.0;
     m_ikPoint.z = z/1000.0;
 
-    inverseKinematics(&m_ikParams, &m_ikPoint, &m_ikAngles);
+    IKReturn_t result;
+
+    result = inverseKinematics(&m_ikParams, &m_ikPoint, &m_ikAngles);
+
+    if (result == IK_FAILURE)
+    {
+        fprintf(stderr, "Inverse kinematics failed\n");
+        return;
+    }
 
     // convert angles to degrees and multiply by 10
     m_ikAngles.hipYaw = m_ikAngles.hipYaw * 180 / M_PI * 10;

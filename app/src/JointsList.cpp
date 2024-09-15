@@ -4,7 +4,7 @@ JointsList g_joints;
 
 JointsList::JointsList()
 {
-    connect(this, &JointsList::joint_added, this, &JointsList::request_settings);
+    // connect(this, &JointsList::joint_added, this, &JointsList::request_settings);
 }
 
 void JointsList::add_joint(QJoint *joint)

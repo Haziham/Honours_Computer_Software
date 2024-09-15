@@ -36,7 +36,7 @@ private:
     QHexapod hexapod;
     HexapodControlWidget hexapodControlWidget = HexapodControlWidget(&hexapod);    
     QLeg legs[6];
-
+    QThread serialThread;
 
 };
 #endif // MAINWINDOW_H

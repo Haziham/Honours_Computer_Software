@@ -22,7 +22,7 @@ public:
     void set_legNumber(uint8_t legNumber) { m_legNumber = legNumber; }
     void allocate_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch);
     void allocate_jointsFromList(JointsList *jointsList);
-    void get_joints(QJoint* hipYaw, QJoint* hipPitch, QJoint* kneePitch);
+    void get_joints(QJoint** hipYaw, QJoint** hipPitch, QJoint** kneePitch);
 
 public slots:
     void start_calibration();

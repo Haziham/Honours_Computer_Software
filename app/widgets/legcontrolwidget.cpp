@@ -53,7 +53,7 @@ void LegControlWidget::allocate_joints()
     QJoint* hipPitchJoint = nullptr;
     QJoint* kneePitchJoint = nullptr;
 
-    m_leg->get_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
+    m_leg->get_joints(&hipYawJoint, &hipPitchJoint, &kneePitchJoint);
 
     ui->hipYawJoint->set_joint(hipYawJoint);
     ui->hipPitchJoint->set_joint(hipPitchJoint);

@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTimer>
+#include "can.hpp"
+
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -26,13 +28,9 @@ int main(int argc, char *argv[])
 
 
 
-
-
-    QThread *serialThread = new QThread();
-    serialThread->setObjectName("CAN");
-
     QThread::currentThread()->setObjectName("Main");
-
+    QThread* serialThread = new QThread();
+    serialThread->setObjectName("Serial");
 
     int result = g_can.open_port();
     if (result == EXIT_FAILURE)
@@ -41,7 +39,9 @@ int main(int argc, char *argv[])
         return 1;
     }
     g_can.moveToThread(serialThread);
-    serialThread->start();
+    // connect(&serialThread, &QThread::started, &g_can, &USB2CAN::write_data);
+    // serialThread->start();
+
 
     // Joint * tempJoint = new Joint(1);
     // JointControlWidget jointControlWidget(tempJoint);

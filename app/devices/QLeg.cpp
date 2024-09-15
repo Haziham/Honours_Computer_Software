@@ -16,22 +16,22 @@ void QLeg::allocate_jointsFromList(JointsList *jointsList)
     QJoint* hipPitchJoint = nullptr;
     QJoint* kneePitchJoint = nullptr;
 
-    qDebug() << "Allocating joints: " << QString::number(get_legNumber());
+    // qDebug() << "Allocating joints: " << QString::number(get_legNumber());
     jointsList->get_legJoints(&hipYawJoint, &hipPitchJoint, &kneePitchJoint, get_legNumber());
 
     if (hipYawJoint != nullptr || hipPitchJoint != nullptr || kneePitchJoint != nullptr)
     {
-        qDebug() << "No Joints Found";
+        // qDebug() << "No Joints Found";
     }
 
     allocate_joints(hipYawJoint, hipPitchJoint, kneePitchJoint);
 }
 
-void QLeg::get_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch)
+void QLeg::get_joints(QJoint **hipYaw, QJoint **hipPitch, QJoint **kneePitch)
 {
-    hipYaw = m_hipYaw;
-    hipPitch = m_hipPitch;
-    kneePitch = m_kneePitch;
+    *hipYaw = m_hipYaw;
+    *hipPitch = m_hipPitch;
+    *kneePitch = m_kneePitch;
 }
 
 void QLeg::allocate_joints(QJoint *hipYaw, QJoint *hipPitch, QJoint *kneePitch) 
