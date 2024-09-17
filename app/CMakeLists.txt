@@ -37,7 +37,7 @@ set_target_properties(Dragon PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY_RELEASE ~/bin/ 
 )
 find_package(Qt5 COMPONENTS Core REQUIRED)
-target_link_libraries(Dragon PRIVATE Qt6::Widgets)
+target_link_libraries(Dragon PRIVATE Qt6::Widgets Qt6::Core)
 
 target_include_directories(Dragon PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/src

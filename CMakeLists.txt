@@ -33,10 +33,11 @@ add_subdirectory(hlib/usb2can)
 add_subdirectory(hlib/canQueue)
 add_subdirectory(hlib/inverseKinematics)
 add_subdirectory(hlib/hexapodMaths)
+add_subdirectory(libs/QVirtualPad/qvirtualpad)
 
 target_link_libraries(usb2can PRIVATE canQueue)
 # target_link_libraries(devices PRIVATE freckle)
-target_link_libraries(Dragon PRIVATE freckle usb2can canQueue inverseKinematics hexapodMaths)
+target_link_libraries(Dragon PRIVATE freckle usb2can canQueue inverseKinematics hexapodMaths qvirtualpad)
 
 # qt_add_resources(Dragon resources/resources.qrc)
 

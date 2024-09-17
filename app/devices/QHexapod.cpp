@@ -46,6 +46,7 @@ QHexapod::QHexapod()
     connect(&refreshTimer, &QTimer::timeout, this, &QHexapod::update);
 
 
+    time.restart();
 
     allocate_joints();
 }
@@ -91,11 +92,24 @@ void QHexapod::stop_stepping()
 {
     refreshTimer.stop();
 }
+
+void QHexapod::start_moving()
+{
+    // time.restart();
+    refreshTimer.start(refreshRate);
+}
+
+void QHexapod::stop_moving()
+{
+    refreshTimer.stop();
+}
+
 void QHexapod::update()
 {
     long timeMs = time.elapsed();
-    step(timeMs);
+    move(timeMs);
 }
+
 
 void QHexapod::calibrate()
 {

@@ -2,6 +2,7 @@
 #include "joint.h"
 #include "FreckleProtocol.h"
 #include "inverseKinematics.h"
+#include <unistd.h>
 
 class Leg
 {
@@ -23,6 +24,14 @@ public:
     void command_allJoints(int command);
     void set_mode(int mode);
     void goto_home();
+    
+    void home_kneePitch();
+    void home_hipPitch();
+    void home_hipYaw();
+
+    void wake_kneePitch();
+    void wake_hipPitch();
+    void wake_hipYaw();
 
     bool check_joints();
 

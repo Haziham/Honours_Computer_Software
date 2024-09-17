@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "QHexapod.h"
 #include "controlwidget.h"
+#include "qvirtualpad.h"
 
 namespace Ui {
 class HexapodControlWidget;
@@ -25,10 +26,17 @@ public slots:
     void set_globalPosition();
     void set_stepSettings();
 
+    void move(QPointF direction);
+    void spin(QPointF direction);
+    void tilt(QPointF direction);
+    void update_hexapodPosition();
+
 
 private:
     Ui::HexapodControlWidget *ui;
     QHexapod* m_hexapod;
+
+    void configure_virtualPad(QVirtualPad* pad);
 
 };
 

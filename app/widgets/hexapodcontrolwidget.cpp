@@ -10,8 +10,7 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
 
     ui->leg0Button->set_leg(&hexapod->leg0);
     ui->leg1Button->set_leg(&hexapod->leg1);
-    ui->leg2Button->set_leg(&hexapod->leg2);
-    ui->leg3Button->set_leg(&hexapod->leg3);
+    ui->leg2Button->set_leg(&hexapod->leg2); ui->leg3Button->set_leg(&hexapod->leg3);
     ui->leg4Button->set_leg(&hexapod->leg4);
     ui->leg5Button->set_leg(&hexapod->leg5);
 
@@ -68,13 +67,35 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     connect(ui->stepFrequency, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
     connect(ui->stepRadius, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
 
+// int test;
 
     connect(ui->stepButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_stepping);
+
+
+    configure_virtualPad(ui->movePadInput);
+    configure_virtualPad(ui->spinPadInput);
+    configure_virtualPad(ui->tildPadInput);
+
+    connect(ui->movePadInput, &QVirtualPad::positionUpdate, m_hexapod, &QHexapod::joystick_moveControl);
+    connect(ui->heightInput_2, SIGNAL(valueChanged(int)), this, SLOT(update_hexapodPosition()));
+    connect(ui->footWidthInput, SIGNAL(valueChanged(int)), this, SLOT(update_hexapodPosition()));
+
+    connect(ui->startControlButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_moving);
+    connect(ui->stopControlButton, &QPushButton::clicked, m_hexapod, &QHexapod::stop_moving);
+    connect(ui->idleButton, &QPushButton::clicked, m_hexapod, &QHexapod::toggle_idle);
+
+
+    connect(ui->powerOffButton, &QPushButton::clicked, m_hexapod, &QHexapod::power_off);
+    connect(ui->powerOnButton, &QPushButton::clicked, m_hexapod, &QHexapod::power_on);
+
+    ui->tildPadInput->setMomentary(false);
 
 
     start_refresh_timer();
 
 }
+
+
 
 HexapodControlWidget::~HexapodControlWidget()
 {
@@ -102,9 +123,39 @@ void HexapodControlWidget::showEvent(QShowEvent *event)
 void HexapodControlWidget::set_stepSettings()
 {
     m_hexapod->settings.step.angle = ui->stepDirectionAngle->value();
-    m_hexapod->settings.step.height = ui->stepHeightOffset->value();
+    m_hexapod->settings.position.height = ui->stepHeightOffset->value();
     m_hexapod->settings.step.period = ui->stepFrequency->value();
     m_hexapod->settings.step.radius = ui->stepRadius->value();
+}
+
+void HexapodControlWidget::move(QPointF direction)
+{
+}
+
+void HexapodControlWidget::tilt(QPointF direction)
+{
+}
+
+void HexapodControlWidget::update_hexapodPosition()
+{
+    Hexapod::PositionSettings_t settings;
+    settings.height = ui->heightInput_2->value();
+    settings.xOffset = ui->footWidthInput->value();
+    m_hexapod->update_positionSettings(settings);
+}
+
+void HexapodControlWidget::spin(QPointF direction)
+{
+}
+
+void HexapodControlWidget::configure_virtualPad(QVirtualPad *pad)
+{
+    pad->setPadSizeRatio(0.3);
+    pad->setBackgroundColor(QColor(93, 85, 89, 200));
+    // pad->setDeadZone(0.1);
+    pad->setBorderColor(QColor(157, 20, 89, 200));
+    pad->setBorderWidth(10);
+
 }
 
 void HexapodControlWidget::set_globalPosition()

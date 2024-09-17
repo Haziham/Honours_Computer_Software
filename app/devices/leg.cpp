@@ -119,8 +119,64 @@ void Leg::goto_home()
     // set_mode(CMD_POSITION);
 
     m_hipYaw->send_command(0);
+
     m_hipPitch->send_command(-900);
+
     m_kneePitch->goto_angleMax();
+}
+
+void Leg::home_kneePitch()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_kneePitch->goto_angleMax();
+}
+
+void Leg::home_hipPitch()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipPitch->send_command(-1000);
+}
+
+void Leg::home_hipYaw()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipYaw->send_command(0);
+}
+
+void Leg::wake_kneePitch()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_kneePitch->send_command(900);
+}
+
+void Leg::wake_hipPitch()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipPitch->send_command(450);
+}
+
+void Leg::wake_hipYaw()
+{
+    if (!check_joints())
+    {
+        return;
+    }
+    m_hipYaw->send_command(0); 
 }
 
 bool Leg::check_joints()

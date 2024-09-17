@@ -3,7 +3,7 @@
 #include "hexapod.h"
 #include "QLeg.h"
 #include <QThread>
-
+#include <qpoint.h>
 
 class QHexapod : public QObject, public Hexapod
 {
@@ -38,9 +38,16 @@ public slots:
     void leg_calibrationComplete() { calibrationStep++; };
     void set_allLegPositions(int x, int y, int z) {emit set_allLegPositionsSignal(x, y, z); }
     void step(int timeMs) {Hexapod::step(timeMs);}
+    void move(int timeMs) {Hexapod::move(timeMs);}
     void start_stepping();
     void stop_stepping();
+    void start_moving();
+    void stop_moving();
     void update();
+    void joystick_moveControl(QPointF point) {Hexapod::joystick_moveControl(point.x(), point.y());} 
+    void toggle_idle() {Hexapod::toggle_idle();}  
+    void power_off() {Hexapod::powerOff();}
+    void power_on() {Hexapod::powerOn();}
 
 signals:
     void calibration_complete();

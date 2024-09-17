@@ -6,14 +6,355 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>704</height>
+    <width>1118</width>
+    <height>841</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
+   <item row="0" column="2" rowspan="4">
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="title">
+      <string>Control</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="1" column="0" colspan="3">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Move</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QVirtualPad" name="movePadInput" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Tilt</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QVirtualPad" name="tildPadInput" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Rotate</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QVirtualPad" name="spinPadInput" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="3">
+       <widget class="QSlider" name="heightInput_2">
+        <property name="minimum">
+         <number>-200</number>
+        </property>
+        <property name="maximum">
+         <number>200</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="stopControlButton">
+        <property name="text">
+         <string>Stop Control</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="idleButton">
+        <property name="text">
+         <string>Idle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="startControlButton">
+        <property name="text">
+         <string>Start Control</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <widget class="QSlider" name="footWidthInput">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximum">
+         <number>300</number>
+        </property>
+        <property name="value">
+         <number>117</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Global Functions</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="4" column="0">
+       <widget class="QPushButton" name="powerOnButton">
+        <property name="text">
+         <string>Power On</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="disableButton">
+        <property name="text">
+         <string>Disable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="allocateJointsButton">
+        <property name="text">
+         <string>Allocate Joints</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="calibrateButton">
+        <property name="text">
+         <string>Calibrate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="enableButton">
+        <property name="text">
+         <string>Enable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="powerOffButton">
+        <property name="text">
+         <string>Power Off</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>Step Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="SpinSlider" name="stepFrequency" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepDirectionAngle" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepHeightOffset" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepRadius" native="true"/>
+      </item>
+      <item>
+       <widget class="SpinSlider" name="stepTime" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Control</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="4" column="0">
+       <widget class="SpinSlider" name="globalXInput" native="true"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QPushButton" name="stepButton">
+        <property name="text">
+         <string>Step</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="SpinSlider" name="directionAngleInput" native="true"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="SpinSlider" name="heightInput" native="true"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="SpinSlider" name="globalYInput" native="true"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QPushButton" name="northButton">
+        <property name="text">
+         <string>North</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QPushButton" name="southButton">
+        <property name="text">
+         <string>South</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QPushButton" name="eastButton">
+        <property name="text">
+         <string>East</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QPushButton" name="westButton">
+        <property name="text">
+         <string>West</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="SpinSlider" name="globalZInput" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Legs</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="LegPushButton" name="leg0Button">
+        <property name="text">
+         <string>Leg 0</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="LegPushButton" name="leg1Button">
+        <property name="text">
+         <string>Leg 1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="LegPushButton" name="leg5Button">
+        <property name="text">
+         <string>Leg 5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="LegPushButton" name="leg3Button">
+        <property name="text">
+         <string>Leg 3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="LegPushButton" name="leg4Button">
+        <property name="text">
+         <string>Leg 4</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="LegPushButton" name="leg2Button">
+        <property name="text">
+         <string>Leg 2</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="1" rowspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
@@ -113,177 +454,6 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Legs</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="LegPushButton" name="leg0Button">
-        <property name="text">
-         <string>Leg 0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="LegPushButton" name="leg1Button">
-        <property name="text">
-         <string>Leg 1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="LegPushButton" name="leg5Button">
-        <property name="text">
-         <string>Leg 5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="LegPushButton" name="leg3Button">
-        <property name="text">
-         <string>Leg 3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="LegPushButton" name="leg4Button">
-        <property name="text">
-         <string>Leg 4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="LegPushButton" name="leg2Button">
-        <property name="text">
-         <string>Leg 2</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>Global Functions</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="3" column="0">
-       <widget class="QPushButton" name="disableButton">
-        <property name="text">
-         <string>Disable</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="calibrateButton">
-        <property name="text">
-         <string>Calibrate</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="enableButton">
-        <property name="text">
-         <string>Enable</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="allocateJointsButton">
-        <property name="text">
-         <string>Allocate Joints</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>Control</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="0">
-       <widget class="SpinSlider" name="globalXInput" native="true"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QPushButton" name="stepButton">
-        <property name="text">
-         <string>Step</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="SpinSlider" name="directionAngleInput" native="true"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="SpinSlider" name="heightInput" native="true"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="SpinSlider" name="globalYInput" native="true"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QPushButton" name="northButton">
-        <property name="text">
-         <string>North</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QPushButton" name="southButton">
-        <property name="text">
-         <string>South</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QPushButton" name="eastButton">
-        <property name="text">
-         <string>East</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QPushButton" name="westButton">
-        <property name="text">
-         <string>West</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="SpinSlider" name="globalZInput" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="title">
-      <string>Step Settings</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="SpinSlider" name="stepFrequency" native="true"/>
-      </item>
-      <item>
-       <widget class="SpinSlider" name="stepDirectionAngle" native="true"/>
-      </item>
-      <item>
-       <widget class="SpinSlider" name="stepHeightOffset" native="true"/>
-      </item>
-      <item>
-       <widget class="SpinSlider" name="stepRadius" native="true"/>
-      </item>
-      <item>
-       <widget class="SpinSlider" name="stepTime" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -296,6 +466,12 @@
    <class>SpinSlider</class>
    <extends>QWidget</extends>
    <header>spinslider.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QVirtualPad</class>
+   <extends>QWidget</extends>
+   <header>qvirtualpad.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
