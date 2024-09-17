@@ -1,3 +1,6 @@
 [submodule "hlib"]
 	path = hlib
 	url = https://github.com/Haziham/hlib.git
+[submodule "libs/QVirtualPad"]
+	path = libs/QVirtualPad
+	url = https://github.com/weirdgyn/QVirtualPad.git
