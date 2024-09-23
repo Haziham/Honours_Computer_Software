@@ -70,7 +70,6 @@ void Hexapod::move(uint32_t timeMs)
     previousTime = timeMs;
 
     static uint32_t walkingTime = 0; 
-    walkingTime += deltaTime * settings.walking.speed;
 
     int16_t xs[6];
     int16_t ys[6];
@@ -87,6 +86,7 @@ void Hexapod::move(uint32_t timeMs)
     }
     if (settings.movementModes[MOVEMENT_MODE_WALKING])
     {
+        walkingTime += deltaTime * settings.walking.speed;
         printf("Walking\n");
         printf("SPeed %f\n", settings.walking.speed);
         calculate_walkingLegPositions(walkingTime, xs, ys, zs);

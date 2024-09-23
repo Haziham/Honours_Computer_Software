@@ -72,7 +72,7 @@ void QLeg::calibrate()
     case 1:
         joint = m_hipPitch;
         calibrationCount++;
-        if (calibrationCount > 40)
+        if (calibrationCount > 30)
         {
             m_kneePitch->goto_angleMin();
         }
