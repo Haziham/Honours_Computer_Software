@@ -59,8 +59,34 @@ void Joint::send_command(int value)
 
     // commandSettings.value = map_value(abs(value), 0, 100, 0, 65535);
     // encodeJointCommandPacketStructure(&message, &command);
+    settings.internal.targetCommand = value;
     encodeJointCommandPacket(&message, value);
     send_CANMessage(message);
+}
+
+void Joint::toggle_debugMode()
+{
+    Commands_t commands;
+    commands.setDebugModeMask = 1;
+    commands.setDebugMode = !statusA.debug;
+    commands.setEnabledMask = 0;
+    commands.zeroExternalADC = 0;
+    commands.beginCalibration = 0;
+
+    encodeCommandsPacketStructure(&canMessage, &commands);
+    send_CANMessage(canMessage);
+}
+
+void Joint::zero_force()
+{
+    Commands_t commands;
+    commands.setDebugModeMask = 0;
+    commands.setEnabledMask = 0;
+    commands.zeroExternalADC = 1;
+    commands.beginCalibration = 0;
+
+    encodeCommandsPacketStructure(&canMessage, &commands);
+    send_CANMessage(canMessage);
 }
 
 void Joint::calibrate()
@@ -101,6 +127,12 @@ void Joint::send_controlSettings(ControlSettings_t settings)
 void Joint::send_calibrationSettings(CalibrationSettings_t settings)
 {
     encodeCalibrationSettingsPacketStructure(&canMessage, &settings);
+    send_and_request_CANMessage(canMessage);
+}
+
+void Joint::send_motorSettings(MotorSettings_t settings)
+{
+    encodeMotorSettingsPacketStructure(&canMessage, &settings);
     send_and_request_CANMessage(canMessage);
 }
 

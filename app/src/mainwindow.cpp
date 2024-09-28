@@ -12,8 +12,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     qDebug() << "Hello World!";
 
+    graphWidget = new GraphWidget();
     connect(ui->requestAllSettingButton, &QPushButton::clicked, &g_joints, &JointsList::request_allSettings);
     connect(ui->hexapodButton, &QPushButton::clicked, &hexapodControlWidget, &HexapodControlWidget::show);
+    connect(ui->showGraphButton, &QPushButton::clicked, graphWidget, &GraphWidget::show); 
+
+
     // connect(ui->devicesButton, &QPushButton::clicked, this, &Maiiiindow::displayConnectedDevices);
 
     // QJoint newJoint = QJoint(0x1F);

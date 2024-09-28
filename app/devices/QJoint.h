@@ -23,6 +23,8 @@ public slots:
     void set_modeSlot(uint8_t mode) { set_mode(mode); }
     void enableSlot() { enable(); }
     void disableSlot() { disable(); }
+    void toggle_debugMode() { Joint::toggle_debugMode(); }
+    void zero_force() { Joint::zero_force(); }  
     void send_commandSlot(int command) { send_command(command); }
     void resetTimeout() { /*timeoutTimer.start();*/ }
     // void update_settings();

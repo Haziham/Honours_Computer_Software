@@ -8,6 +8,7 @@
 #include "can.hpp"
 #include "legcontrolwidget.h"
 #include "hexapodcontrolwidget.h"
+#include "graphwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +38,7 @@ private:
     HexapodControlWidget hexapodControlWidget = HexapodControlWidget(&hexapod);    
     QLeg legs[6];
     QThread serialThread;
+
 
 };
 #endif // MAINWINDOW_H

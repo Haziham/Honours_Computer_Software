@@ -5,6 +5,7 @@
 #include "QJoint.h"
 #include "jointcontrolwidget.h"
 #include "FreckleProtocol.h"
+#include "graphwidget.h" 
 
 namespace Ui {
 class JointListItem;

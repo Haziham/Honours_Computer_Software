@@ -6,6 +6,7 @@
 #include "jointlistitem.h"
 #include "jointcontrolwidget.h"
 #include "JointsList.h"
+#include "graphwidget.h"
 
 class JointListWidget : public QListWidget
 {

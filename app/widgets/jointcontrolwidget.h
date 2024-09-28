@@ -33,6 +33,7 @@ private slots:
     void sendCommandSettings();
     void sendControlSettings();
     void sendCalibrationSettings();
+    void sendMotorSettings();
 
     void updateInputExtremes();
 

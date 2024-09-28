@@ -8,6 +8,7 @@ qt_add_executable(Dragon
     forms/jointlistitem.ui
     forms/spinslider.ui
     forms/legcontrolwidget.ui
+    forms/graphwidget.ui
     src/mainwindow.cpp
     src/main.cpp
     src/can.cpp
@@ -30,14 +31,17 @@ qt_add_executable(Dragon
     widgets/legpushbutton.cpp
     widgets/hexapodcontrolwidget.h 
     widgets/hexapodcontrolwidget.cpp 
+    widgets/qdoublespinboxtimed.cpp
+    widgets/graphwidget.cpp 
+    widgets/qcustomplot.cpp
 
 )
 
 set_target_properties(Dragon PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY_RELEASE ~/bin/ 
 )
-find_package(Qt5 COMPONENTS Core REQUIRED)
-target_link_libraries(Dragon PRIVATE Qt6::Widgets Qt6::Core)
+find_package(Qt6 COMPONENTS Core Gui PrintSupport REQUIRED)
+target_link_libraries(Dragon PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui Qt6::PrintSupport)
 
 target_include_directories(Dragon PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/src

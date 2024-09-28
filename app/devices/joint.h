@@ -20,6 +20,7 @@ public:
     // JointControlWidget display = JointControlWidget(this); 
 
 
+
     StatusA_t statusA;
     StatusB_t statusB;
     StatusC_t statusC;
@@ -29,6 +30,10 @@ public:
         CommandSettings_t command;
         CalibrationSettings_t calibration;
         ControlSettings_t control;
+        MotorSettings_t motor;
+        struct {
+            int32_t targetCommand;
+        } internal;
     } settings;
 
 
@@ -51,6 +56,9 @@ public:
     void enable() { set_enabled(ENABLE); }
     void disable() { set_enabled(DISABLE); }
 
+    void toggle_debugMode();
+    void zero_force();
+
 
     void calibrate();
     uint8_t is_calibrating() {return statusA.calibrating;};
@@ -63,6 +71,7 @@ public:
     void send_commandSettings(CommandSettings_t settings);
     void send_controlSettings(ControlSettings_t settings);
     void send_calibrationSettings(CalibrationSettings_t settings);
+    void send_motorSettings(MotorSettings_t settings);
     
     virtual void send_CANMessage(CAN_Message_t message);
     void request_CANMessage(CAN_Message_t message);
@@ -72,6 +81,7 @@ public:
 
 private:
     CAN_Message_t canMessage;
+
 
     
 };

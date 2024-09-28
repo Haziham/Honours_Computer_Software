@@ -79,6 +79,13 @@
        <string>Global Functions</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="hexapodButton">
+         <property name="text">
+          <string>Hexapod</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="requestAllSettingButton">
          <property name="text">
@@ -86,10 +93,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="hexapodButton">
+       <item row="2" column="0">
+        <widget class="QPushButton" name="showGraphButton">
          <property name="text">
-          <string>Hexapod</string>
+          <string>Graph</string>
          </property>
         </widget>
        </item>

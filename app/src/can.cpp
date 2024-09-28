@@ -48,7 +48,8 @@ void FreckleCAN::decode_packet(CAN_Message_t *message, QJoint* joint)
             decodeTelemetrySettingsPacketStructure(message, &joint->settings.telemetry) |
             decodeCommandSettingsPacketStructure(message, &joint->settings.command) |
             decodeCalibrationSettingsPacketStructure(message, &joint->settings.calibration) |
-            decodeControlSettingsPacketStructure(message, &joint->settings.control))
+            decodeControlSettingsPacketStructure(message, &joint->settings.control) | 
+            decodeMotorSettingsPacketStructure(message, &joint->settings.motor))
 
         {
             // qDebug() << "Decoded packet!";

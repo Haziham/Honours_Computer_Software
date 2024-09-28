@@ -53,6 +53,7 @@ void JointListItem::display_jointControlWidget()
     JointControlWidget *jointControlWidget = new JointControlWidget(m_joint);
     jointControlWidget->show();
     m_joint->request_settings();
+    graphWidget->allocate_joint(m_joint);
 }
 
 void JointListItem::display_noJoint()

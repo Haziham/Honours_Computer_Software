@@ -21,7 +21,6 @@ void QComboBoxTimed::updateComboBox(int value)
 void QComboBoxTimed::enableSettable()
 {
     m_settable = true;
-    qDebug() << "Settable";
 }
 
 void QComboBoxTimed::disableSettable()

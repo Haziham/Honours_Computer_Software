@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>678</width>
-    <height>743</height>
+    <width>683</width>
+    <height>852</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,40 +20,14 @@
       <string>Satus</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="2">
-       <widget class="QLabel" name="label_3">
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>External ADC</string>
+         <string>Debug Value 1</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Angular Position</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLCDNumber" name="externalADCDisplay"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Voltage</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLCDNumber" name="debugDisplay"/>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLCDNumber" name="currentDisplay"/>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLCDNumber" name="voltageDisplay"/>
-      </item>
-      <item row="7" column="2" colspan="2">
+      <item row="9" column="2" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <spacer name="horizontalSpacer">
@@ -148,10 +122,57 @@
         </item>
        </layout>
       </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_5">
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Debug Value</string>
+         <string>External ADC</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLCDNumber" name="voltageDisplay"/>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Angular Velocity</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Debug Value 2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Voltage</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLCDNumber" name="externalADCDisplay"/>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLCDNumber" name="debug1Display">
+        <property name="digitCount">
+         <number>6</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="currentDisplay"/>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLCDNumber" name="angularVelocityDisplay"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Angular Position</string>
         </property>
        </widget>
       </item>
@@ -162,18 +183,29 @@
         </property>
        </widget>
       </item>
+      <item row="7" column="3">
+       <widget class="QLCDNumber" name="angularPositionDisplay"/>
+      </item>
       <item row="6" column="2">
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_20">
         <property name="text">
-         <string>Angular Velocity</string>
+         <string>Debug Value 3</string>
         </property>
        </widget>
       </item>
       <item row="5" column="3">
-       <widget class="QLCDNumber" name="angularPositionDisplay"/>
+       <widget class="QLCDNumber" name="debug2Display">
+        <property name="digitCount">
+         <number>6</number>
+        </property>
+       </widget>
       </item>
       <item row="6" column="3">
-       <widget class="QLCDNumber" name="angularVelocityDisplay"/>
+       <widget class="QLCDNumber" name="debug3Display">
+        <property name="digitCount">
+         <number>6</number>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -275,8 +307,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>638</width>
-           <height>305</height>
+           <width>657</width>
+           <height>352</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_7">
@@ -355,19 +387,6 @@
              <string>Control</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_8">
-             <item row="0" column="1">
-              <widget class="QSpinBoxTimed" name="proportionalGainInput">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="maximum">
-                <number>10000</number>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="0">
               <widget class="QLabel" name="label_16">
                <property name="text">
@@ -382,13 +401,6 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QSpinBoxTimed" name="integralGainInput">
-               <property name="maximum">
-                <number>10000</number>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_15">
                <property name="text">
@@ -396,10 +408,48 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QSpinBoxTimed" name="derivativeGainInput">
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBoxTimed" name="proportionalGainInput">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimum">
+                <double>-10000.000000000000000</double>
+               </property>
                <property name="maximum">
-                <number>10000</number>
+                <double>10000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.010000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBoxTimed" name="derivativeGainInput">
+               <property name="minimum">
+                <double>-10000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>10000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.010000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDoubleSpinBoxTimed" name="integralGainInput">
+               <property name="minimum">
+                <double>-10000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>10000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.010000000000000</double>
                </property>
               </widget>
              </item>
@@ -492,8 +542,44 @@
           <item row="1" column="2">
            <widget class="QGroupBox" name="groupBox_9">
             <property name="title">
-             <string>GroupBox</string>
+             <string>Motor</string>
             </property>
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>PWM Freq (kHz)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBoxTimed" name="pwmFrequencyInput">
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>500</number>
+               </property>
+               <property name="value">
+                <number>20</number>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QPushButton" name="debugButton">
+               <property name="text">
+                <string>Debug</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="zeroForceButton">
+               <property name="text">
+                <string>Zero Force</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -515,6 +601,11 @@
    <class>QComboBoxTimed</class>
    <extends>QComboBox</extends>
    <header>qcomboboxtimed.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QDoubleSpinBoxTimed</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>qdoublespinboxtimed.h</header>
   </customwidget>
  </customwidgets>
  <resources>

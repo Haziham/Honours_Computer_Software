@@ -40,9 +40,9 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
     connect(ui->telemetryPeriodInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendTelemetrySettings);
     connect(ui->commandModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &JointControlWidget::sendCommandSettings);
 
-    connect(ui->proportionalGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
-    connect(ui->derivativeGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
-    connect(ui->integralGainInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+    connect(ui->proportionalGainInput, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+    connect(ui->derivativeGainInput, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
+    connect(ui->integralGainInput, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &JointControlWidget::sendControlSettings);
 
     connect(ui->minAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
     connect(ui->maxAngleInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendCalibrationSettings);
@@ -50,10 +50,16 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
 
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, joint, &QJoint::send_commandSlot);
     connect(ui->commandValueSlider, &QScrollBar::valueChanged, ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
+    // connect(ui->commandValueSlider, &QScrollBar::valueChanged, ui->commandValueInput, &QSpinBox::setValue);
+
     connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), joint, &QJoint::send_commandSlot);
     connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), ui->commandDisplay, QOverload<int>::of(&QLCDNumber::display));
+    // connect(ui->commandValueInput, QOverload<int>::of(&QSpinBox::valueChanged), ui->commandValueSlider, &QScrollBar::setValue);
 
+    connect(ui->debugButton, &QPushButton::clicked, joint, &QJoint::toggle_debugMode);
+    connect(ui->zeroForceButton, &QPushButton::clicked, joint, &QJoint::zero_force); 
 
+    connect(ui->pwmFrequencyInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendMotorSettings);
 
 
     // ui->commandModeSelector->setCurrentIndex(0);
@@ -87,8 +93,8 @@ void JointControlWidget::tempDisplay(int value)
     int commandValue;
     switch (joint->settings.command.mode)
     {
-    case CMD_PWM:
-        commandValue = map_value2(value, -100, 100, -65535, 65535);
+    case CMD_DUTY_CYCLE:
+        commandValue = map_value2(value, -100, 100, -100, 100);
         break;
     case CMD_POSITION:
         commandValue = map_value2(value, -100, 100, -1800, 1800);
@@ -130,9 +136,9 @@ void JointControlWidget::sendCommandSettings()
 
     switch (joint->settings.command.mode)
     {
-    case CMD_PWM:
-        ui->commandValueInput->setMaximum(65535);
-        ui->commandValueInput->setMinimum(-65535);   
+    case CMD_DUTY_CYCLE:
+        ui->commandValueInput->setMaximum(100);
+        ui->commandValueInput->setMinimum(-100);   
         break;
     case CMD_POSITION:
         ui->commandValueInput->setMaximum(1800);
@@ -165,15 +171,23 @@ void JointControlWidget::sendCalibrationSettings()
     joint->send_calibrationSettings(calibrationSettings);
 }
 
+void JointControlWidget::sendMotorSettings()
+{
+    MotorSettings_t motorSettings;
+    motorSettings.PWMFrequency = ui->pwmFrequencyInput->value();
+
+    joint->send_motorSettings(motorSettings);
+}
+
 void JointControlWidget::updateInputExtremes()
 {
     switch (joint->settings.command.mode)
     {
-    case CMD_PWM:
-        ui->commandValueInput->setMaximum(65535);
-        ui->commandValueInput->setMinimum(-65535);
-        ui->commandValueSlider->setMaximum(65535);
-        ui->commandValueSlider->setMinimum(-65535);
+    case CMD_DUTY_CYCLE:
+        ui->commandValueInput->setMaximum(100);
+        ui->commandValueInput->setMinimum(-100);
+        ui->commandValueSlider->setMaximum(100);
+        ui->commandValueSlider->setMinimum(-100);
 
         break;
     case CMD_POSITION:
@@ -195,7 +209,23 @@ void JointControlWidget::refresh_widget()
     ui->voltageDisplay->display(joint->statusB.voltage);
     ui->currentDisplay->display(joint->statusB.current);
     ui->externalADCDisplay->display(joint->statusB.externalADC);
-    ui->debugDisplay->display(static_cast<int>(joint->statusC.debugValue));
+
+    ui->debug1Display->display(joint->statusC.debugValue1);
+    ui->debug2Display->display(joint->statusC.debugValue2);
+    ui->debug3Display->display(joint->statusC.debugValue3);
+
+    if (joint->statusA.debug)
+    {
+        ui->debugButton->setStyleSheet("background-color: #FF0000");
+        ui->debugButton->setText("Toggle Debug"); // remove
+    }
+    else
+    {
+        ui->debugButton->setStyleSheet("background-color: #00FF00");
+        ui->debugButton->setText("Toggle Debug"); // remove
+    }
+
+
     ui->angularPositionDisplay->display(static_cast<int>(joint->statusA.position));
     ui->angularVelocityDisplay->display(static_cast<int>(joint->statusA.velocity));
 
@@ -228,6 +258,7 @@ void JointControlWidget::refresh_widget()
     ui->derivativeGainInput->updateSpinBox(joint->settings.control.dGain);
     ui->integralGainInput->updateSpinBox(joint->settings.control.iGain);
 
+    ui->pwmFrequencyInput->updateSpinBox(joint->settings.motor.PWMFrequency);
     updateInputExtremes();
 }
 
