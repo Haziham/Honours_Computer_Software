@@ -14,11 +14,11 @@ GraphWidget::GraphWidget(QWidget *parent)
     customPlot->graph(0)->setPen(QPen(QColor(40, 110, 255)));
     customPlot->addGraph(); // red line
     customPlot->graph(1)->setPen(QPen(QColor(255, 110, 40)));
-    customPlot->addGraph(); // green line
+    customPlot->addGraph(customPlot->xAxis, customPlot->yAxis2); // green line
     customPlot->graph(2)->setPen(QPen(QColor(40, 255, 40)));
-    customPlot->addGraph(); // yellow line
-    customPlot->graph(3)->setPen(QPen(QColor(255, 255, 40)));
-    customPlot->addGraph(); // purple line
+    customPlot->addGraph(customPlot->xAxis, customPlot->yAxis2); // green line
+    customPlot->graph(3)->setPen(QPen(QColor(0, 0, 0)));
+    customPlot->addGraph(customPlot->xAxis, customPlot->yAxis2); // green line
     customPlot->graph(4)->setPen(QPen(QColor(255, 40, 255)));
     
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
@@ -26,13 +26,21 @@ GraphWidget::GraphWidget(QWidget *parent)
     customPlot->xAxis->setTicker(timeTicker);
     customPlot->axisRect()->setupFullAxesBox();
     customPlot->yAxis->setRange(-1.2, 1.2);
+    // show yqxis 2
+    customPlot->yAxis2->setVisible(true);
+    customPlot->yAxis2->setTickLength(3, 3);
+    customPlot->yAxis2->setSubTickLength(1, 1);
+    customPlot->yAxis2->setRange(-1.2, 1.2);
+    customPlot->yAxis2->setLabel("Position");
+    customPlot->yAxis2->setTickLabels(true);
     
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
-    connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
+    // connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
     
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
     connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
+    customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
     joint = nullptr;
 }
 
@@ -64,8 +72,8 @@ void GraphWidget::showEvent(QShowEvent *event)
 
 void GraphWidget::hideEvent(QHideEvent *event)
 {
-    QWidget::hideEvent(event);
     dataTimer.stop();
+    QWidget::hideEvent(event);
 }
 
 void GraphWidget::realtimeDataSlot()
@@ -80,7 +88,7 @@ void GraphWidget::realtimeDataSlot()
     static double lastPointKey = 0;
     if (key-lastPointKey > 0.002) // at most add point every 2 ms
     {
-        qDebug() << "Adding data point";
+        // qDebug() << "Adding data point";
         // add data to lines:
 
         // customPlot->graph(0)->addData(key, qSin(key)+rand.generate()/(double)RAND_MAX*1*qSin(key/0.3843));
@@ -93,10 +101,10 @@ void GraphWidget::realtimeDataSlot()
 
         // rescale value (vertical) axis to fit the current data:
         customPlot->graph(0)->rescaleValueAxis();
-        customPlot->graph(1)->rescaleValueAxis(true);
-        customPlot->graph(2)->rescaleValueAxis(true);
-        customPlot->graph(3)->rescaleValueAxis(true);
-        customPlot->graph(4)->rescaleValueAxis(true);
+        customPlot->graph(1)->rescaleValueAxis();
+        customPlot->graph(2)->rescaleValueAxis();
+        customPlot->graph(3)->rescaleValueAxis();
+        customPlot->graph(4)->rescaleValueAxis();
         lastPointKey = key;
     }
     // make key axis range scroll with the data (at a constant range size of 8):
