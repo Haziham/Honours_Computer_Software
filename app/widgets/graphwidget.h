@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QJoint.h>
+#include <QFile>
+#include <QTextStream>
 
 namespace Ui {
 class GraphWidget;
@@ -22,6 +24,7 @@ public:
 
 public slots:
     void realtimeDataSlot();
+    void exportGraphToCSV();
 
 protected:
     void showEvent(QShowEvent *event) override;

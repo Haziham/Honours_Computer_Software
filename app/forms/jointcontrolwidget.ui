@@ -20,10 +20,60 @@
       <string>Satus</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="8" column="2">
-       <widget class="QLabel" name="label_5">
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_20">
         <property name="text">
-         <string>Debug Value 1</string>
+         <string>Debug Value 3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLCDNumber" name="debug3Display">
+        <property name="digitCount">
+         <number>6</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLCDNumber" name="externalADCDisplay"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Debug Value 2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLCDNumber" name="debug1Display">
+        <property name="digitCount">
+         <number>6</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLCDNumber" name="angularVelocityDisplay"/>
+      </item>
+      <item row="7" column="3">
+       <widget class="QLCDNumber" name="angularPositionDisplay"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLCDNumber" name="currentDisplay"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLCDNumber" name="voltageDisplay"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>External ADC</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLCDNumber" name="debug2Display">
+        <property name="digitCount">
+         <number>6</number>
         </property>
        </widget>
       </item>
@@ -34,87 +84,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="3">
-       <widget class="QWidget" name="widget_2" native="true"/>
-      </item>
-      <item row="7" column="3">
-       <widget class="QLCDNumber" name="externalADCDisplay"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Current</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QWidget" name="widget_3" native="true"/>
-      </item>
-      <item row="11" column="3">
-       <widget class="QLCDNumber" name="angularPositionDisplay"/>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLCDNumber" name="voltageDisplay"/>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLCDNumber" name="currentDisplay"/>
-      </item>
-      <item row="7" column="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>External ADC</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="3">
-       <widget class="QLCDNumber" name="debug3Display">
-        <property name="digitCount">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="2">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Angular Velocity</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="2">
-       <widget class="QLabel" name="label_20">
-        <property name="text">
-         <string>Debug Value 3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="3">
-       <widget class="QLCDNumber" name="debug1Display">
-        <property name="digitCount">
-         <number>6</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QWidget" name="widget" native="true"/>
-      </item>
-      <item row="11" column="2">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Angular Position</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="2">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Debug Value 2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="3">
-       <widget class="QLCDNumber" name="angularVelocityDisplay"/>
-      </item>
-      <item row="13" column="2" colspan="2">
+      <item row="9" column="2" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <spacer name="horizontalSpacer">
@@ -138,7 +108,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/circle-check.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/circle-check.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -151,7 +121,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/exclamation-circle.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/exclamation-circle.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -164,7 +134,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/run.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/run.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -177,7 +147,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/current-location-off.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/current-location-off.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -190,7 +160,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/direction-arrows.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/direction-arrows.svg</pixmap>
           </property>
          </widget>
         </item>
@@ -203,21 +173,39 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>:/icons/rotate-clockwise.svg</pixmap>
+           <pixmap resource="../resources/resources.qrc">:/icons/rotate-clockwise.svg</pixmap>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="9" column="3">
-       <widget class="QLCDNumber" name="debug2Display">
-        <property name="digitCount">
-         <number>6</number>
+      <item row="8" column="2">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Angular Velocity</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QWidget" name="widget_4" native="true"/>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Debug Value 1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Current</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Angular Position</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -319,8 +307,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>652</width>
-           <height>305</height>
+           <width>657</width>
+           <height>352</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_7">

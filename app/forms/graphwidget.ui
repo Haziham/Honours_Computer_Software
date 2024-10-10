@@ -17,6 +17,13 @@
    <item>
     <widget class="QCustomPlot" name="graph" native="true"/>
    </item>
+   <item>
+    <widget class="QPushButton" name="exportToCSVButton">
+     <property name="text">
+      <string>Export To CSV</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>

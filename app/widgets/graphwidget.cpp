@@ -30,13 +30,14 @@ GraphWidget::GraphWidget(QWidget *parent)
     customPlot->yAxis2->setVisible(true);
     customPlot->yAxis2->setTickLength(3, 3);
     customPlot->yAxis2->setSubTickLength(1, 1);
-    customPlot->yAxis2->setRange(-1.2, 1.2);
+    customPlot->yAxis2->setRange(-100, 100);
     customPlot->yAxis2->setLabel("Position");
     customPlot->yAxis2->setTickLabels(true);
     
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
     // connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->exportToCSVButton, &QPushButton::clicked, this, &GraphWidget::exportGraphToCSV);   
     
     // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
     connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
@@ -63,7 +64,8 @@ void GraphWidget::allocate_joint(QJoint *joint)
     }
 }
 
-void GraphWidget::showEvent(QShowEvent *event) 
+
+void GraphWidget::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);
     time.restart();
@@ -101,10 +103,10 @@ void GraphWidget::realtimeDataSlot()
 
         // rescale value (vertical) axis to fit the current data:
         customPlot->graph(0)->rescaleValueAxis();
-        customPlot->graph(1)->rescaleValueAxis();
-        customPlot->graph(2)->rescaleValueAxis();
-        customPlot->graph(3)->rescaleValueAxis();
-        customPlot->graph(4)->rescaleValueAxis();
+        customPlot->graph(1)->rescaleValueAxis(true);
+        // customPlot->graph(2)->rescaleValueAxis();
+        // customPlot->graph(3)->rescaleValueAxis(true);
+        // customPlot->graph(4)->rescaleValueAxis(true);
         lastPointKey = key;
     }
     // make key axis range scroll with the data (at a constant range size of 8):
@@ -120,4 +122,66 @@ void GraphWidget::realtimeDataSlot()
     lastFpsKey = key;
     frameCount = 0;
     }
+}
+
+
+void GraphWidget::exportGraphToCSV()
+{
+
+    QCustomPlot *customPlot = ui->graph;
+
+    if (!customPlot) {
+        qWarning() << "Not plot";
+        return;
+    }
+
+    // Open file for writing
+    QFile file("/home/harry/University/Honours/Honours_Testing/Honours_Results_EXP3.csv");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file for writing";
+        return;
+    }
+
+    QTextStream out(&file);
+
+    // Write CSV header
+    out << "time,targetPos,actualPos,proportional,derivative,integral\n";
+
+    // Get the data container
+    QSharedPointer<QCPGraphDataContainer> position = customPlot->graph(1)->data();
+    QSharedPointer<QCPGraphDataContainer> target = customPlot->graph(0)->data();
+    QSharedPointer<QCPGraphDataContainer> proportional = customPlot->graph(2)->data();
+    QSharedPointer<QCPGraphDataContainer> derivative = customPlot->graph(3)->data();
+    QSharedPointer<QCPGraphDataContainer> integral = customPlot->graph(4)->data();
+
+    double startTime = 0;
+    bool startWriting = false;
+    double captureTime = 4;
+    double leadIn = 400;
+    // Iterate through data points and write to CSV
+    for (int i = 0; i < position->size()-leadIn; i++) {
+        double time = position->at(i)->key;
+        double targetPos = position->at(i)->value;
+        double actualPos = target->at(i)->value;
+        double p = proportional->at(i)->value;
+        double d = derivative->at(i)->value;
+        double in = integral->at(i)->value;
+
+        double futureTarget = position->at(i+leadIn)->value;
+        if (futureTarget == 900) {
+            startWriting = true;
+            startTime = time;
+        }
+
+        if (!startWriting) {
+            continue;
+        }
+
+        if (time - startTime > captureTime) {
+            break;
+        }
+        out << time << "," << targetPos <<  ", " << actualPos << "," << p << "," << d << "," << in << "\n";
+    }
+    file.close();
+    qDebug() << "Data exported to" << "cool";
 }
