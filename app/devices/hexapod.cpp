@@ -44,23 +44,29 @@ void Hexapod::step(int timeMs)
     float frequency = 1/(settings.step.period/1000.0f);
 
 
-    float angleRads = settings.step.angle * 0.1f * M_PI / 180.0f;
+    // float angleRads = settings.step.angle * 0.1f * M_PI / 180.0f;
 
-    float xs[6];
-    float ys[6];
-    float zs[6];
+    // float xs[6];
+    // float ys[6];
+    // float zs[6];
 
-    for (int i = 0; i < 6; i++)
-    {
-        angleRads = (settings.step.angle + (3600 - i * settings.physical.legAngularSeparation)) * 0.1f * M_PI / 180.0f;
-        directionalSemiCirclePath(settings.step.radius/1000.0f, frequency, timeMs/1000.0f,  angleRads, settings.position.xOffset/1000.0f,&xs[i], &ys[i], &zs[i]);
-        timeMs += settings.step.period/2;
-    } 
+    // for (int i = 0; i < 6; i++)
+    // {
+    //     angleRads = (settings.step.angle + (3600 - i * settings.physical.legAngularSeparation)) * 0.1f * M_PI / 180.0f;
+    //     directionalSemiCirclePath(settings.step.radius/1000.0f, frequency, timeMs/1000.0f,  angleRads, settings.position.xOffset/1000.0f,&xs[i], &ys[i], &zs[i]);
+    //     timeMs += settings.step.period/2;
+    // } 
 
-    for (int i = 0; i < 6; i++)
-    {
-        set_legPosition(i, xs[i]*1000, ys[i]*1000, zs[i]*1000+settings.position.height);
-    }
+    // for (int i = 0; i < 6; i++)
+    // {
+    //     set_legPosition(i, xs[i]*1000, ys[i]*1000, zs[i]*1000+settings.position.height);
+    // }
+}
+
+float Hexapod::getWalkingSpeed()
+{
+    float speedup = settings.walking.speed/(4*settings.step.radius);
+    return speedup;
 }
 
 void Hexapod::move(uint32_t timeMs)
@@ -86,9 +92,7 @@ void Hexapod::move(uint32_t timeMs)
     }
     if (settings.movementModes[MOVEMENT_MODE_WALKING])
     {
-        walkingTime += deltaTime * settings.walking.speed;
-        printf("Walking\n");
-        printf("SPeed %f\n", settings.walking.speed);
+        walkingTime += deltaTime * getWalkingSpeed();
         calculate_walkingLegPositions(walkingTime, xs, ys, zs);
         set_offsetLegPositions(xs, ys, zs);
     }
@@ -139,19 +143,12 @@ void Hexapod::update_offsets()
 
 void Hexapod::joystick_moveControl(float x, float y)
 {
-    printf("x: %f, y: %f\n", x, y);
     if (x == 0 && y == 0)
     {
         settings.movementModes[MOVEMENT_MODE_WALKING] = 0;
         return;
     }
-    settings.walking.direction = (atan2(y, x) * 180.0f / M_PI) * 10;
-    // printf("x*x: %f, y*y: %f\n", x*x, y*y);
-    // printf("sqrt(x*x + y*y): %f\n", sqrt(x*x + y*y));
-    // printf("sqrt(x*x + y*y)/sqrt(2.0f): %f\n", sqrt(x*x + y*y)/sqrt(2.0f));
-    settings.walking.speed = sqrt(x*x + y*y)/sqrt(2.0f);
 
-    printf("direction: %f, speed: %f\n", settings.walking.direction, settings.walking.speed);
     settings.movementModes[MOVEMENT_MODE_WALKING] = 1;
 }
 
@@ -226,8 +223,8 @@ void Hexapod::powerOn()
 
 void Hexapod::calculate_walkingLegPositions(uint32_t timeMs, int16_t *xs, int16_t *ys, int16_t *zs)
 {
-        float frequency = 1;
-        float period = 1/frequency;
+        float period = settings.step.period;
+        float frequency = 1/period;
         float angleRads = settings.walking.direction * 0.1f * M_PI / 180.0f;
         float xsf, ysf, zsf;
 

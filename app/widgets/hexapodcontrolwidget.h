@@ -22,6 +22,20 @@ public:
 
     void showEvent(QShowEvent *event) override;
 
+    // enum of leg combinations
+    enum LegCombination
+    {
+        ALL,
+        ODD,
+        EVEN
+    };
+
+    int legCombinationHistory[3][3] = {
+        {50, 0, 0},
+        {50, 0, 0},
+        {50, 0, 0}};
+    
+
 public slots:
     void set_globalPosition();
     void set_stepSettings();
@@ -29,12 +43,18 @@ public slots:
     void move(QPointF direction);
     void spin(QPointF direction);
     void tilt(QPointF direction);
+    void newLegCombination(int combination);
+    void saveLegCombination(enum LegCombination combination);
+    void loadLegCombination(enum LegCombination combination);;
     void update_hexapodPosition();
+
+
 
 
 private:
     Ui::HexapodControlWidget *ui;
     QHexapod* m_hexapod;
+    enum LegCombination m_legCombination = ALL;
 
     void configure_virtualPad(QVirtualPad* pad);
 

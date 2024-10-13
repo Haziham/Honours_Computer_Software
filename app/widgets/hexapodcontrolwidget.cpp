@@ -1,5 +1,6 @@
 #include "hexapodcontrolwidget.h"
 #include "ui_hexapodcontrolwidget.h"
+#include <math.h>
 
 HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     : ControlWidget(parent)
@@ -42,29 +43,33 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     ui->stepHeightOffset->set_minimum(-300);
     ui->stepHeightOffset->set_value(0);
 
-    ui->stepFrequency->set_label("Step Frequency");
-    ui->stepFrequency->set_maximum(10000);
-    ui->stepFrequency->set_minimum(0);
-    ui->stepFrequency->set_value(2000);
+    ui->stepSpeed->set_label("Walking Speed (mm/s)");
+    ui->stepSpeed->set_maximum(300);
+    ui->stepSpeed->set_minimum(0);
+    ui->stepSpeed->set_value(50);
 
     ui->stepRadius->set_label("Step Radius");
     ui->stepRadius->set_maximum(300);
     ui->stepRadius->set_minimum(0);
     ui->stepRadius->set_value(50);
 
-    ui->stepTime->set_label("Step Time");
-    ui->stepTime->set_maximum(20000);
-    ui->stepTime->set_minimum(0);
+    ui->legCombinationSelect->addItem("All");
+    ui->legCombinationSelect->addItem("Odd");
+    ui->legCombinationSelect->addItem("Even");
+    // ui->stepTime->set_label("Step Time");
+    // ui->stepTime->set_maximum(20000);
+    // ui->stepTime->set_minimum(0);
 
-    connect(ui->stepTime, &SpinSlider::valueChanged, m_hexapod, &QHexapod::step);
+    // connect(ui->stepTime, &SpinSlider::valueChanged, m_hexapod, &QHexapod::step);
 
     connect(ui->globalXInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
     connect(ui->globalYInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
     connect(ui->globalZInput, SIGNAL(valueChanged(int)), this, SLOT(set_globalPosition()));
 
+
     connect(ui->stepDirectionAngle, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
     connect(ui->stepHeightOffset, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
-    connect(ui->stepFrequency, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
+    connect(ui->stepSpeed, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
     connect(ui->stepRadius, SIGNAL(valueChanged(int)), this, SLOT(set_stepSettings()));
 
 // int test;
@@ -76,8 +81,8 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     configure_virtualPad(ui->spinPadInput);
     configure_virtualPad(ui->tildPadInput);
 
-    connect(ui->movePadInput, &QVirtualPad::positionUpdate, m_hexapod, &QHexapod::joystick_moveControl);
-    connect(ui->heightInput_2, SIGNAL(valueChanged(int)), this, SLOT(update_hexapodPosition()));
+    connect(ui->movePadInput, &QVirtualPad::positionUpdate, this, &HexapodControlWidget::move);
+    connect(ui->heightInput_2, &QSlider::valueChanged, ui->stepHeightOffset, &SpinSlider::set_value);
     connect(ui->footWidthInput, SIGNAL(valueChanged(int)), this, SLOT(update_hexapodPosition()));
 
     connect(ui->startControlButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_moving);
@@ -122,18 +127,51 @@ void HexapodControlWidget::showEvent(QShowEvent *event)
 
 void HexapodControlWidget::set_stepSettings()
 {
-    m_hexapod->settings.walking.angle = ui->stepDirectionAngle->value();
+    m_hexapod->settings.walking.direction = ui->stepDirectionAngle->value();
     m_hexapod->settings.position.height = ui->stepHeightOffset->value();
-    m_hexapod->settings.step.period = ui->stepFrequency->value();
+    m_hexapod->settings.walking.speed = ui->stepSpeed->value();
     m_hexapod->settings.step.radius = ui->stepRadius->value();
+    m_hexapod->update_offsets();
 }
 
 void HexapodControlWidget::move(QPointF direction)
 {
+    float x = direction.x();
+    float y = direction.y();
+    uint16_t directionAngle = (atan2(y, x) * 180.0f / M_PI) * 10 + 1800;
+    float speed = sqrt(x*x + y*y)/sqrt(2.0f);
+
+    ui->stepDirectionAngle->set_value(directionAngle);
+    ui->stepSpeed->set_value(speed * 400);
+    
+    // printf("x*x: %f, y*y: %f\n", x*x, y*y);
+    // printf("sqrt(x*x + y*y): %f\n", sqrt(x*x + y*y));
+    // printf("sqrt(x*x + y*y)/sqrt(2.0f): %f\n", sqrt(x*x + y*y)/sqrt(2.0f));
 }
 
 void HexapodControlWidget::tilt(QPointF direction)
 {
+}
+
+void HexapodControlWidget::newLegCombination(int combination)
+{
+    saveLegCombination(m_legCombination);
+    loadLegCombination((enum LegCombination) combination);
+    m_legCombination = (enum LegCombination) combination;
+}
+
+void HexapodControlWidget::saveLegCombination(LegCombination combination)
+{
+    legCombinationHistory[combination][0] = ui->globalXInput->value();
+    legCombinationHistory[combination][1] = ui->globalYInput->value();
+    legCombinationHistory[combination][2] = ui->globalZInput->value();
+}
+
+void HexapodControlWidget::loadLegCombination(LegCombination combination)
+{
+    ui->globalXInput->set_value(legCombinationHistory[combination][0]);
+    ui->globalYInput->set_value(legCombinationHistory[combination][1]);
+    ui->globalZInput->set_value(legCombinationHistory[combination][2]);
 }
 
 void HexapodControlWidget::update_hexapodPosition()
@@ -143,6 +181,7 @@ void HexapodControlWidget::update_hexapodPosition()
     settings.xOffset = ui->footWidthInput->value();
     m_hexapod->update_positionSettings(settings);
 }
+
 
 void HexapodControlWidget::spin(QPointF direction)
 {

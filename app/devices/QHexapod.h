@@ -46,6 +46,7 @@ public slots:
     void update();
     void joystick_moveControl(QPointF point) {Hexapod::joystick_moveControl(point.x(), point.y());} 
     void toggle_idle() {Hexapod::toggle_idle();}  
+    void set_walkingEnabled(uint8_t enabled) {Hexapod::set_walkingEnabled(enabled);}
     void power_off() {Hexapod::powerOff();}
     void power_on() {Hexapod::powerOn();}
 

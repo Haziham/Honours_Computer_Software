@@ -15,6 +15,7 @@ public:
     explicit SpinSlider(QWidget *parent = nullptr);
     ~SpinSlider();
 
+public slots:
     void set_minimum(int min);
     void set_maximum(int max);
     void set_value(int value);

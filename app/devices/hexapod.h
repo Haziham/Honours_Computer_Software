@@ -34,7 +34,7 @@ public:
     {
         struct{
             uint16_t radius = 50; // mm
-            uint16_t period = 2000; // mHz
+            uint16_t period = 1; // ms
             // uint16_t angle = 0; // degrees * 0.1
         } step;
         struct {
@@ -52,6 +52,8 @@ public:
             int16_t z[NUMBER_LEGS] = {0}; // mm
         } offsets;
     } settings;
+
+    float getWalkingSpeed();
 
     Leg* get_leg(uint8_t legNumber);
     void set_enabled(uint8_t enabled);
@@ -73,7 +75,9 @@ public:
     void joystick_tiltControl(float x, float y);
     void joystick_rotateControl(float x, float y);
 
+
     void toggle_idle() { settings.movementModes[MOVEMENT_MODE_IDLE] = !settings.movementModes[MOVEMENT_MODE_IDLE]; }
+    void set_walkingEnabled(uint8_t enabled) { settings.movementModes[MOVEMENT_MODE_WALKING] = enabled; }
     void update_positionSettings(Hexapod::PositionSettings_t settings);
 
     void powerOff();

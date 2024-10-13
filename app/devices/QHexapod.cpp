@@ -96,11 +96,13 @@ void QHexapod::stop_stepping()
 void QHexapod::start_moving()
 {
     // time.restart();
+    set_walkingEnabled(1);
     refreshTimer.start(refreshRate);
 }
 
 void QHexapod::stop_moving()
 {
+    set_walkingEnabled(0);
     refreshTimer.stop();
 }
 
