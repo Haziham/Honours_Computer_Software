@@ -8,11 +8,11 @@ LegControlWidget::LegControlWidget(QLeg* leg, QWidget *parent)
     ui->setupUi(this);
 
     ui->xPositionInput->set_minimum(0);
-    ui->yPositionInput->set_minimum(-160); 
+    ui->yPositionInput->set_minimum(-320); 
     ui->zPositionInput->set_minimum(-160);
 
     ui->xPositionInput->set_maximum(320);
-    ui->yPositionInput->set_maximum(160);
+    ui->yPositionInput->set_maximum(320);
     ui->zPositionInput->set_maximum(160);
     
     ui->xPositionInput->set_value(80);

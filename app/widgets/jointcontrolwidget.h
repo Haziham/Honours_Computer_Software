@@ -34,6 +34,7 @@ private slots:
     void sendControlSettings();
     void sendCalibrationSettings();
     void sendMotorSettings();
+    void startResolutionTest() { joint->startResolutionTest(); };
 
     void updateInputExtremes();
 

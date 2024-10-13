@@ -5,7 +5,7 @@ Leg::Leg(uint8_t legNumber)
 {
     m_legNumber = legNumber;
 
-    m_ikParams.invert = false;
+    m_ikParams.invert = true;
     m_ikParams.joint1Length = 0.017;
     m_ikParams.joint2Length = 0.1;
     m_ikParams.joint3Length = 0.1; 

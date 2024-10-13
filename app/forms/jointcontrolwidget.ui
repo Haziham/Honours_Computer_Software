@@ -545,10 +545,17 @@
              <string>Motor</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_10">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_21">
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="zeroForceButton">
                <property name="text">
-                <string>PWM Freq (kHz)</string>
+                <string>Zero Force</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QPushButton" name="debugButton">
+               <property name="text">
+                <string>Debug</string>
                </property>
               </widget>
              </item>
@@ -565,17 +572,17 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="0" colspan="2">
-              <widget class="QPushButton" name="debugButton">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_21">
                <property name="text">
-                <string>Debug</string>
+                <string>PWM Freq (kHz)</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2">
-              <widget class="QPushButton" name="zeroForceButton">
+             <item row="3" column="0" colspan="2">
+              <widget class="QPushButton" name="resolutionTestButton">
                <property name="text">
-                <string>Zero Force</string>
+                <string>Resolution Test</string>
                </property>
               </widget>
              </item>

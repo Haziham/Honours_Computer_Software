@@ -251,55 +251,20 @@
       <string>Control</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="0">
-       <widget class="SpinSlider" name="globalXInput" native="true"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QPushButton" name="stepButton">
-        <property name="text">
-         <string>Step</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
        <widget class="SpinSlider" name="directionAngleInput" native="true"/>
       </item>
       <item row="0" column="0">
        <widget class="SpinSlider" name="heightInput" native="true"/>
       </item>
+      <item row="6" column="0">
+       <widget class="SpinSlider" name="globalZInput" native="true"/>
+      </item>
       <item row="5" column="0">
        <widget class="SpinSlider" name="globalYInput" native="true"/>
       </item>
-      <item row="8" column="0">
-       <widget class="QPushButton" name="northButton">
-        <property name="text">
-         <string>North</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QPushButton" name="southButton">
-        <property name="text">
-         <string>South</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QPushButton" name="eastButton">
-        <property name="text">
-         <string>East</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QPushButton" name="westButton">
-        <property name="text">
-         <string>West</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="SpinSlider" name="globalZInput" native="true"/>
+      <item row="4" column="0">
+       <widget class="SpinSlider" name="globalXInput" native="true"/>
       </item>
      </layout>
     </widget>

@@ -69,7 +69,7 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
 
 // int test;
 
-    connect(ui->stepButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_stepping);
+    // connect(ui->stepButton, &QPushButton::clicked, m_hexapod, &QHexapod::start_stepping);
 
 
     configure_virtualPad(ui->movePadInput);
@@ -122,7 +122,7 @@ void HexapodControlWidget::showEvent(QShowEvent *event)
 
 void HexapodControlWidget::set_stepSettings()
 {
-    m_hexapod->settings.step.angle = ui->stepDirectionAngle->value();
+    m_hexapod->settings.walking.angle = ui->stepDirectionAngle->value();
     m_hexapod->settings.position.height = ui->stepHeightOffset->value();
     m_hexapod->settings.step.period = ui->stepFrequency->value();
     m_hexapod->settings.step.radius = ui->stepRadius->value();

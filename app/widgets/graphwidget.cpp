@@ -167,19 +167,29 @@ void GraphWidget::exportGraphToCSV()
         double d = derivative->at(i)->value;
         double in = integral->at(i)->value;
 
-        double futureTarget = position->at(i+leadIn)->value;
-        if (futureTarget == 900) {
+        // double futureTarget = position->at(i+leadIn)->value;
+        // if (futureTarget == 900) {
+        //     startWriting = true;
+        //     startTime = time;
+        // }
+
+        if (targetPos == -1000)
+        {
             startWriting = true;
-            startTime = time;
         }
 
         if (!startWriting) {
             continue;
         }
 
-        if (time - startTime > captureTime) {
+        if (targetPos == -1001)
+        {
             break;
         }
+
+        // if (time - startTime > captureTime) {
+        //     break;
+        // }
         out << time << "," << targetPos <<  ", " << actualPos << "," << p << "," << d << "," << in << "\n";
     }
     file.close();

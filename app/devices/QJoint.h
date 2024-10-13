@@ -27,6 +27,8 @@ public slots:
     void zero_force() { Joint::zero_force(); }  
     void send_commandSlot(int command) { send_command(command); }
     void resetTimeout() { /*timeoutTimer.start();*/ }
+    void startResolutionTest(); 
+    void resolutionTest();
     // void update_settings();
 
 
@@ -36,6 +38,8 @@ private:
 
     CAN_Message_t canMessage;
     QTimer timeoutTimer;
+    QTimer* resolutionTestTimer;
+    int resolutionTestStep = 0;
 };
 
 // bool get_jointFromList(QList<Joint*> jointList, Joint* joint, uint8_t nodeId);

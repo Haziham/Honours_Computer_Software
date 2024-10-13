@@ -35,7 +35,7 @@ public:
         struct{
             uint16_t radius = 50; // mm
             uint16_t period = 2000; // mHz
-            uint16_t angle = 0; // degrees * 0.1
+            // uint16_t angle = 0; // degrees * 0.1
         } step;
         struct {
             uint16_t legAngularSeparation = 600;  // degrees * 0.1

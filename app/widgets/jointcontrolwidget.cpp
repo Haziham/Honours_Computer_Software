@@ -61,6 +61,7 @@ JointControlWidget::JointControlWidget(QJoint* temp, QWidget *parent)
 
     connect(ui->pwmFrequencyInput, QOverload<int>::of(&QSpinBox::valueChanged), this, &JointControlWidget::sendMotorSettings);
 
+    connect(ui->resolutionTestButton, &QPushButton::clicked, this, &JointControlWidget::startResolutionTest);
 
     // ui->commandModeSelector->setCurrentIndex(0);
     ui->errorIcon->setPixmap(QPixmap(":/icons/exclamation-circle.svg"));
