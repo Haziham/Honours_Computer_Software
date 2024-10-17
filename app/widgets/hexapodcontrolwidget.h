@@ -44,8 +44,8 @@ public slots:
     void spin(QPointF direction);
     void tilt(QPointF direction);
     void newLegCombination(int combination);
-    void saveLegCombination(enum LegCombination combination);
-    void loadLegCombination(enum LegCombination combination);;
+    void saveLegCombination(LegCombination combination);
+    void loadLegCombination(LegCombination combination);;
     void update_hexapodPosition();
 
 

@@ -65,6 +65,7 @@ public:
 
     void step(int timeMs);
     void move(uint32_t timeMs);
+    void idle(uint32_t timeMs);
     virtual void set_legPosition(uint8_t legNumber, int x, int y, int z);
     void set_legPositions(int16_t* xs, int16_t* ys, int16_t* zs);
     void set_offsetLegPositions(int16_t* x, int16_t* y, int16_t* z);
@@ -83,6 +84,9 @@ public:
     void powerOff();
     void powerOn(); 
 
+
+
+
 private:
     unsigned int m_numberLegs = 6;
     
@@ -96,6 +100,13 @@ private:
     Leg* m_legs[6] = {&leg0, &leg1, &leg2, &leg3, &leg4, &leg5};
 
     void calculate_walkingLegPositions(uint32_t timeMs, int16_t* xs, int16_t* ys, int16_t* zs);
+    void calculate_idleLegPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs);
+    void calculate_idleTwistPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs) ;
+    void calculate_waveLegPositions(uint32_t timeMs, int period, int legNumber, int16_t *xs, int16_t *ys, int16_t *zs);
+    void calculate_sideStepPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs);
+
+    void quickFunction(float time, float period, float *x, float *y, float *z);
+    int m_idleState = 2;
 
 
 };

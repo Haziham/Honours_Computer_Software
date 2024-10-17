@@ -56,6 +56,7 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     ui->legCombinationSelect->addItem("All");
     ui->legCombinationSelect->addItem("Odd");
     ui->legCombinationSelect->addItem("Even");
+    connect(ui->legCombinationSelect, &QComboBox::currentIndexChanged, this, &HexapodControlWidget::newLegCombination);
     // ui->stepTime->set_label("Step Time");
     // ui->stepTime->set_maximum(20000);
     // ui->stepTime->set_minimum(0);
@@ -156,8 +157,8 @@ void HexapodControlWidget::tilt(QPointF direction)
 void HexapodControlWidget::newLegCombination(int combination)
 {
     saveLegCombination(m_legCombination);
-    loadLegCombination((enum LegCombination) combination);
     m_legCombination = (enum LegCombination) combination;
+    loadLegCombination((enum LegCombination) combination);
 }
 
 void HexapodControlWidget::saveLegCombination(LegCombination combination)
@@ -199,5 +200,20 @@ void HexapodControlWidget::configure_virtualPad(QVirtualPad *pad)
 
 void HexapodControlWidget::set_globalPosition()
 {
-    m_hexapod->set_allLegPositions(ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+    switch (m_legCombination)
+    {
+    case ALL:
+        m_hexapod->set_allLegPositions(ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        break;
+    case ODD:
+        m_hexapod->set_legPosition(1,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        m_hexapod->set_legPosition(3,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        m_hexapod->set_legPosition(5,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        break;
+    case EVEN:
+        m_hexapod->set_legPosition(0,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        m_hexapod->set_legPosition(2,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        m_hexapod->set_legPosition(4,ui->globalXInput->value(), ui->globalYInput->value(), ui->globalZInput->value());
+        break;
+    }
 }

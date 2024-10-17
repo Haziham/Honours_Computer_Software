@@ -542,7 +542,7 @@
           <item row="1" column="2">
            <widget class="QGroupBox" name="groupBox_9">
             <property name="title">
-             <string>Motor</string>
+             <string>Motor + Extra</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_10">
              <item row="2" column="0" colspan="2">

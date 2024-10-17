@@ -65,5 +65,5 @@ private:
     QElapsedTimer time;
     QTimer refreshTimer;
 
-    const int refreshRate = 20; // ms
+    const int refreshRate = 10; // ms
 };

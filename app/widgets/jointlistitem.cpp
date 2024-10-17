@@ -41,9 +41,9 @@ void JointListItem::update()
         display_noJoint();
         return;
     }
-    ui->jointTypeLabel->setText(QString(jointTypes_EnumLabel(m_joint->settings.joint.jointType)).remove("JOINT_"));
-    ui->nodeidLabel->setText(QString::number(m_joint->settings.joint.nodeId));
-    ui->legNumberLabel->setText(QString::number(m_joint->settings.joint.legNumber));
+    ui->jointTypeLabel->setText( QString(jointTypes_EnumLabel(m_joint->settings.joint.jointType)).remove("JOINT_"));
+    ui->nodeidLabel->setText("JC " + QString::number(m_joint->settings.joint.nodeId));
+    ui->legNumberLabel->setText("Leg " + QString::number(m_joint->settings.joint.legNumber));
     ui->enableIcon->setEnabled(m_joint->statusA.enabled);
     
 }

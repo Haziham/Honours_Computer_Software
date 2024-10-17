@@ -76,6 +76,7 @@ void Hexapod::move(uint32_t timeMs)
     previousTime = timeMs;
 
     static uint32_t walkingTime = 0; 
+    static uint32_t idleTime = 0;
 
     int16_t xs[6];
     int16_t ys[6];
@@ -83,21 +84,315 @@ void Hexapod::move(uint32_t timeMs)
 
     if (settings.movementModes[MOVEMENT_MODE_IDLE])
     {
-        for (int i = 0; i < NUMBER_LEGS; i++)
-        {
-            xs[i] = 0; ys[i] = 0; zs[i] = 0;
-        }
-        set_offsetLegPositions(xs, ys, zs);
-        return;
+        walkingTime = 0;
+        idleTime += deltaTime;
+        settings.position.height = -60;
+        settings.position.xOffset = 75;
+        update_offsets();
+        idle(idleTime);
     }
-    if (settings.movementModes[MOVEMENT_MODE_WALKING])
+    else if (settings.movementModes[MOVEMENT_MODE_WALKING])
     {
+        idleTime = 0;
         walkingTime += deltaTime * getWalkingSpeed();
         calculate_walkingLegPositions(walkingTime, xs, ys, zs);
         set_offsetLegPositions(xs, ys, zs);
     }
 
 }
+
+void Hexapod::idle(uint32_t timeMs)
+{
+
+    int16_t xs[6];
+    int16_t ys[6];
+    int16_t zs[6];
+
+    static int stateStartTime = timeMs;
+    static int legNumber = rand() % 6;
+    static bool transition = false;
+
+    if (transition)
+    {
+        if (timeMs - stateStartTime > 2000)
+        {
+            transition = false;
+            stateStartTime = timeMs;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    int stateDuration = timeMs - stateStartTime;
+    int state1Length = 2000;
+    int state2Length = 2000;
+    int state3Length = 10000;
+    int state4Length = 10000;
+
+    switch (m_idleState)
+    {
+        case 0:
+        calculate_idleLegPositions(stateDuration, state1Length/2, xs, ys, zs);
+
+        if (stateDuration > state1Length)
+        {
+            m_idleState = 1;
+            transition = true;
+            stateStartTime = timeMs;
+        }
+        break;
+        case 1:
+        calculate_idleTwistPositions(stateDuration, state2Length, xs, ys, zs);
+        if (stateDuration > state2Length)
+        {
+            m_idleState = 2;
+            transition = true;
+            stateStartTime = timeMs;
+            legNumber = rand() % 6;
+        }
+        break;
+        case 2:
+        calculate_waveLegPositions(stateDuration, state3Length, legNumber, xs, ys, zs);
+
+        if (stateDuration > state3Length)
+        {
+            m_idleState = 3;
+            transition = true;
+            stateStartTime = timeMs;
+        }
+        break;
+        case 3:
+        calculate_sideStepPositions(stateDuration, -state4Length, xs, ys, zs);
+
+        if (stateDuration > state4Length)
+        {
+            m_idleState = 0;
+            transition = true;
+            stateStartTime = timeMs;
+        } 
+        break;
+
+        default:
+        m_idleState = 0;
+        stateStartTime = timeMs;
+        break;
+    }
+
+    printf("Leg positions: \n");
+    for (int i = 0; i < 6; i++)
+    {
+        printf("Leg %d: x: %d, y: %d, z: %d\n", i, xs[i], ys[i], zs[i]);
+    }
+    set_offsetLegPositions(xs, ys, zs);
+
+
+    // display leg positions
+
+}
+
+void Hexapod::quickFunction(float time, float period, float *x, float *y, float *z)
+{
+    float radius = (settings.position.xOffset + 75);
+    float stepSize = 100;
+    float stepHeight = 50;
+    float totalPos = stepSize/radius;
+
+    float posStart = (3 * M_PI/2) - totalPos/2;
+    float cycleTime = fmod(time, period);
+    float cyclePercentage = (cycleTime/period)*2 - 1;
+    float t = 0;
+    // printf("cyclePercentage: %f\n", cyclePercentage);
+
+    if (cyclePercentage < 0)
+    {
+        t = posStart + (1 + cyclePercentage)  * totalPos;    
+        // printf t
+        *z = 0;
+
+    }
+    else 
+    {
+        t = posStart + totalPos - cyclePercentage * totalPos;
+        float temp = cyclePercentage * stepHeight * 2 - stepHeight;
+        *z = sqrt(stepHeight*stepHeight - temp*temp); 
+    }
+
+    // printf("t: %f\n", t);
+    *y = radius * cos(t);
+    *x = radius * sin(t) + radius;
+
+}
+
+
+void Hexapod::calculate_sideStepPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs)
+{
+    if (period < 0)
+    {
+        timeMs = period-timeMs;
+        period = -period;
+    }
+    period = period/1000.0f;
+    float steps = 1;
+    float stepPeriod = period/steps;
+    // float minPos = (3* M_PI/2) - (totalPos/(2));
+    // float maxPos = (3* M_PI/2) + (totalPos/(2));
+
+    float time = timeMs/1000.0f;
+
+    // add quater a stepPeriod
+    time += stepPeriod/4;
+
+    float oddx = 0;
+    float oddy = 0;
+    float oddz = 0;
+
+    float evenx = 0;
+    float eveny = 0;
+    float evenz = 0;
+
+// printf("tesm\n");   
+    quickFunction(time, stepPeriod, &oddx, &oddy, &oddz);
+    quickFunction(time + stepPeriod/2, stepPeriod, &evenx, &eveny, &evenz);
+
+// printf("tesm\n");
+    for (int i = 0; i < 6; i++)
+    {
+        if (i % 2 == 0)
+        {
+            xs[i] = evenx;
+            ys[i] = eveny;
+            zs[i] = evenz;
+        }
+        else
+        {
+            xs[i] = oddx;
+            ys[i] = oddy;
+            zs[i] = oddz;
+        }
+    }
+
+}
+
+float easeOutQuint(float x)
+{
+    return 1 - pow(1 - x, 5);
+    // return sin(x * M_PI/2);
+}
+
+void Hexapod::calculate_waveLegPositions(uint32_t timeMs, int period, int legNumber, int16_t *xs, int16_t *ys, int16_t *zs)
+{
+
+    for (int i = 0; i < 6; i++)
+    {
+        xs[i] = 0;
+        ys[i] = 0;
+        zs[i] = 0;
+    }
+    // random number between 0 and 5
+    float time = timeMs/1000.0f;
+    period = period/1000.0f;
+    float liftFraction = 3;
+    float waveFraction = 1;
+    float waitFraction = 1;
+    float lowerFraction = 3;
+    float totalFraction = waitFraction + liftFraction + waveFraction + lowerFraction;
+
+    float liftTime = period * liftFraction / totalFraction;
+    float waveTime = period * waveFraction / totalFraction;
+    float lowerTime = period * lowerFraction / totalFraction;
+    float waitTime = period * waitFraction / totalFraction;
+
+    float liftStartTime = 0;
+    float waveStartTime = liftTime;
+    float waitStartTime = waveStartTime + waveTime;
+    float lowerStartTime = waitStartTime + waitTime;
+
+
+    int waveHeight = 200;
+    if (time > lowerStartTime )
+    {
+        float currentLowerTime = time - lowerStartTime;
+        float percentage = currentLowerTime / lowerTime;
+        percentage = easeOutQuint(percentage);
+        zs[legNumber] = static_cast<int>(waveHeight - waveHeight * percentage);
+    }
+    else if (time > waitStartTime)
+    {
+        zs[legNumber] = waveHeight;
+    }
+    else if (time > waveStartTime)
+    {
+        float currentWaveTime = time - waveStartTime;
+        float waveFrequency = (5) * (2*M_PI);
+        float waveAmplitude = 25;
+        float wavey = waveAmplitude * sin(waveFrequency * currentWaveTime);
+        zs[legNumber] = waveHeight;
+        ys[legNumber] = wavey;
+    }
+    else if (time > liftStartTime)
+    {
+        float currentLiftTime = time - liftStartTime;
+        float percentage = currentLiftTime / liftTime;
+        percentage = easeOutQuint(percentage);
+
+
+        zs[legNumber] = static_cast<int>(waveHeight * percentage);
+    }
+    else
+    {
+        zs[legNumber] = 0;
+    }
+    xs[legNumber] = 0;
+    
+}
+
+void Hexapod::calculate_idleLegPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs)
+{
+    float time = timeMs/1000.0f;
+
+    float zAmp = 25;
+
+    period = period/1000.0f;
+
+
+    float z = zAmp * sin(2*M_PI/period * time);
+    // float y = yAmp * sin(2*M_PI/period * time);
+    float y = 0;
+    float x = 0;
+    
+    for (int i = 0; i < 6; i++)
+    {
+        xs[i] = x;
+        ys[i] = y;
+        zs[i] = z;
+    }
+}
+
+void Hexapod::calculate_idleTwistPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs) 
+{
+    float time = timeMs/1000.0f;
+
+    float yAmp = 25;
+
+    period = period/1000.0f;
+
+    // float z = zAmp * sin(2*M_PI/period * time);
+    float y = yAmp * sin(2*M_PI/period * time);
+    // float y = 0;
+    float z = 0;
+    float x = 0;
+    
+    for (int i = 0; i < 6; i++)
+    {
+        xs[i] = x;
+        ys[i] = y;
+        zs[i] = z;
+    }
+
+}
+
 
 
 void Hexapod::set_legPosition(uint8_t legNumber, int x, int y, int z)
@@ -230,7 +525,7 @@ void Hexapod::calculate_walkingLegPositions(uint32_t timeMs, int16_t *xs, int16_
 
         for (int i = 0; i < 6; i++)
         {
-            angleRads = (settings.walking.direction + (3600 - i * settings.physical.legAngularSeparation)) * 0.1f * M_PI / 180.0f;
+            angleRads = (settings.walking.direction + (i * settings.physical.legAngularSeparation)) * 0.1f * M_PI / 180.0f;
             directionalSemiCirclePath(settings.step.radius/1000.0f, frequency, timeMs/1000.0f,  angleRads, 0 ,&xsf, &ysf, &zsf);
             timeMs += (period/2)*1000;
             xs[i] = xsf * 1000;
@@ -238,3 +533,67 @@ void Hexapod::calculate_walkingLegPositions(uint32_t timeMs, int16_t *xs, int16_
             zs[i] = zsf * 1000;
         } 
 }
+
+// void Hexapod::calculate_waveLegPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs)
+// {
+
+//     for (int i = 0; i < 6; i++)
+//     {
+//         xs[i] = 0;
+//         ys[i] = 0;
+//         zs[i] = 0;
+//     }
+//     // random number between 0 and 5
+//     int legNumber = rand() % 6;
+//     float time = timeMs/1000.0f;
+//     period = period/1000.0f;
+//     float liftFraction = 3;
+//     float waveFraction = 3;
+//     float lowerFraction = 3;
+//     float totalFraction = liftFraction + waveFraction + lowerFraction;
+
+//     float liftTime = period * liftFraction / totalFraction;
+//     float waveTime = period * waveFraction / totalFraction;
+//     float lowerTime = period * lowerFraction / totalFraction;
+
+//     float liftStartTime = 0;
+//     float waveStartTime = liftTime;
+//     float lowerStartTime = liftTime + waveTime;
+
+
+//     int waveHeight = 50;
+//     if (time > lowerStartTime )
+//     {
+//         float currentLowerTime = time - lowerStartTime;
+//         float percentage = currentLowerTime / lowerTime;
+//         percentage = easeOutQuint(percentage);
+//         int targetHeight = 0;
+//         zs[legNumber] = static_cast<int>(targetHeight * percentage);
+//     }
+//     else if (time > waveStartTime)
+//     {
+//         float numWaves = 2;
+//         float currentWaveTime = time - waveStartTime;
+//         float wavePeriod = waveTime / numWaves;
+//         float waveFrequency = (1/wavePeriod) * (2*M_PI);
+//         float waveAmplitude = 25;
+//         float wavey = waveAmplitude * sin(waveFrequency * currentWaveTime);
+//         zs[legNumber] = waveHeight;
+//         ys[legNumber] = wavey;
+//     }
+//     else if (time > liftStartTime)
+//     {
+//         float currentLiftTime = time - liftStartTime;
+//         float percentage = liftTime / liftTime;
+//         percentage = easeOutQuint(percentage);
+
+
+//         zs[legNumber] = static_cast<int>(waveHeight * percentage);
+//     }
+//     else
+//     {
+//         zs[legNumber] = 0;
+//     }
+//     xs[legNumber] = 0;
+    
+// }
