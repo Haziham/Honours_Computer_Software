@@ -12,7 +12,11 @@ class HexapodControlWidget;
 
 class HexapodControlWidget : public ControlWidget
 {
+    
+
     Q_OBJECT
+
+    QSet<int> pressedKeys;
 
 public:
     explicit HexapodControlWidget(QHexapod* hexapod, QWidget *parent = nullptr);
@@ -58,6 +62,19 @@ private:
 
     void configure_virtualPad(QVirtualPad* pad);
 
+protected:
+void keyPressEvent(QKeyEvent *event) override {
+    pressedKeys.insert(event->key());
+    determineDirection();
+}
+
+void keyReleaseEvent(QKeyEvent *event) override {
+    pressedKeys.remove(event->key());
+    determineDirection();
+}
+
+
+    void determineDirection(); 
 };
 
 #endif // HEXAPODCONTROLWIDGET_H

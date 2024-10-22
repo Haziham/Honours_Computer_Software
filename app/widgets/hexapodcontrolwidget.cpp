@@ -9,6 +9,9 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     ui->setupUi(this);
     m_hexapod = hexapod;
 
+    this->setFocus();
+    setFocusPolicy(Qt::StrongFocus);
+
     ui->leg0Button->set_leg(&hexapod->leg0);
     ui->leg1Button->set_leg(&hexapod->leg1);
     ui->leg2Button->set_leg(&hexapod->leg2); ui->leg3Button->set_leg(&hexapod->leg3);
@@ -51,7 +54,12 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     ui->stepRadius->set_label("Step Radius");
     ui->stepRadius->set_maximum(300);
     ui->stepRadius->set_minimum(0);
-    ui->stepRadius->set_value(50);
+    ui->stepRadius->set_value(25);
+
+
+    ui->stepHeightOffset->set_value(-60);
+    ui->heightInput->set_value(-60);
+
 
     ui->legCombinationSelect->addItem("All");
     ui->legCombinationSelect->addItem("Odd");
@@ -217,3 +225,48 @@ void HexapodControlWidget::set_globalPosition()
         break;
     }
 }
+
+
+void HexapodControlWidget::determineDirection() {
+        // Direction in degrees (0 is right, 90 is up, 180 is left, 270 is down)
+
+        this->setFocus();
+        int direction = -1;
+
+        bool up = pressedKeys.contains(Qt::Key_Up);
+        bool down = pressedKeys.contains(Qt::Key_Down);
+        bool left = pressedKeys.contains(Qt::Key_Left);
+        bool right = pressedKeys.contains(Qt::Key_Right);
+
+        if (up && right) {
+            direction = 45;  // Up-right
+        } else if (up && left) {
+            direction = 135;  // Up-left
+        } else if (down && right) {
+            direction = 315;  // Down-right
+        } else if (down && left) {
+            direction = 225;  // Down-left
+        } else if (up) {
+            direction = 90;  // Up
+        } else if (down) {
+            direction = 270;  // Down
+        } else if (left) {
+            direction = 180;  // Left
+        } else if (right) {
+            direction = 0;  // Right
+        }
+
+        // qDebug() << "Direction:" << direction << "degrees";
+
+
+
+
+        if (direction != -1) {
+            // qDebug() << "Direction:" << direction << "degrees";
+            ui->stepDirectionAngle->set_value(direction*10);
+            ui->stepSpeed->set_value(100);
+        }
+        else {
+            ui->stepSpeed->set_value(0);
+        }
+    }

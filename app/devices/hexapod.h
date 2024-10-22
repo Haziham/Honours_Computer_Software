@@ -77,7 +77,8 @@ public:
     void joystick_rotateControl(float x, float y);
 
 
-    void toggle_idle() { settings.movementModes[MOVEMENT_MODE_IDLE] = !settings.movementModes[MOVEMENT_MODE_IDLE]; }
+    void toggle_idle() { settings.movementModes[MOVEMENT_MODE_IDLE] = !settings.movementModes[MOVEMENT_MODE_IDLE];
+                        settings.movementModes[MOVEMENT_MODE_WALKING] = !settings.movementModes[MOVEMENT_MODE_IDLE]; }
     void set_walkingEnabled(uint8_t enabled) { settings.movementModes[MOVEMENT_MODE_WALKING] = enabled; }
     void update_positionSettings(Hexapod::PositionSettings_t settings);
 
@@ -85,6 +86,14 @@ public:
     void powerOn(); 
 
 
+    int m_idleState = 0;
+    int stateStartTime = 0;
+    int legNumber = rand() % 6;
+    bool transition = false;
+    bool firstSideStep = true;
+    uint32_t walkingTime = 0; 
+    uint32_t idleTime = 0;
+    uint32_t previousTime = 0;
 
 
 private:
@@ -106,7 +115,6 @@ private:
     void calculate_sideStepPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs);
 
     void quickFunction(float time, float period, float *x, float *y, float *z);
-    int m_idleState = 2;
 
 
 };

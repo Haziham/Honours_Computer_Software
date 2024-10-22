@@ -36,6 +36,15 @@ void Hexapod::set_allLegPositions(int x, int y, int z)
     }
 }
 
+void zeroPositions(int16_t *xs, int16_t *ys, int16_t *zs)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        xs[i] = 0;
+        ys[i] = 0;
+        zs[i] = 0;
+    }
+}
 void Hexapod::step(int timeMs)
 {
     float x;
@@ -66,17 +75,17 @@ void Hexapod::step(int timeMs)
 float Hexapod::getWalkingSpeed()
 {
     float speedup = settings.walking.speed/(4*settings.step.radius);
+    // print walking speed
+    printf("Walking speed: %f\n", settings.walking.speed);
+    printf("Step radius: %d\n", settings.step.radius);
     return speedup;
 }
 
 void Hexapod::move(uint32_t timeMs)
 {
-    static uint32_t previousTime = 0;
     uint32_t deltaTime = timeMs - previousTime;
     previousTime = timeMs;
 
-    static uint32_t walkingTime = 0; 
-    static uint32_t idleTime = 0;
 
     int16_t xs[6];
     int16_t ys[6];
@@ -84,6 +93,7 @@ void Hexapod::move(uint32_t timeMs)
 
     if (settings.movementModes[MOVEMENT_MODE_IDLE])
     {
+        printf("Idle\n");
         walkingTime = 0;
         idleTime += deltaTime;
         settings.position.height = -60;
@@ -93,13 +103,40 @@ void Hexapod::move(uint32_t timeMs)
     }
     else if (settings.movementModes[MOVEMENT_MODE_WALKING])
     {
+        printf("Walking\n");
         idleTime = 0;
+        stateStartTime = 0;
+        legNumber = rand() % 6;
+        transition = false;
+        firstSideStep = true;
+        m_idleState = 0;
+        printf("Delta time: %d\n", deltaTime);
         walkingTime += deltaTime * getWalkingSpeed();
+        printf("Walking time: %d\n", walkingTime);
+        printf("Walking speed: %f\n", getWalkingSpeed());   
         calculate_walkingLegPositions(walkingTime, xs, ys, zs);
+        if (settings.walking.speed == 0)
+        {
+            zeroPositions(xs, ys, zs);
+        }
+        set_offsetLegPositions(xs, ys, zs);
+    }
+    else 
+    {
+        printf("No movement mode selected\n");
+        idleTime = 0;
+        walkingTime = 0;
+        stateStartTime = 0;
+        legNumber = rand() % 6;
+        transition = false;
+        firstSideStep = true;
+        m_idleState = 0;
+        zeroPositions(xs, ys, zs);
         set_offsetLegPositions(xs, ys, zs);
     }
 
 }
+
 
 void Hexapod::idle(uint32_t timeMs)
 {
@@ -108,9 +145,6 @@ void Hexapod::idle(uint32_t timeMs)
     int16_t ys[6];
     int16_t zs[6];
 
-    static int stateStartTime = timeMs;
-    static int legNumber = rand() % 6;
-    static bool transition = false;
 
     if (transition)
     {
@@ -126,10 +160,11 @@ void Hexapod::idle(uint32_t timeMs)
     }
 
     int stateDuration = timeMs - stateStartTime;
-    int state1Length = 2000;
-    int state2Length = 2000;
+    int state1Length = 10000;
+    int state2Length = 10000;
     int state3Length = 10000;
-    int state4Length = 10000;
+    int state4Length = 5000;
+    int tempStateDuration;
 
     switch (m_idleState)
     {
@@ -164,13 +199,21 @@ void Hexapod::idle(uint32_t timeMs)
         }
         break;
         case 3:
-        calculate_sideStepPositions(stateDuration, -state4Length, xs, ys, zs);
+        tempStateDuration = stateDuration;
+        if (!firstSideStep)
+        {
+            tempStateDuration =  state4Length - stateDuration;
+        }
+            
+        calculate_sideStepPositions(tempStateDuration, state4Length, xs, ys, zs);
 
         if (stateDuration > state4Length)
         {
+            zeroPositions(xs, ys, zs);
             m_idleState = 0;
             transition = true;
             stateStartTime = timeMs;
+            firstSideStep = !firstSideStep;
         } 
         break;
 
@@ -180,11 +223,11 @@ void Hexapod::idle(uint32_t timeMs)
         break;
     }
 
-    printf("Leg positions: \n");
-    for (int i = 0; i < 6; i++)
-    {
-        printf("Leg %d: x: %d, y: %d, z: %d\n", i, xs[i], ys[i], zs[i]);
-    }
+    // printf("Leg positions: \n");
+    // for (int i = 0; i < 6; i++)
+    // {
+    //     printf("Leg %d: x: %d, y: %d, z: %d\n", i, xs[i], ys[i], zs[i]);
+    // }
     set_offsetLegPositions(xs, ys, zs);
 
 
@@ -195,7 +238,7 @@ void Hexapod::idle(uint32_t timeMs)
 void Hexapod::quickFunction(float time, float period, float *x, float *y, float *z)
 {
     float radius = (settings.position.xOffset + 75);
-    float stepSize = 100;
+    float stepSize = 80;
     float stepHeight = 50;
     float totalPos = stepSize/radius;
 
@@ -228,11 +271,6 @@ void Hexapod::quickFunction(float time, float period, float *x, float *y, float 
 
 void Hexapod::calculate_sideStepPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs)
 {
-    if (period < 0)
-    {
-        timeMs = period-timeMs;
-        period = -period;
-    }
     period = period/1000.0f;
     float steps = 1;
     float stepPeriod = period/steps;
@@ -532,6 +570,7 @@ void Hexapod::calculate_walkingLegPositions(uint32_t timeMs, int16_t *xs, int16_
             ys[i] = ysf * 1000;
             zs[i] = zsf * 1000;
         } 
+
 }
 
 // void Hexapod::calculate_waveLegPositions(uint32_t timeMs, int period, int16_t *xs, int16_t *ys, int16_t *zs)
