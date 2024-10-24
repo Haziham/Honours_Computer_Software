@@ -23,8 +23,8 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
     connect(ui->enableButton, &QPushButton::clicked, m_hexapod, &QHexapod::enable);
     connect(ui->disableButton, &QPushButton::clicked, m_hexapod, &QHexapod::disable);
 
-    ui->heightInput->set_label("Height");
-    ui->directionAngleInput->set_label("Direction Angle");
+    // ui->heightInput->set_label("Height");
+    // ui->directionAngleInput->set_label("Direction Angle");
     ui->globalXInput->set_label("Global X");
     ui->globalXInput->set_minimum(0);
     ui->globalXInput->set_value(160);
@@ -58,7 +58,7 @@ HexapodControlWidget::HexapodControlWidget(QHexapod* hexapod, QWidget *parent)
 
 
     ui->stepHeightOffset->set_value(-60);
-    ui->heightInput->set_value(-60);
+    // ui->heightInput->set_value(-60);
 
 
     ui->legCombinationSelect->addItem("All");
@@ -260,9 +260,9 @@ void HexapodControlWidget::determineDirection() {
 
 
 
-
         if (direction != -1) {
             // qDebug() << "Direction:" << direction << "degrees";
+            direction = (direction + 180) % 360;
             ui->stepDirectionAngle->set_value(direction*10);
             ui->stepSpeed->set_value(100);
         }

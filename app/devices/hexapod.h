@@ -26,14 +26,14 @@ public:
     typedef struct {
         uint16_t tiltDirection = 0; // degrees * 0.1
         uint16_t tiltAngle = 0; // degrees * 0.1    
-        int16_t height = -20; // mm
-        uint16_t xOffset = 117; //mm
+        int16_t height = -60; // mm
+        uint16_t xOffset = 75; //mm
     } PositionSettings_t;
 
     struct 
     {
         struct{
-            uint16_t radius = 50; // mm
+            uint16_t radius = 25; // mm
             uint16_t period = 1; // ms
             // uint16_t angle = 0; // degrees * 0.1
         } step;

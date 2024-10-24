@@ -251,6 +251,9 @@
       <item row="0" column="0">
        <widget class="QComboBox" name="legCombinationSelect"/>
       </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="SpinSlider" name="globalXInput" native="true"/>
+      </item>
       <item row="0" column="1">
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -264,20 +267,11 @@
         </property>
        </spacer>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="SpinSlider" name="heightInput" native="true"/>
-      </item>
-      <item row="7" column="0" colspan="2">
-       <widget class="SpinSlider" name="globalZInput" native="true"/>
-      </item>
-      <item row="6" column="0" colspan="2">
+      <item row="4" column="0" colspan="2">
        <widget class="SpinSlider" name="globalYInput" native="true"/>
       </item>
       <item row="5" column="0" colspan="2">
-       <widget class="SpinSlider" name="globalXInput" native="true"/>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="SpinSlider" name="directionAngleInput" native="true"/>
+       <widget class="SpinSlider" name="globalZInput" native="true"/>
       </item>
      </layout>
     </widget>

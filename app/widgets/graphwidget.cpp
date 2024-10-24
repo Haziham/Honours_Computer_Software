@@ -25,14 +25,14 @@ GraphWidget::GraphWidget(QWidget *parent)
     timeTicker->setTimeFormat("%h:%m:%s");
     customPlot->xAxis->setTicker(timeTicker);
     customPlot->axisRect()->setupFullAxesBox();
-    customPlot->yAxis->setRange(-1.2, 1.2);
+    customPlot->yAxis->setRange(-100, 100);
     // show yqxis 2
-    customPlot->yAxis2->setVisible(true);
-    customPlot->yAxis2->setTickLength(3, 3);
-    customPlot->yAxis2->setSubTickLength(1, 1);
-    customPlot->yAxis2->setRange(-100, 100);
-    customPlot->yAxis2->setLabel("Position");
-    customPlot->yAxis2->setTickLabels(true);
+    // customPlot->yAxis2->setVisible(false);
+    // customPlot->yAxis2->setTickLength(3, 3);
+    // customPlot->yAxis2->setSubTickLength(1, 1);
+    // // customPlot->yAxis2->setRange(-90, 100);
+    // customPlot->yAxis2->setLabel("Position");
+    // customPlot->yAxis2->setTickLabels(true);
     
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
@@ -95,15 +95,15 @@ void GraphWidget::realtimeDataSlot()
 
         // customPlot->graph(0)->addData(key, qSin(key)+rand.generate()/(double)RAND_MAX*1*qSin(key/0.3843));
         // customPlot->graph(1)->addData(key, qCos(key)+rand.generate()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-        customPlot->graph(0)->addData(key, joint->statusA.position);
-        customPlot->graph(1)->addData(key, joint->settings.internal.targetCommand);
+        customPlot->graph(0)->addData(key, joint->statusA.position/10);
+        customPlot->graph(1)->addData(key, joint->settings.internal.targetCommand/10);
         customPlot->graph(2)->addData(key, joint->statusC.debugValue1);
         customPlot->graph(3)->addData(key, joint->statusC.debugValue2);
         customPlot->graph(4)->addData(key, joint->statusC.debugValue3);
 
         // rescale value (vertical) axis to fit the current data:
-        customPlot->graph(0)->rescaleValueAxis();
-        customPlot->graph(1)->rescaleValueAxis(true);
+        // customPlot->graph(0)->rescaleValueAxis();
+        // customPlot->graph(1)->rescaleValueAxis(true);
         // customPlot->graph(2)->rescaleValueAxis();
         // customPlot->graph(3)->rescaleValueAxis(true);
         // customPlot->graph(4)->rescaleValueAxis(true);
